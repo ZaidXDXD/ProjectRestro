@@ -1,7 +1,12 @@
+from datetime import date
+
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import PasswordInput, TextInput
-from django.contrib.auth.forms import UserCreationForm
+
+from .models import Profile
+
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(required=True, widget=TextInput(attrs={'placeholder': 'Username', 'autocomplete' : 'off'}))
@@ -17,3 +22,11 @@ class SignUpForm(UserCreationForm):
         ensure that email is always lower case.
         """
         return self.cleaned_data['email'].lower()
+
+
+class ProfileForm(forms.ModelForm):
+    birthdate = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'max' : date.today()}))
+    class Meta:
+        model = Profile
+        fields = '__all__'
+        exclude = ['user', 'name', 'email']
