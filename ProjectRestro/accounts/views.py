@@ -1,11 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
-from .forms import SignUpForm
-
+from .forms import (
+    SignUpForm,
+    ProfileForm
+)
 
 def signup(request):
     if request.method == "POST":
@@ -13,7 +16,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('home')
+            return redirect('profile')
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form' : form})
@@ -41,3 +44,17 @@ def loginpage(request):
 def logoutuser(request):
     logout(request)
     return redirect('login')
+
+
+
+@login_required(login_url = "login")
+def profilepage(request):
+    customer = request.user.profile
+    form = ProfileForm(instance=customer)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    context={'form':form}
+    return render(request, 'accounts/set_profile.html', context)

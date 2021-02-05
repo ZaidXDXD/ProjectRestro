@@ -3,6 +3,7 @@ from accounts.views import (
     signup,
     loginpage,
     logoutuser,
+    profilepage,
 )
 
 
@@ -11,5 +12,7 @@ urlpatterns = [
 
     path('login/', loginpage, name="login"),
 
-    path('logout/', logoutuser, name='logout')
+    path('logout/', logoutuser, name='logout'),
+
+    path("set_profile/", profilepage, name="profile"),
 ] 
