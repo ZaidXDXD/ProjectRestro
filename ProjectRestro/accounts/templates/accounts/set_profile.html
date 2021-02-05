@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{%  static 'css/ProfileFirst1.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/ProfileFirst2.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class='Major-Container'></div>
+    <div class="Sub-Container">
+            <h1 class="header">
+                Tell Us A Little About Yourself. 
+            </h1>
+            <form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				<p class="question">Q. Are You A Lady Or A Gentlemen?</p>
+                {{ form.gender }}
+                <p class="question">Q. When Is Your Birthday?</p>
+                {{ form.birthdate }}
+                <br>
+			    <input class="animated" type="submit" value="Update">
+			</form>
+    </div>
+{% endblock %}
