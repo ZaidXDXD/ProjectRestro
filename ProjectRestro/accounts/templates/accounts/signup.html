@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/SignUpSheet1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/SignUpSheet2.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class='Major-Container'></div>
+
+    <div class="slider">
+    <div class="slides">
+      <!--radio buttons start-->
+      <input type="radio" name="radio-btn" id="radio1">
+      <input type="radio" name="radio-btn" id="radio2">
+      <input type="radio" name="radio-btn" id="radio3">
+      <input type="radio" name="radio-btn" id="radio4">
+      <!--radio buttons end-->
+      <!--slide images start-->
+      <div class="slide first">
+        <img src="{% static 'img/Register/1st.jpg' %}" alt="">
+      </div>
+      <div class="slide">
+        <img src="{% static 'img/Register/2nd.jpg' %}" alt="">
+      </div>
+      <div class="slide">
+        <img src="{% static 'img/Register/3rd.jpg' %}" alt="">
+      </div>
+      <div class="slide">
+        <img src="{% static 'img/Register/4th.jpg' %}" alt="">
+      </div>
+      <!--slide images end-->
+      <!--automatic navigation start-->
+      <div class="navigation-auto">
+        <div class="auto-btn1"></div>
+        <div class="auto-btn2"></div>
+        <div class="auto-btn3"></div>
+        <div class="auto-btn4"></div>
+      </div>
+      <!--automatic navigation end-->
+    </div>
+    <!--manual navigation start-->
+    <div class="navigation-manual">
+      <label for="radio1" class="manual-btn"></label>
+      <label for="radio2" class="manual-btn"></label>
+      <label for="radio3" class="manual-btn"></label>
+      <label for="radio4" class="manual-btn"></label>
+    </div>
+    <!--manual navigation end-->
+    </div>
+    <!--image slider end-->
+    <script type="text/javascript">
+  var counter = 1;
+  setInterval(function(){
+    document.getElementById('radio' + counter).checked = true;
+    counter++;
+    if(counter > 4){
+      counter = 1;
+    }
+  }, 5000);
+    </script>
+
+    <div class='form-container'>
+      <div class="card">
+        <h2 class="mb-4">Register</h2>
+        <form method="POST" novalidate>
+          {% csrf_token %}
+          {% include "accounts/includes/form.html" %}
+          <input type="submit" class="animated" value="Register"></input>
+        </form>
+        <a class="LoginInRegister" href="">Already have an account?</a>
+      </div>
+    </div>
+{% endblock %}
