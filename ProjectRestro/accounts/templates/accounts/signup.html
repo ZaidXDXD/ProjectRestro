@@ -71,7 +71,7 @@
           {% include "accounts/includes/form.html" %}
           <input type="submit" class="animated" value="Register"></input>
         </form>
-        <a class="LoginInRegister" href="">Already have an account?</a>
+        <a class="LoginInRegister" href="{% url 'login' %}">Already have an account?</a>
       </div>
     </div>
 {% endblock %}
