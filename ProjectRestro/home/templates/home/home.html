@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/HomeStyle1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/HomeStyle2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/HomeStyle3.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class = "flex-container HomeCards">
+        <div class = "flex-child">
+        
+        </div>
+        
+        <div class = "flex-child">
+    
+        </div>
+        <div class = "flex-child">
+            
+        </div>
+    </div>
+    <div class = "Info-container">
+        <div class= "inner-child">
+            <p class = "Home-Heading">
+                <u>Our</u> <u>Staff</u>
+            </p>
+            <p class = "Home-Content">
+                Know Our Hard Working Staff. They
+                Work Extra's To Deliever You With 
+                Their Best. Take Your Time To Know Them. 
+            </p>
+        </div>
+        <div class= "inner-child">
+            <p class = "Home-Heading">
+                <u>Order</u> <u>Now!</u>
+            </p>
+            <p class = "Home-Content">
+                Feeling Hungry. Want Healty & 
+                Delicious Food. What's Keeping
+                You From Ordering. Order Right
+                Away!
+            </p>
+        </div>
+        <div class= "inner-child">
+            <p class = "Home-Heading">
+               <u>Our</u> <u>Magazine</u>
+            </p>
+            <p class = "Home-Content">
+                Like Looking Through Pages Take 
+                A Look At Our Kitchen. See How We
+                Prepare Your Delicious Food. 
+                Check-Out Our Culture.
+            </p>
+        </div>
+    </div>
+    <div class = "link-container">
+        <a href="#" class = "link-child"></a>
+        <a href="" class = "link-child"></a>
+        <a href="#" class = "link-child"></a>
+    </div>
+{% endblock content %}

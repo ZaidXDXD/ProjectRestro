@@ -16,6 +16,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # App -Added
+    'home.apps.HomeConfig',
+    'accounts.apps.AccountsConfig',
+
+    # External-tools
+    'widget_tweaks',
+
+    # Pre-installed
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +58,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries' :{
+                'form_tags' : 'accounts.templatetags.form_tags'
+            }
         },
     },
 ]
