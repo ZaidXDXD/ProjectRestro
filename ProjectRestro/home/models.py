@@ -1,12 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+# Models For Tags
 class Tag(models.Model):
     name = models.CharField(max_length=255, null=True, unique=True)
     def __str__(self):
         return self.name
 
 
+# For Icon Image
 def get_icon_image_file_path(self, filename):
     return f"DishImages/{str(self.pk)}/icon_image.png"
 
@@ -14,24 +17,31 @@ def get_default_icon_image():
     return 'Restro/default_icon_image.jpg'
 
 
+# For Major Image
 def get_major_image_file_path(self, filename):
     return f"DishImages/{str(self.pk)}/major_image.png"
 
 def get_default_major_iamge():
     return 'Restro/default_major_image.jpg'
 
+
+# For Secondary Image
 def get_secondary_image_file_path(self, filename):
     return f"DishImages/{str(self.pk)}/secondary_image.png"
 
 def get_default_secondary_iamge():
     return 'Restro/default_secondary_image.jpg'
 
+
+# For Tertiary Image
 def get_tertiary_image_file_path(self, filename):
     return f"DishImages/{str(self.pk)}/tertiary_image.png"
 
 def get_default_tertiary_iamge():
     return 'Restro/default_tertiary_image.jpg'
 
+
+# Model For Dishes
 class Dishes(models.Model):
     CATEGORY_CHOICES = (
         ('Veg', "Veg")
