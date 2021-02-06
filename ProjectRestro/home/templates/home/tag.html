@@ -3,8 +3,8 @@
 {% load static form_tags widget_tweaks %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/TagStyle1.css' %}">
-    <link rel="stylesheet" href="{% static 'css/TagStyle2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Add_Tag_Style1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Add_Tag_Style2.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -16,7 +16,14 @@
         <form method="POST" action="">
             {% csrf_token %}
             {% for field in form %}
-                {{ field }}
+                <div class='form-group'>
+                    {% render_field field class=field|input_class %}
+                    {% for error in field.errors %}
+                        <div class='invalid-feedback'>
+                            {{ error }}
+                        </div>
+                    {% endfor %}    
+                </div>
             {% endfor %}
             <input class="animated" type="submit" value="Update">
         </form>

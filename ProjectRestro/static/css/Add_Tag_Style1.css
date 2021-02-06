@@ -15,7 +15,7 @@
 .Sub-Container{
     position: absolute;
     width: 650px;
-    height: 300px;
+    height: auto;
     margin-top: 12%;
     margin-left: 30%;
     padding: 2% 2%;
@@ -35,10 +35,9 @@ input[type="submit"]{
     color: #fff;
     font-family: 'Roboto Slab', serif;
     font-size: 22px;
-    font-style: bold;
     cursor: pointer;
     margin-top: 40px;
-    margin-left: 160px;
+    margin-left: 170px;
     margin-bottom: 5px;
     transition: background .3s ease-in-out;
 }

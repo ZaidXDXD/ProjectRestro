@@ -43,3 +43,7 @@ form{
     border-radius: 3px;
     height :calc(2.0em + 1.2rem + 2px);
 }
+
+select{
+    text-align-last: center;
+}

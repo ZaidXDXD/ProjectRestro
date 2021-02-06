@@ -12,6 +12,7 @@ class Tag(models.Model):
         ('Dessert', 'Dessert'),
     )
     name = models.CharField(max_length=255, null=True, unique=True)
+    course = models.CharField(max_length=65, null=True, choices=COURSE_CATEGORY)
     def __str__(self):
         return self.name
 
