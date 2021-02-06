@@ -5,11 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
+from .decorators import unauthenticated_user
 from .forms import (
     SignUpForm,
     ProfileForm
 )
 
+@unauthenticated_user
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -21,7 +23,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form' : form})
 
-
+@unauthenticated_user
 def loginpage(request):
     if request.method == "POST":
         username = request.POST.get('username')
