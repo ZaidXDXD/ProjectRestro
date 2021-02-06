@@ -133,7 +133,7 @@ def add_dish_image_icon(request, *args, **kwargs):
         form = DishesIconImageForm(request.POST, request.FILES, instance=dish_profile)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('addMajorImage', dish_profile.pk)
         else:
             form = DishesIconImageForm(request.POST, instance=dish_profile,
                 initial={
@@ -257,4 +257,4 @@ def add_dish_image_major(request, *args, **kwargs):
         context['form'] = form
     
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
-    return render(request, 'NewDishMajor.html', context)
+    return render(request, 'home/Add_New_Dish_Major_Image.html', context)
