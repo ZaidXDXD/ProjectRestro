@@ -5,7 +5,14 @@ from django.contrib.auth.models import User
 
 # Models For Tags
 class Tag(models.Model):
+    COURSE_CATEGORY = (
+        ('Beverage', 'Beverage'),
+        ('Starter', 'Starter'),
+        ('Main-Course', 'Main-Course'),
+        ('Dessert', 'Dessert'),
+    )
     name = models.CharField(max_length=255, null=True, unique=True)
+    # course = models.CharField(max_length=65)
     def __str__(self):
         return self.name
 
