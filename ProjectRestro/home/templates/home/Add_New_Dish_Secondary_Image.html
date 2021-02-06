@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+{% load static  widget_tweaks %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/Add_New_Dish_Major_Image1.css' %}">
+<link rel="stylesheet" href="{% static 'css/Add_New_Dish_Major_Image2.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class = "Major-Container"></div>
+    <div class="Sub-Container">
+        <p class="header">
+            Creating Something Delicious
+        </p>
+        <p class="sub-header">
+            Just 2 More To Go
+        </p>
+        <div class="container" id="id_loading_spinner" style="display: none">
+            <div class="d-flex flex-row mx-auto flex-grow-1 justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2" id="id_image_crop_confirm">
+            <span id="id_cancel" class="material-icons">cancel</span>
+            <span id="id_confirm" class="material-icons">check</span>
+        </div>
+        <div class="image-container" id="id_image_container" style="margin: 0 auto;">
+            <img id="id_profile_image_display" src= "{{ form.initial.secondary_image.url }}" alt="DefaultImage"/>
+            <div class = 'middle' id = 'id_middle_container' >
+                <div class="text" id="id_text">Upload</div>
+            </div>
+        </div>
+        <form class='image-icon-form' method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input class="d-none" type="file" name="image" id="id_profile_image" onchange="readURL(this)">
+            <input  type="submit">
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var cropper;
+        var imageFile;
+        var base64ImageString;
+        var cropX;
+        var cropY;
+        var cropWidth;
+        var cropHeight;
+
+        enableImageOverlay()
+        function enableImageOverlay(){
+            var text = document.getElementById('id_text')
+            text.style.backgroundColor = "#1FCE6D"
+            text.style.color = "white"
+            text.style.fontSize = "16px"
+            text.style.padding = "16px 32px"
+            text.style.cursor = "pointer"
+            text.style.borderRadius = "5px"
+        
+            var profileImage = document.getElementById('id_profile_image')
+            profileImage.style.opacity = '1'
+            profileImage.style.display = "block"
+            profileImage.style.width = "100%"
+            profileImage.style.height = "auto"
+            profileImage.style.transition = ".5s ease"
+            profileImage.style.backfaceVisibility  = "hidden"
+            profileImage.style.cursor = "pointer"
+
+            var middleContainer = document.getElementById("id_middle_container")
+            middleContainer.style.opacity = "0"
+            middleContainer.style.position = "absolute"
+            middleContainer.style.top = "50%"
+            middleContainer.style.left = "50%"
+            middleContainer.style.transform = "translate(-50%, -50%)"
+
+
+            var imageContainer = document.getElementById("id_image_container")
+            var imageContainerDisplay = document.getElementById('id_profile_image_display')
+            imageContainerDisplay.style.border = "4px dashed #616A6B"
+            imageContainerDisplay.style.marginLeft = "26%"
+            imageContainerDisplay.style.borderRadius = "10px"
+            imageContainer.addEventListener("mouseover", function(event){
+                imageContainerDisplay.style.opacity = "0.6"
+                middleContainer.style.opacity = "1"
+            })
+
+            imageContainer.addEventListener("mouseout", function( event ) { 
+                imageContainerDisplay.style.opacity = "1"
+                middleContainer.style.opacity = "0"
+            })
+
+            imageContainer.addEventListener("click", function(event){
+	    		document.getElementById('id_profile_image').click();
+            });
+            
+            var cropConfirm = document.getElementById('id_image_crop_confirm')
+            cropConfirm.classList.remove('d-flex')
+            cropConfirm.classList.remove('flex-row')
+            cropConfirm.classList.remove('justify-content-between')
+            cropConfirm.classList.add('d-none')
+
+        }
+
+        function disableImageOverlay(){
+            var profileImage = document.getElementById("id_profile_image_display")
+            var middleContainer = document.getElementById('id_middle_container')
+            var imageContainer = document.getElementById('id_image_container')
+            var text = document.getElementById('id_text')
+
+            imageContainer.removeEventListener('mouseover', function(event){
+                // profileImage.style.opacity = "0.3"
+                // middleContainer.style.opacity = '1'
+            })
+
+            imageContainer.removeEventListener("mouseout", function( event ) { 
+                // profileImage.style.opacity = "1"
+                // middleContainer.style.opacity = "0"
+            })
+
+            profileImage.style.opacity = "1"
+            middleContainer.style.opacity = "0"
+            text.style.cursor = "default"
+            text.style.opacity = "0"
+
+            imageContainer.removeEventListener("click", function(event){
+                event.preventDefault();
+                // do nothing
+            });
+            document.getElementById('id_profile_image').addEventListener("click", function(event){
+                event.preventDefault();
+                // do nothing
+            });
+
+            var cropConfirm = document.getElementById('id_image_crop_confirm')
+            cropConfirm.classList.add('d-flex')
+            cropConfirm.classList.add('flex-row')
+            cropConfirm.classList.add('justify-content-between')
+            cropConfirm.classList.remove('d-none')
+
+            var confirm = document.getElementById('id_confirm')
+            confirm.addEventListener('click', function(event) {
+                console.log('Sending Crop Data For Processing')
+                cropImage(
+                    imageFile,
+                    cropX,
+                    cropY,
+                    cropWidth,
+                    cropHeight
+                )
+            })
+
+
+            var cancel = document.getElementById('id_cancel')
+            cancel.addEventListener('click' , function(event){
+                console.log('Reloading Window . . . .')
+                window.location.reload()
+            })
+        }
+
+        function isImageSizeValid(image){
+            console.log("Max Size: {{ DATA_UPLOAD_MAX_MEMORY_SIZE }}")
+            var startIndex = image.indexOf('base64,') + 7;
+            var base64str = image.substr(startIndex);
+            var decoded = atob(base64str);
+            console.log("FileSize: " + decoded.length);
+            if(decoded.length >= "{{ DATA_UPLOAD_MAX_MEMORY_SIZE }}"){
+                return null
+            }
+
+            return base64str
+
+        }
+
+        function cropImage(image, x, y, width, heigth){
+            base64ImageString = isImageSizeValid(image)
+            
+            if(base64ImageString!=null){
+                var requestData = {
+                        "csrfmiddlewaretoken": "{{csrf_token}}",
+                        "image": base64ImageString,
+                        "cropX": cropX,
+                        "cropY": cropY,
+                        "cropWidth": cropWidth,
+                        "cropHeight": cropHeight
+                }
+                displayLoadingSpinner(true)
+                $.ajax({
+                    type: "POST",
+                    dataType : "json",
+                    url : "{% url 'crop_secondary_image' dish_id=form.initial.id %}",
+                    data : requestData,
+                    timeout: 10000,
+                    success: function(data){
+                        if(data.result == "success"){
+                            document.getElementById('id_cancel').click()
+                        }
+                        else if(data.result == "error"){ 
+                            alert(data.exception)
+                            document.getElementById('id_cancel').click()
+                        }
+                    },
+                    
+                    error: function(data){
+                        console.error('ERROR. . . .', data)
+                    },  
+                    complete: function(data){
+                        displayLoadingSpinner(false)
+                    }
+                });
+
+            }
+            else{
+                alert("Upload an image smaller than 7 MB");
+                document.getElementById('id_cancel').click()
+            }
+        }
+
+        function readURL(input){
+            if (input.files && input.files[0]){
+                var reader = new FileReader();
+
+                reader.onload = function(e){
+                    disableImageOverlay()
+                    var image = e.target.result
+                    var imageField = document.getElementById('id_profile_image_display')
+                    imageField.src = image
+                    cropper = new Cropper(imageField, {
+                                        aspectRatio: 1/1,
+                                        crop(event){
+                                            console.log("CROP START")
+                                            console.log("x: " + event.detail.x);
+                                            console.log("y: " + event.detail.y);
+                                            console.log("width: " + event.detail.width);
+                                            console.log("height: " + event.detail.height);
+                                            setImageCropProperties(
+                                                image,
+                                                event.detail.x,
+                                                event.detail.y,
+                                                event.detail.width,
+                                                event.detail.height
+                                            )
+                                        },
+                    })
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        };
+
+        function setImageCropProperties(image, x, y, width,height){
+            imageFile = image
+            cropX = x
+            cropY = y
+            cropWidth = width
+            cropHeight = height
+        }
+    </script>
+{% endblock %}
