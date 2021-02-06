@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
-from .forms import TagForm
+from .forms import DishesForm, TagForm
+from .models import Tag
+
 
 def home(request):
     return render(request, 'home/home.html')
@@ -18,3 +20,15 @@ def tagpage(request):
     else:
         form = TagForm()
     return render(request, 'home/tag.html', {'form':form})
+
+
+def adddish(request):
+    tags = Tag.objects.all().order_by('name')
+    if request.method == "POST":
+        form = DishesForm(request.POST)
+        if form.is_valid():
+            dish = form.save()
+            return redirect('addIconImage', dish.pk )
+    else:
+        form = DishesForm()
+    return render(request, 'createNewDish.html', {'tags' : tags, "form" : form})
