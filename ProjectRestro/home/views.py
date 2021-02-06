@@ -9,8 +9,6 @@ def home(request):
 
 
 # View For Tags
-
-
 def tagpage(request):
     if request.method == "POST":
         form = TagForm(request.POST)
@@ -21,14 +19,14 @@ def tagpage(request):
         form = TagForm()
     return render(request, 'home/tag.html', {'form':form})
 
-
+# View For Add Dish
 def adddish(request):
     tags = Tag.objects.all().order_by('name')
     if request.method == "POST":
         form = DishesForm(request.POST)
         if form.is_valid():
             dish = form.save()
-            return redirect('addIconImage', dish.pk )
+            return redirect('home')
     else:
         form = DishesForm()
-    return render(request, 'createNewDish.html', {'tags' : tags, "form" : form})
+    return render(request, 'home/NewDish.html', {'tags' : tags, "form" : form})
