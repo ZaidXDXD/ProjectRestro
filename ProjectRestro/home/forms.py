@@ -14,3 +14,8 @@ class DishesForm(forms.ModelForm):
     class Meta:
         model = Dishes
         fields = ('name', 'price' ,'category', 'alcohol', 'food_tag' , "description", )
+
+class DishesIconImageForm(forms.ModelForm):
+    class Meta:
+        model = Dishes
+        fields = ('icon_image', )

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+.image-container{
+    max-width: 500px;
+    height: auto;
+    position: relative;
+}
+.field-heading{
+    color: #737373;
+}
+#id_profile_image_display{
+    
+    border: 3px dashed salmon;
+    width : 50%;
+    margin-left: 25%;
+    max-width: 800px;
+    max-height: 400px;
+}
+#id_confirm{
+    color: green;
+}
+#id_confirm:hover {
+    opacity: 0.3;
+}
+#id_cancel:hover {
+    opacity: 0.3;
+}
+#id_cancel{
+    color: red;
+}
+.material-icons{
+    font-size: 30px;
+}
+.material-icons:hover{
+    cursor: pointer;
+}
+
+.text{
+    font-family: 'Roboto Slab', serif;
+    font-size: 22px;
+    font-style: bold
+}
+
+input[type="submit"]{
+    background: #1FCE6D;
+    border: 0;
+    width: 200px;
+    height: 40px;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Roboto Slab', serif;
+    font-size: 22px;
+    font-style: bold;
+    cursor: pointer;
+    margin-left: 43%;
+    margin-top: 40px;
+    margin-bottom: 5px;
+    transition: background .3s ease-in-out;
+}
+
+input[type="submit"]:hover{
+    background: #16aa56;
+}
