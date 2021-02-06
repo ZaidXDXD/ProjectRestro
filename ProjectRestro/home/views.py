@@ -6,11 +6,13 @@ import cv2
 import requests
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core import files
 from django.core.files.storage import FileSystemStorage, default_storage
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
+from .decorators import allowed_users
 from .forms import (
     TagForm,
     DishesForm, 
@@ -24,12 +26,13 @@ from .models import (
     Dishes,
 )
 
-
 def home(request):
     return render(request, 'home/home.html')
 
 
 # View For Tags
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def tagpage(request):
     if request.method == "POST":
         form = TagForm(request.POST)
@@ -41,6 +44,8 @@ def tagpage(request):
     return render(request, 'home/tag.html', {'form':form})
 
 # View For Add Dish
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def adddish(request):
     tags = Tag.objects.all().order_by('name')
     if request.method == "POST":
@@ -126,6 +131,8 @@ def crop_icon_image(request, *args, **kwargs):
     return HttpResponse(json.dumps(payload), content_type="application/json")
 
 # Main View Function From To Add Icon Image
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def add_dish_image_icon(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish_profile = Dishes.objects.get(pk=dish_id)
@@ -231,6 +238,8 @@ def crop_major_image(request, *args, **kwargs):
 
 
 # Main View Function To Add Major Image
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def add_dish_image_major(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish_profile = Dishes.objects.get(pk=dish_id)
@@ -260,8 +269,6 @@ def add_dish_image_major(request, *args, **kwargs):
     
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
     return render(request, 'home/Add_New_Dish_Major_Image.html', context)
-
-
 
 
 # View For Add Secondary Image
@@ -338,6 +345,8 @@ def crop_secondary_image(request, *args, **kwargs):
 
 
 # Main Function For Secondary Image
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def add_dish_image_secondary(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish_profile = Dishes.objects.get(pk=dish_id)
@@ -445,6 +454,8 @@ def crop_tertiary_image(request, *args, **kwargs):
 
 
 # Main Function For Tertiary Image
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def add_dish_image_tertiary(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish_profile = Dishes.objects.get(pk=dish_id)
