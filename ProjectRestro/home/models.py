@@ -12,7 +12,6 @@ class Tag(models.Model):
         ('Dessert', 'Dessert'),
     )
     name = models.CharField(max_length=255, null=True, unique=True)
-    # course = models.CharField(max_length=65)
     def __str__(self):
         return self.name
 
@@ -31,7 +30,6 @@ def get_major_image_file_path(self, filename):
 def get_default_major_iamge():
     return 'Restro/default_major_image.jpg'
 
-
 # For Secondary Image
 def get_secondary_image_file_path(self, filename):
     return f"DishImages/{str(self.pk)}/secondary_image.png"
@@ -39,14 +37,12 @@ def get_secondary_image_file_path(self, filename):
 def get_default_secondary_iamge():
     return 'Restro/default_secondary_image.jpg'
 
-
 # For Tertiary Image
 def get_tertiary_image_file_path(self, filename):
     return f"DishImages/{str(self.pk)}/tertiary_image.png"
 
 def get_default_tertiary_iamge():
     return 'Restro/default_tertiary_image.jpg'
-
 
 # Model For Dishes
 class Dishes(models.Model):
