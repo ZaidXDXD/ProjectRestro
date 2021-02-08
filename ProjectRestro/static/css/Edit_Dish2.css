@@ -255,6 +255,11 @@ label[for="id_description"]{
     margin-bottom: 20px;
 }
 
+.buttons-array{
+    width: auto;
+    padding: 0 12%;
+}
+
 input[type="submit"]{
     background: #1FCE6D;
     outline: none;
@@ -266,7 +271,6 @@ input[type="submit"]{
     box-shadow: 0 3px 0 0 #239B56;
     font-family: 'Roboto Slab', serif;
     font-size: 22px;
-    font-style: bold;
     cursor: pointer;
     margin-top: 40px;
     margin-right: 30px;
@@ -274,5 +278,63 @@ input[type="submit"]{
 }
 
 input[type="submit"]:active{
+    position: absolute;
+    margin-top: 43px;
+    box-shadow: 0 0 0 0 white;
+}
+
+#id_delete_btn{
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+#id_detele_btn_label{
+    background: #EC7063;
+    outline: none;
+    border: 0;
+    height: 40px;
+    border-radius: 3px;
+    color: #fff;
+    box-shadow: 0 3px 0 0 #CB4335;
+    font-family: 'Roboto Slab', serif;
+    font-size: 22px;
+    padding: 5px 70px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-right: 30px;
+    margin-bottom: 5px;
+}
+
+#id_detele_btn_label:active{
+    position: absolute;
+    margin-top: 43px;
+    box-shadow: 0 0 0 0 white;
+}
+
+
+#id_cancel_btn_label{
+    background: #3498DB;
+    outline: none;
+    border: 0;
+    text-decoration: none;
+    height: 40px;
+    border-radius: 3px;
+    color: #fff;
+    box-shadow: 0 3px 0 0 #2874A6;
+    font-family: 'Roboto Slab', serif;
+    font-size: 22px;
+    padding: 5px 70px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-right: 30px;
+    margin-bottom: 5px;
+}
+
+#id_cancel_btn_label:active{
+    position: absolute;
+    margin-top: 43px;
     box-shadow: 0 0 0 0 white;
 }

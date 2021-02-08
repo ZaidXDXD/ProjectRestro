@@ -25,6 +25,7 @@
             {% csrf_token %}
             <div class="container">
                 <div class="row">
+
                     <!-- Consist Only Icon Image -->
                     <div class="col-4" id="id_icon_image_display_container">
                         <div class="d-flex flex-row justify-content-between" id="id_icon_image_crop_confirm">
@@ -61,7 +62,16 @@
                                     {% endif %}
                                 {% endfor %}
                             </select>
-                            <a class="add-tags" href="{% url 'addtag' %}">
+                            <a class="add-tags" href="{% url 'addtag' %}" onclick="window.open(this.href,'targetWindow',
+                                                                                                            `toolbar=no,
+                                                                                                            location=no,
+                                                                                                            status=no,
+                                                                                                            menubar=no,
+                                                                                                            scrollbars=yes,
+                                                                                                            resizable=yes,
+                                                                                                            width=SomeSize,
+                                                                                                            height=SomeSize`);
+                                                                                return false;">
                                 <i class="fa fa-plus" style="font-size: 30px; color: white;"></i>
                             </a>
                         </div>
@@ -202,15 +212,25 @@
             </div>
 
             <div class="buttons-array">
-                <input type="submit" id='cb1'>
-                <a href="#">Delete</a>
+                <input type="submit">
+                <a id="id_detele_btn_label" onclick="DeleteConfirm()">Delete</a>
+                <a id="id_cancel_btn_label" href="{% url 'home' %}">Cancel</a>
             </div>
         </form>
     </div>
+
 {% endblock %}
 
-
 {% block javascript %}
+    <script>
+        function DeleteConfirm(){
+            var confirmation = window.confirm("Are You Sure You Want To Delete {{ form.initial.name }}")
+            if(confirmation==true){
+                document.getElementById('id_detele_btn_label').href = "{% url 'deleteDish' dish_id=form.initial.id %}"
+            }
+        }
+    </script>
+
     <script>
         var cropper_icon;
         var iconimageFile; 

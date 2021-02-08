@@ -40,7 +40,7 @@ def tagpage(request):
         form = TagForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('addDish')
+            redirect ('addtag')
     else:
         form = TagForm()
     return render(request, 'home/tag.html', {'form':form})
@@ -541,3 +541,26 @@ def edit_dish(request, *args, **kwargs):
     context['form'] = form
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
     return render(request, 'home/Edit_Dish.html', context)
+
+
+# Function To Delete A Dish
+def delete_dish(request, *args, **kwargs):
+    dish_id = kwargs.get('dish_id')
+    dish = Dishes.objects.get(pk=dish_id)
+
+    print("Yaha Pe To Phuch Gaya Mai")
+    if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
+                dish.icon_image.delete()
+
+    if(os.path.normpath(dish.major_image.url) != "\media\Restro\default_major_image.jpg"):
+                dish.major_image.delete()
+
+    if(os.path.normpath(dish.secondary_image.url) != "\media\Restro\default_secondary_image.jpg"):
+                dish.secondary_image.delete()
+
+    if(os.path.normpath(dish.tertiary_image.url) != "\media\Restro\default_tertiary_image.jpg"):
+                dish.tertiary_image.delete()
+
+    dish.delete()
+
+    return redirect('home')
