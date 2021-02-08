@@ -5,10 +5,11 @@ from .models import Tag, Dishes
 
 # Form -> Add Tag 
 class TagForm(forms.ModelForm):
-    name = forms.CharField(required=True, widget=TextInput(attrs={'placeholder': 'Add A Tag', 'autocomplete' : 'off', 'class': 'form-control'}))
+    name = forms.CharField(required=True, widget=TextInput(attrs={'placeholder': 'Add A Tag', 'autocomplete' : 'off', 'class': 'form-control' }))
     class Meta:
         model = Tag
-        fields = "__all__"
+        fields = "__all__"        
+
 
 # Form -> Add Dish Details
 class DishesForm(forms.ModelForm):
@@ -40,3 +41,11 @@ class DishesTertiaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
         fields = ('tertiary_image', )
+
+
+# Form -> Dish Edit Form.
+class EditDishForm(forms.ModelForm):
+    class Meta:
+        model = Dishes
+        fields = "__all__"
+        exclude = ('like',)

@@ -25,6 +25,18 @@
                             <label class = "label_" for="id_name">Dish's Name:</label>
                             <input class = "form-control" type="text" autocomplete='off' name="name" placeholder="Name Of The Dish" maxlength="255" required="" id="id_name">
                         </div>
+                        <div class="form-group">
+                            <label class="label_" for="id_tag">Tag:</label>
+                            <select class="form-control"  name="food_tag" required="" id="id_food_tag">
+                                <option value="" selected disabled hidden>Pick A Tag</option>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.id }}"> {{ tag.name }} </option>
+                                {% endfor %}
+                            </select>
+                            <a class="add-tags" href="{% url 'addtag' %}">
+                                <i class="fa fa-plus" style="font-size: 30px; color: white;"></i>
+                            </a>
+                        </div>
                         <div class = "form-group">
                             <label class = "label_" for="id_price">Price:</label>
                             <input type="number" class = "form-control" min = '0' autocomplete="off" placeholder="Enter Amount in &#x20B9;" name="price" step="0.01" required="" id="id_price">
@@ -58,18 +70,6 @@
                                     <path  d="M13.33 12.67L7.66 7L6.13 5.47L2.39 1.73L1.11 3L3 4.89V5L11 13V19H6V21H18V19.89L20.84 22.73L22.11 21.46L13.33 12.67M13 19V14.89L17.11 19H13M8.2 5L6.2 3H21V5L14.6 11.4L10.2 7H16.5L18.5 5H8.2Z" />
                                 </svg>
                             </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="label_" for="id_tag">Tag:</label>
-                            <select class="form-control"  name="food_tag" required="" id="id_food_tag">
-                                <option value="" selected disabled hidden>Pick A Tag</option>
-                                {% for tag in tags %}
-                                    <option value="{{ tag.id }}"> {{ tag.name }} </option>
-                                {% endfor %}
-                            </select>
-                            <a class="add-tags" href="{% url 'addtag' %}">
-                                <i class="fa fa-plus" style="font-size: 30px; color: white;"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
