@@ -182,11 +182,11 @@
             if(base64ImageString!=null){
                 var requestData = {
                         "csrfmiddlewaretoken": "{{csrf_token}}",
-                        "image": base64ImageString,
-                        "cropX": cropX,
-                        "cropY": cropY,
-                        "cropWidth": cropWidth,
-                        "cropHeight": cropHeight
+                        "major_image": base64ImageString,
+                        "cropX_major": cropX,
+                        "cropY_major": cropY,
+                        "cropWidth_major": cropWidth,
+                        "cropHeight_major": cropHeight
                 }
                 displayLoadingSpinner(true)
                 $.ajax({

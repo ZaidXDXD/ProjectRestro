@@ -1,0 +1,1044 @@
+{% extends 'base.html' %}
+
+{% load static  widget_tweaks %}
+    
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/Edit_Dish1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Edit_Dish2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Edit_Dish3.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class = "Major-Container"></div>
+    <div class="Sub-Container">
+        <p class="header">
+            Edit Dish : {{ dish_name }}
+        </p>
+        <div class="container" id="id_loading_spinner" style="display: none">
+            <div class="d-flex flex-row mx-auto flex-grow-1 justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+
+                    <!-- Consist Only Icon Image -->
+                    <div class="col-4" id="id_icon_image_display_container">
+                        <div class="d-flex flex-row justify-content-between" id="id_icon_image_crop_confirm">
+                            <span id="id_icon_cancel">Cancel</span>
+                            <span id="id_icon_confirm">Crop</span>
+                        </div>
+                        <div id="id_icon_image_title">
+                            <p>Icon Image</p>
+                        </div>
+                        <div id="id_icon_image_container">
+                            <img id="id_icon_image_display" src="{{ form.initial.icon_image.url }}" alt="">
+                            <div class="middle" id="id_icon_middle_container">
+                                <div class="text" id="id_icon_text"><i class="fa fa-upload" aria-hidden="true"></i>   Upload</div>
+                            </div>
+                        </div>
+                        <input class="d-none" type="file" name="icon_image" id="id_icon_image" onchange="readIconURL(this)">
+                    </div>
+
+                    <!-- Consist Only Details Except Description -->
+                    <div class="col-8" id="id_dish_details_container">
+                        <div class = "form-group">
+                            <label class = "label_" for="id_name">Dish's Name:</label>
+                            <input class = "form-control" type="text" autocomplete='off' name="name" placeholder="Name Of The Dish" maxlength="255" id="id_name" value="{{ form.initial.name }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="label_" for="id_tag">Tag:</label>
+                            <select class="form-control"  name="food_tag" required="" id="id_food_tag">
+                                <option value="" selected disabled hidden>Pick A Tag</option>
+                                {% for tag in tags %}
+                                    {% if form.initial.tag == tag %}
+                                        <option value="{{ tag.id }}" selected> {{ tag.name }} </option>
+                                    {% else %}
+                                        <option value="{{ tag.id }}"> {{ tag.name }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <a class="add-tags" href="{% url 'addtag' %}" onclick="window.open(this.href,'targetWindow',
+                                                                                                            `toolbar=no,
+                                                                                                            location=no,
+                                                                                                            status=no,
+                                                                                                            menubar=no,
+                                                                                                            scrollbars=yes,
+                                                                                                            resizable=yes,
+                                                                                                            width=SomeSize,
+                                                                                                            height=SomeSize`);
+                                                                                return false;">
+                                <i class="fa fa-plus" style="font-size: 30px; color: white;"></i>
+                            </a>
+                        </div>
+                        <div class = "form-group">
+                            <label class = "label_" for="id_price">Price:</label>
+                            <input type="number" class = "form-control" min = '0' autocomplete="off" placeholder="Enter Amount in &#x20B9;" name="price" step="0.01" required="" id="id_price" value="{{ form.initial.price }}">
+                        </div>
+                        <div class="form-group">
+                            <p class="categoryclass">Category:</p>
+                            <label for="id_category_0">
+                                {% if form.initial.category == "Veg" %}
+                                    <input type="radio" name="category" value="Veg" required="" id="id_category_0" checked>
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+                                    </svg>
+                                {% else %}
+                                    <input type="radio" name="category" value="Veg" required="" id="id_category_0">
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+                                    </svg>
+                                {% endif %}
+                            </label>
+                            <label for="id_category_1">
+                                {% if form.initial.category == "Non-Veg" %}
+                                    <input type="radio" name="category" value="Non-Veg" required="" id="id_category_1" checked>
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M20.16 12.73C22.93 9.96 22.57 5.26 19.09 3C17.08 1.67 14.39 1.66 12.36 2.97C10.6 4.1 9.63 5.86 9.46 7.68C9.33 9 8.83 10.23 7.91 11.15L7.88 11.18C6.72 12.34 6.72 14.11 7.81 15.19L8.8 16.18C9.89 17.27 11.66 17.27 12.75 16.18C13.72 15.21 15 14.68 16.39 14.53C17.76 14.38 19.1 13.78 20.16 12.73M6.26 19.86C6.53 20.42 6.44 21.1 5.97 21.56C5.39 22.15 4.44 22.15 3.85 21.56C3.58 21.29 3.44 20.94 3.42 20.58C3.06 20.56 2.71 20.42 2.44 20.15C1.85 19.56 1.85 18.61 2.44 18.03C2.9 17.57 3.59 17.47 4.14 17.74L6.62 15.31C6.76 15.5 6.92 15.72 7.1 15.9L8.09 16.89C8.3 17.09 8.5 17.26 8.76 17.41L6.26 19.86Z" />
+                                    </svg>
+                                {% else %}
+                                    <input type="radio" name="category" value="Non-Veg" required="" id="id_category_1">
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M20.16 12.73C22.93 9.96 22.57 5.26 19.09 3C17.08 1.67 14.39 1.66 12.36 2.97C10.6 4.1 9.63 5.86 9.46 7.68C9.33 9 8.83 10.23 7.91 11.15L7.88 11.18C6.72 12.34 6.72 14.11 7.81 15.19L8.8 16.18C9.89 17.27 11.66 17.27 12.75 16.18C13.72 15.21 15 14.68 16.39 14.53C17.76 14.38 19.1 13.78 20.16 12.73M6.26 19.86C6.53 20.42 6.44 21.1 5.97 21.56C5.39 22.15 4.44 22.15 3.85 21.56C3.58 21.29 3.44 20.94 3.42 20.58C3.06 20.56 2.71 20.42 2.44 20.15C1.85 19.56 1.85 18.61 2.44 18.03C2.9 17.57 3.59 17.47 4.14 17.74L6.62 15.31C6.76 15.5 6.92 15.72 7.1 15.9L8.09 16.89C8.3 17.09 8.5 17.26 8.76 17.41L6.26 19.86Z" />
+                                    </svg>
+                                {% endif %}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <p class="alcoholclass">Alcohol:</p>
+                            <label for="id_alcohol_0">
+                                {% if form.initial.alcohol == "Yes" %}
+                                    <input type="radio" name="alcohol" value="Yes" required="" id="id_alcohol_0" checked>
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M7.5,7L5.5,5H18.5L16.5,7M11,13V19H6V21H18V19H13V13L21,5V3H3V5L11,13Z" />
+                                    </svg>
+                                {% else %}
+                                    <input type="radio" name="alcohol" value="Yes" required="" id="id_alcohol_0">
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M7.5,7L5.5,5H18.5L16.5,7M11,13V19H6V21H18V19H13V13L21,5V3H3V5L11,13Z" />
+                                    </svg>
+                                {% endif %}
+                            </label>
+                            <label for="id_alcohol_1">
+                                {% if form.initial.alcohol == "No" %}
+                                    <input type="radio" name="alcohol" value="No" required="" id="id_alcohol_1" checked>
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M13.33 12.67L7.66 7L6.13 5.47L2.39 1.73L1.11 3L3 4.89V5L11 13V19H6V21H18V19.89L20.84 22.73L22.11 21.46L13.33 12.67M13 19V14.89L17.11 19H13M8.2 5L6.2 3H21V5L14.6 11.4L10.2 7H16.5L18.5 5H8.2Z" />
+                                    </svg>
+                                {% else %}
+                                    <input type="radio" name="alcohol" value="No" required="" id="id_alcohol_1">
+                                    <svg style="width:42px;height:42px" viewBox="0 0 24 24">
+                                        <path  d="M13.33 12.67L7.66 7L6.13 5.47L2.39 1.73L1.11 3L3 4.89V5L11 13V19H6V21H18V19.89L20.84 22.73L22.11 21.46L13.33 12.67M13 19V14.89L17.11 19H13M8.2 5L6.2 3H21V5L14.6 11.4L10.2 7H16.5L18.5 5H8.2Z" />
+                                    </svg>
+                                {% endif %}
+                            </label>
+                        </div>
+
+                    </div>
+                    
+                </div>
+                <div class="row description-row">
+                    <p class="label_" id="id_description_tag">Description:</p>
+                    
+                    <div class="description-group">
+                        {% if not form.initial.description %}
+                            <textarea placeholder="Add A Description About The Dish . . . . " name="description" id="id_description"></textarea>   
+                        {% else %}
+                            <textarea placeholder="Add A Description About The Dish . . . . " name="description" id="id_description">{{ form.initial.description }}</textarea>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row major-row">
+                    <div class="col">
+                        <div class="d-flex flex-col justify-content-between" id="id_major_image_crop_confirm" style="height: auto;">
+                            <span id="id_major_cancel">Cancel</span>
+                            <span id="id_major_confirm">Crop</span>
+                        </div>
+                        <div id="id_major_image_title">
+                            <p>Major Image</p>
+                        </div>
+                        <div id="id_major_image_container">
+                            <img id="id_major_image_display" src="{{ form.initial.major_image.url }}" alt="">
+                            <div class="middle" id="id_major_middle_container">
+                                <div class="text" id="id_major_text"><i class="fa fa-upload" aria-hidden="true"></i>   Upload</div>
+                            </div>
+                        </div>
+                        <input class="d-none" type="file" name="major_image" id="id_major_image" onchange="readMajorURL(this)">
+                    </div>
+                </div>
+
+                <div class="row secondary-row">
+                    <div class="col">
+                        <div class="d-flex flex-col justify-content-between" id="id_secondary_image_crop_confirm" style="height: auto;">
+                            <span id="id_secondary_cancel">Cancel</span>
+                            <span id="id_secondary_confirm">Crop</span>
+                        </div>
+                        <div id="id_secondary_image_title">
+                            <p>Secondary Image</p>
+                        </div>
+                        <div id="id_secondary_image_container">
+                            <img id="id_secondary_image_display" src="{{ form.initial.secondary_image.url }}" alt="">
+                            <div class="middle" id="id_secondary_middle_container">
+                                <div class="text" id="id_secondary_text"><i class="fa fa-upload" aria-hidden="true"></i>    Upload</div>
+                            </div>
+                        </div>
+                        <input class="d-none" type="file" name="secondary_image" id="id_secondary_image" onchange="readSecondaryURL(this)">
+                    </div>
+                </div>
+
+                <div class="row tertiary-row">
+                    <div class="col">
+                        <div class="d-flex flex-col justify-content-between" id="id_tertiary_image_crop_confirm" style="height: auto;">
+                            <span id="id_tertiary_cancel">Cancel</span>
+                            <span id="id_tertiary_confirm">Crop</span>
+                        </div>
+                        <div id="id_tertiary_image_title">
+                            <p>Tertiary Image</p>
+                        </div>
+                        <div id="id_tertiary_image_container">
+                            <img id="id_tertiary_image_display" src="{{ form.initial.tertiary_image.url }}" alt="">
+                            <div class="middle" id="id_tertiary_middle_container">
+                                <div class="text" id="id_tertiary_text"><i class="fa fa-upload" aria-hidden="true"></i>   Upload</div>
+                            </div>
+                        </div>
+                        <input class="d-none" type="file" name="tertiary_image" id="id_tertiary_image" onchange="readTertiaryURL(this)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons-array">
+                <input type="submit">
+                <a id="id_detele_btn_label" onclick="DeleteConfirm()">Delete</a>
+                <a id="id_cancel_btn_label" href="{% url 'home' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function DeleteConfirm(){
+            var confirmation = window.confirm("Are You Sure You Want To Delete {{ form.initial.name }}")
+            if(confirmation==true){
+                document.getElementById('id_detele_btn_label').href = "{% url 'deleteDish' dish_id=form.initial.id %}"
+            }
+        }
+    </script>
+
+    <script>
+        var cropper_icon;
+        var iconimageFile; 
+        var base64IconImageString;
+        var cropX_icon;
+        var cropY_icon;
+        var cropWidth_icon;
+        var cropHeight_icon;
+
+        enableIconImageOverlay()
+
+        function enableIconImageOverlay() {
+            var text = document.getElementById("id_icon_text")
+            text.style.backgroundColor = "#1FCE6D"
+            text.style.color = "white"
+            text.style.fontSize = "18px"
+            text.style.padding = "16px 24px"
+            text.style.cursor = "pointer"
+            text.style.borderRadius = "5px"
+
+            var IconImage = document.getElementById('id_icon_image')
+            IconImage.style.opacity = '1'
+            IconImage.style.display = "block"
+            IconImage.style.width = "100%"
+            IconImage.style.height = "auto"
+            IconImage.style.transition = ".5s ease"
+            IconImage.style.backfaceVisibility  = "hidden"
+            IconImage.style.cursor = "pointer"
+
+            var icon_image_title = document.getElementById('id_icon_image_title')
+            icon_image_title.style.display = 'block'
+            
+            var iconmiddleContainer = document.getElementById("id_icon_middle_container")
+            iconmiddleContainer.style.opacity = "0"
+            iconmiddleContainer.style.position = "absolute"
+            iconmiddleContainer.style.top = "50%"
+            iconmiddleContainer.style.left = "50%"
+            iconmiddleContainer.style.transform = "translate(-50%, -50%)"
+
+            var icon_image_display = document.getElementById('id_icon_image_display')
+            icon_image_display.style.border = "4px dashed #616A6B"
+            icon_image_display.style.borderRadius = "10px"
+
+            var icon_image_container = document.getElementById('id_icon_image_container')
+            icon_image_container.addEventListener('mouseover', function(event){
+                icon_image_display.style.opacity = '0.6'
+                iconmiddleContainer.style.opacity = '1'
+            })
+            icon_image_container.addEventListener('mouseout', function(event){
+                icon_image_display.style.opacity = '1'
+                iconmiddleContainer.style.opacity = '0'
+            })
+            icon_image_container.addEventListener('click', function(event){
+                document.getElementById('id_icon_image').click();
+            })
+
+            var cropConfirm = document.getElementById('id_icon_image_crop_confirm')
+            cropConfirm.classList.remove('d-flex')
+            cropConfirm.classList.remove('flex-row')
+            cropConfirm.classList.remove('justify-content-between')
+            cropConfirm.classList.add('d-none')
+
+        }
+
+        function disableIconImageOverlay(){
+            var IconImage = document.getElementById('id_icon_image_display')
+            var IconMiddleContainer = document.getElementById('id_icon_middle_container')
+            var ImageContianer = document.getElementById('id_icon_image_container')
+            var text = document.getElementById('id_icon_text')
+            var icon_image_title = document.getElementById('id_icon_image_title')
+            
+            icon_image_title.style.display = 'none'
+            
+            ImageContianer.removeEventListener('mouseover', function(event){})
+
+            ImageContianer.removeEventListener('mouseout',  function(event){})
+
+            IconImage.style.opacity = '1'
+            IconImage.style.border = "none"
+            IconImage.style.borderRadius = "0"
+            IconMiddleContainer.style.opacity = '0'
+            text.style.cursor = 'default'
+            text.style.opacity = '0'
+
+            ImageContianer.removeEventListener('click', function(event){
+                event.preventDefault();
+            })
+
+            document.getElementById('id_icon_image').addEventListener('click', function(event){
+                event.preventDefault();
+            })
+
+            var cropConfirm = document.getElementById('id_icon_image_crop_confirm')
+            cropConfirm.classList.add('d-flex')
+            cropConfirm.classList.add('flex-row')
+            cropConfirm.classList.add('justify-content-between')
+            cropConfirm.classList.remove('d-none')
+
+
+            var confirm = document.getElementById('id_icon_confirm')
+            confirm.addEventListener('click', function(event){
+                cropIconImage(
+                    iconimageFile, 
+                    cropX_icon,
+                    cropY_icon,
+                    cropWidth_icon,
+                    cropHeight_icon
+                )
+            })
+
+            var cancel = document.getElementById('id_icon_cancel')
+            cancel.addEventListener('click' , function(event){
+                window.location.reload()
+            })
+        }
+
+        function isIconImageSizeValid(image){
+            var startIndex = image.indexOf('base64,') + 7;
+            var base64str = image.substr(startIndex);
+            var decoded = atob(base64str);
+            if(decoded.length >= "{{ DATA_UPLOAD_MAX_MEMORY_SIZE }}"){
+                return null
+            }
+
+            return base64str
+        }
+
+        function cropIconImage(image, x, y,width, height){
+            base64IconImageString = isIconImageSizeValid(image)
+
+
+            if(base64IconImageString != null){
+                var requestData = {
+                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                    "icon_image": base64IconImageString,
+                    "cropX_icon": cropX_icon,
+                    "cropY_icon": cropY_icon,
+                    "cropWidth_icon": cropWidth_icon,
+                    "cropHeight_icon": cropHeight_icon
+                }
+                displayLoadingSpinner(true)
+                $.ajax({
+                    type : "POST",
+                    dataType : "json",
+                    url : "{% url 'crop_icon_image' dish_id=form.initial.id %}",
+                    data : requestData,
+                    timeout: 10000,
+                    success: function(data){
+                        if(data.result == "success"){
+                            document.getElementById('id_icon_cancel').click()
+                            document.getElementById('id_icon_image_display').src = "{{ form.initial.icon_image.url }}"
+                        }
+                        else if(data.result == "error"){
+                            alert(data.exception)
+                            document.getElementById('id_icon_cancel').click()
+                        }
+                    },
+                    error: function(data){
+                        console.error('ERROR. . . .', data)
+                    },  
+                    complete: function(data){
+                        displayLoadingSpinner(false)
+                    }
+                });
+            }
+
+            else{
+                alert('Upload an image smaller than 7 MB')
+                document.getElementById('id_icon_cancel').click()
+            }
+        }
+
+        function readIconURL(input){
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+
+                reader.onload = function(e){
+                    disableIconImageOverlay()
+                    var icon_image = e.target.result
+                    var iconimageField = document.getElementById('id_icon_image_display')
+                    iconimageField.src = icon_image
+                    cropper_icon = new Cropper(iconimageField, {
+                                            aspectRatio: 3/4,
+                                            crop(event){
+                                                setIconImageCropProperties(
+                                                    icon_image,
+                                                    event.detail.x,
+                                                    event.detail.y,
+                                                    event.detail.width,
+                                                    event.detail.height
+                                                )
+                                            },
+                    })
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        }
+
+        function setIconImageCropProperties(image, x, y, width,height){
+            iconimageFile = image
+            cropX_icon = x
+            cropY_icon = y
+            cropWidth_icon = width
+            cropHeight_icon = height
+        }
+    </script>
+    
+    <script>
+        var cropper_major;
+        var majorimageFile; 
+        var base64MajorImageString;
+        var cropX_major;
+        var cropY_major;
+        var cropWidth_major;
+        var cropHeight_major;
+
+        enableMajorImageOverlay()
+
+        function enableMajorImageOverlay(){
+            var text = document.getElementById("id_major_text")
+            text.style.backgroundColor = "#1FCE6D"
+            text.style.color = "white"
+            text.style.fontSize = "20px"
+            text.style.padding = "16px 24px"
+            text.style.cursor = "pointer"
+            text.style.borderRadius = "5px"
+
+            var MajorImage = document.getElementById('id_major_image')
+            MajorImage.style.opacity = '1'
+            MajorImage.style.display = "block"
+            MajorImage.style.width = "100%"
+            MajorImage.style.height = "auto"
+            MajorImage.style.transition = ".5s ease"
+            MajorImage.style.backfaceVisibility  = "hidden"
+            MajorImage.style.cursor = "pointer"
+
+
+            var major_image_title = document.getElementById('id_major_image_title')
+            major_image_title.style.display = 'block'
+
+            var majormiddleContainer = document.getElementById("id_major_middle_container")
+            majormiddleContainer.style.opacity = "0"
+            majormiddleContainer.style.position = "absolute"
+            majormiddleContainer.style.top = "50%"
+            majormiddleContainer.style.left = "50%"
+            majormiddleContainer.style.transform = "translate(-50%, -50%)"
+
+            var major_image_display = document.getElementById('id_major_image_display')
+            major_image_display.style.border = "6px dashed #616A6B"
+            major_image_display.style.borderRadius = "20px"
+
+            var major_image_container = document.getElementById('id_major_image_container')
+            major_image_container.addEventListener('mouseover', function(event){
+                major_image_display.style.opacity = '0.6'
+                majormiddleContainer.style.opacity = '1'
+            })
+            major_image_container.addEventListener('mouseout', function(event){
+                major_image_display.style.opacity = '1'
+                majormiddleContainer.style.opacity = '0'
+            })
+            major_image_container.addEventListener('click', function(event){
+                document.getElementById('id_major_image').click();
+            })
+
+            var cropConfirm = document.getElementById('id_major_image_crop_confirm')
+            cropConfirm.classList.remove('d-flex')
+            cropConfirm.classList.remove('flex-row')
+            cropConfirm.classList.remove('justify-content-between')
+            cropConfirm.classList.add('d-none')
+        }
+
+        function disableMajorImageOverlay(){
+            var MajorImage = document.getElementById('id_major_image_display')
+            var MajorMiddleContainer = document.getElementById('id_major_middle_container')
+            var ImageContianer = document.getElementById('id_major_image_container')
+            var major_image_title = document.getElementById('id_major_image_title')
+            var text = document.getElementById('id_major_text')
+
+            major_image_title.style.display = 'none'
+
+            ImageContianer.removeEventListener('mouseover', function(event){})
+            ImageContianer.removeEventListener('mouseout',  function(event){})
+
+            MajorImage.style.opacity = '1'
+            MajorImage.style.border = "none"
+            MajorImage.style.borderRadius = "0"
+            MajorMiddleContainer.style.opacity = '0'
+            text.style.cursor = 'default'
+            text.style.opacity = '0'
+
+            ImageContianer.removeEventListener('click', function(event){
+                event.preventDefault();
+            })
+
+            document.getElementById('id_major_image').addEventListener('click', function(event){
+                event.preventDefault();
+            })
+
+            var cropConfirm = document.getElementById('id_major_image_crop_confirm')
+            cropConfirm.classList.add('d-flex')
+            cropConfirm.classList.add('flex-row')
+            cropConfirm.classList.add('justify-content-between')
+            cropConfirm.classList.remove('d-none')
+
+            var confirm = document.getElementById('id_major_confirm')
+            confirm.addEventListener('click', function(event){
+                cropMajorImage(
+                    majorimageFile, 
+                    cropX_major,
+                    cropY_major,
+                    cropWidth_major,
+                    cropHeight_major
+                )
+            })
+
+            var cancel = document.getElementById('id_major_cancel')
+            cancel.addEventListener('click' , function(event){
+                window.location.reload()
+            })
+        }
+
+        function isMajorImageSizeValid(image){
+            var startIndex = image.indexOf('base64,') + 7;
+            var base64str = image.substr(startIndex);
+            var decoded = atob(base64str);
+            if(decoded.length >= "{{ DATA_UPLOAD_MAX_MEMORY_SIZE }}"){
+                return null
+            }
+
+            return base64str
+        }
+
+        function cropMajorImage(image, x, y,width, height){
+            base64MajorImageString = isMajorImageSizeValid(image)
+            if(base64MajorImageString != null){
+                var requestData = {
+                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                    "major_image": base64MajorImageString,
+                    "cropX_major": cropX_major,
+                    "cropY_major": cropY_major,
+                    "cropWidth_major": cropWidth_major,
+                    "cropHeight_major": cropHeight_major
+                }
+                displayLoadingSpinner(true)
+                $.ajax({
+                    type : "POST",
+                    dataType : "json",
+                    url : "{% url 'crop_major_image' dish_id=form.initial.id %}",
+                    data : requestData,
+                    timeout: 10000,
+                    success: function(data){
+                        if(data.result == "success"){
+                            document.getElementById('id_major_cancel').click()
+                            document.getElementById('id_major_image_display').src = "{{ form.initial.major_image.url }}"
+                        }
+                        else if(data.result == "error"){
+                            alert(data.exception)
+                            document.getElementById('id_major_cancel').click()
+                        }
+                    },
+                    error: function(data){
+                        console.error('ERROR. . . .', data)
+                    },  
+                    complete: function(data){
+                        displayLoadingSpinner(false)
+                    }
+                });
+            }
+            else{
+                alert('Upload an image smaller than 7 MB')
+                document.getElementById('id_major_cancel').click()
+            }
+        }
+
+        function readMajorURL(input){
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    disableMajorImageOverlay()
+                    var major_image = e.target.result
+                    var majorimageField = document.getElementById('id_major_image_display')
+                    majorimageField.src = major_image
+                    cropper_major = new Cropper(majorimageField,{
+                                            aspectRatio: 1/1,
+                                            crop(event){
+                                                setMajorImageCropProperties(
+                                                    major_image,
+                                                    event.detail.x,
+                                                    event.detail.y,
+                                                    event.detail.width,
+                                                    event.detail.height
+                                                )
+                                            },
+                    })
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function setMajorImageCropProperties(image, x, y, width,height){
+            majorimageFile = image
+            cropX_major = x
+            cropY_major = y
+            cropWidth_major = width
+            cropHeight_major = height
+        }
+    </script>
+
+    <script>
+        var cropper_secondary;
+        var secondaryimageFile; 
+        var base64SecondaryImageString;
+        var cropX_secondary;
+        var cropY_secondary;
+        var cropWidth_secondary;
+        var cropHeight_secondary;
+
+        enableSecondaryImageOverlay()
+
+        function enableSecondaryImageOverlay(){
+
+            var text = document.getElementById("id_secondary_text")
+            text.style.backgroundColor = "#1FCE6D"
+            text.style.color = "white"
+            text.style.fontSize = "24px"
+            text.style.padding = "16px 24px"
+            text.style.cursor = "pointer"
+            text.style.borderRadius = "5px"
+
+            var SecondaryImage = document.getElementById('id_secondary_image')
+            SecondaryImage.style.opacity = '1'
+            SecondaryImage.style.display = "block"
+            SecondaryImage.style.width = "100%"
+            SecondaryImage.style.height = "auto"
+            SecondaryImage.style.transition = ".5s ease"
+            SecondaryImage.style.backfaceVisibility  = "hidden"
+            SecondaryImage.style.cursor = "pointer"
+
+
+            var secondary_image_title = document.getElementById('id_secondary_image_title')
+            secondary_image_title.style.display = 'block'
+
+            var secondarymiddleContainer = document.getElementById("id_secondary_middle_container")
+            secondarymiddleContainer.style.opacity = "0"
+            secondarymiddleContainer.style.position = "absolute"
+            secondarymiddleContainer.style.top = "50%"
+            secondarymiddleContainer.style.left = "50%"
+            secondarymiddleContainer.style.transform = "translate(-50%, -50%)"
+
+            var secondary_image_display = document.getElementById('id_secondary_image_display')
+            secondary_image_display.style.border = "6px dashed #616A6B"
+            secondary_image_display.style.borderRadius = "20px"
+
+            var secondary_image_container = document.getElementById('id_secondary_image_container')
+            secondary_image_container.addEventListener('mouseover', function(event){
+                secondary_image_display.style.opacity = '0.6'
+                secondarymiddleContainer.style.opacity = '1'
+            })
+            secondary_image_container.addEventListener('mouseout', function(event){
+                secondary_image_display.style.opacity = '1'
+                secondarymiddleContainer.style.opacity = '0'
+            })
+            secondary_image_container.addEventListener('click', function(event){
+                document.getElementById('id_secondary_image').click();
+            })
+
+            var cropConfirm = document.getElementById('id_secondary_image_crop_confirm')
+            cropConfirm.classList.remove('d-flex')
+            cropConfirm.classList.remove('flex-row')
+            cropConfirm.classList.remove('justify-content-between')
+            cropConfirm.classList.add('d-none')
+        }
+
+        function disableSecondaryImageOverlay(){
+            var SecondaryImage = document.getElementById('id_secondary_image_display')
+            var SecondaryMiddleContainer = document.getElementById('id_secondary_middle_container')
+            var ImageContianer = document.getElementById('id_secondary_image_container')
+            var secondary_image_title = document.getElementById('id_secondary_image_title')
+            var text = document.getElementById('id_secondary_text')
+
+            secondary_image_title.style.display = 'none'
+
+            ImageContianer.removeEventListener('mouseover', function(event){})
+            ImageContianer.removeEventListener('mouseout',  function(event){})
+
+            SecondaryImage.style.opacity = '1'
+            SecondaryImage.style.border = "none"
+            SecondaryImage.style.borderRadius = "0"
+            SecondaryMiddleContainer.style.opacity = '0'
+            text.style.cursor = 'default'
+            text.style.opacity = '0'
+
+            ImageContianer.removeEventListener('click', function(event){
+                event.preventDefault();
+            })
+
+            document.getElementById('id_secondary_image').addEventListener('click', function(event){
+                event.preventDefault();
+            })
+
+            var cropConfirm = document.getElementById('id_secondary_image_crop_confirm')
+            cropConfirm.classList.add('d-flex')
+            cropConfirm.classList.add('flex-row')
+            cropConfirm.classList.add('justify-content-between')
+            cropConfirm.classList.remove('d-none')
+
+
+            var confirm = document.getElementById('id_secondary_confirm')
+            confirm.addEventListener('click', function(event){
+                cropSecondaryImage(
+                    secondaryimageFile, 
+                    cropX_secondary,
+                    cropY_secondary,
+                    cropWidth_secondary,
+                    cropHeight_secondary
+                )
+            })
+
+            var cancel = document.getElementById('id_secondary_cancel')
+            cancel.addEventListener('click' , function(event){
+                window.location.reload()
+            })
+        }
+
+        function isSecondaryImageSizeValid(image){
+            var startIndex = image.indexOf('base64,') + 7;
+            var base64str = image.substr(startIndex);
+            var decoded = atob(base64str);
+            if(decoded.length >= "{{ DATA_UPLOAD_MAX_MEMORY_SIZE }}"){
+                return null
+            }
+
+            return base64str
+        }
+
+        function cropSecondaryImage(image,x,y,width,height){
+            base64SecondaryImageString = isSecondaryImageSizeValid(image)
+
+            if(base64SecondaryImageString!=null){
+                var requestData = {
+                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                    "secondary_image": base64SecondaryImageString,
+                    "cropX_secondary": cropX_secondary,
+                    "cropY_secondary": cropY_secondary,
+                    "cropWidth_secondary": cropWidth_secondary,
+                    "cropHeight_secondary": cropHeight_secondary
+                }
+                displayLoadingSpinner(true)
+                $.ajax({
+                    type : "POST",
+                    dataType : "json",
+                    url : "{% url 'crop_secondary_image' dish_id=form.initial.id %}",
+                    data : requestData,
+                    timeout: 10000,
+                    success: function(data){
+                        if(data.result == "success"){
+                            document.getElementById('id_secondary_cancel').click()
+                            document.getElementById('id_secondary_image_display').src = "{{ form.initial.secondary_image.url }}"
+                        }
+                        else if(data.result == "error"){
+                            alert(data.exception)
+                            document.getElementById('id_secondary_cancel').click()
+                        }
+                    },
+                    error: function(data){
+                        console.error('ERROR. . . .', data)
+                    },  
+                    complete: function(data){
+                        displayLoadingSpinner(false)
+                    }
+                });
+            }
+            else{
+                alert('Upload an image smaller than 7 MB')
+                document.getElementById('id_secondary_cancel').click()
+            }
+        }
+
+        function readSecondaryURL(input){
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    disableSecondaryImageOverlay()
+                    var secondary_image = e.target.result
+                    var secondaryimageField = document.getElementById('id_secondary_image_display')
+                    secondaryimageField.src = secondary_image
+                    cropper_secondary = new Cropper(secondaryimageField,{
+                                            aspectRatio: 1/1,
+                                            crop(event){
+                                                setSecondaryImageCropProperties(
+                                                    secondary_image,
+                                                    event.detail.x,
+                                                    event.detail.y,
+                                                    event.detail.width,
+                                                    event.detail.height
+                                                )
+                                            },
+                    })
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function setSecondaryImageCropProperties(image, x, y, width,height){
+            secondaryimageFile = image
+            cropX_secondary = x
+            cropY_secondary = y
+            cropWidth_secondary = width
+            cropHeight_secondary = height
+        }
+    </script>
+
+<script>
+    var cropper_tertiary;
+    var tertiaryimageFile; 
+    var base64TertiaryImageString;
+    var cropX_tertiary;
+    var cropY_tertiary;
+    var cropWidth_tertiary;
+    var cropHeight_tertiary;
+
+    enableTertiaryImageOverlay()
+
+    function enableTertiaryImageOverlay(){
+        var text = document.getElementById("id_tertiary_text")
+        text.style.backgroundColor = "#1FCE6D"
+        text.style.color = "white"
+        text.style.fontSize = "24px"
+        text.style.padding = "16px 24px"
+        text.style.cursor = "pointer"
+        text.style.borderRadius = "5px"
+
+        var TertiaryImage = document.getElementById('id_tertiary_image')
+        TertiaryImage.style.opacity = '1'
+        TertiaryImage.style.display = "block"
+        TertiaryImage.style.width = "100%"
+        TertiaryImage.style.height = "auto"
+        TertiaryImage.style.transition = ".5s ease"
+        TertiaryImage.style.backfaceVisibility  = "hidden"
+        TertiaryImage.style.cursor = "pointer"
+
+
+        var tertiary_image_title = document.getElementById('id_tertiary_image_title')
+        tertiary_image_title.style.display = 'block'
+
+        var tertiarymiddleContainer = document.getElementById("id_tertiary_middle_container")
+        tertiarymiddleContainer.style.opacity = "0"
+        tertiarymiddleContainer.style.position = "absolute"
+        tertiarymiddleContainer.style.top = "50%"
+        tertiarymiddleContainer.style.left = "50%"
+        tertiarymiddleContainer.style.transform = "translate(-50%, -50%)"
+
+        var tertiary_image_display = document.getElementById('id_tertiary_image_display')
+        tertiary_image_display.style.border = "6px dashed #616A6B"
+        tertiary_image_display.style.borderRadius = "20px"
+
+        var tertiary_image_container = document.getElementById('id_tertiary_image_container')
+        tertiary_image_container.addEventListener('mouseover', function(event){
+            tertiary_image_display.style.opacity = '0.6'
+            tertiarymiddleContainer.style.opacity = '1'
+        })
+        tertiary_image_container.addEventListener('mouseout', function(event){
+            tertiary_image_display.style.opacity = '1'
+            tertiarymiddleContainer.style.opacity = '0'
+        })
+        tertiary_image_container.addEventListener('click', function(event){
+            document.getElementById('id_tertiary_image').click();
+        })
+
+        var cropConfirm = document.getElementById('id_tertiary_image_crop_confirm')
+        cropConfirm.classList.remove('d-flex')
+        cropConfirm.classList.remove('flex-row')
+        cropConfirm.classList.remove('justify-content-between')
+        cropConfirm.classList.add('d-none')
+    }
+
+    function disableTertiaryImageOverlay(){
+        var TertiaryImage = document.getElementById('id_tertiary_image_display')
+        var TertiaryMiddleContainer = document.getElementById('id_tertiary_middle_container')
+        var ImageContianer = document.getElementById('id_tertiary_image_container')
+        var tertiary_image_title = document.getElementById('id_tertiary_image_title')
+        var text = document.getElementById('id_tertiary_text')
+
+        tertiary_image_title.style.display = 'none'
+
+        ImageContianer.removeEventListener('mouseover', function(event){})
+        ImageContianer.removeEventListener('mouseout',  function(event){})
+
+        TertiaryImage.style.opacity = '1'
+        TertiaryImage.style.border = "none"
+        TertiaryImage.style.borderRadius = "0"
+        TertiaryMiddleContainer.style.opacity = '0'
+        text.style.cursor = 'default'
+        text.style.opacity = '0'
+
+        ImageContianer.removeEventListener('click', function(event){
+            event.preventDefault();
+        })
+
+        document.getElementById('id_tertiary_image').addEventListener('click', function(event){
+            event.preventDefault();
+        })
+
+        var cropConfirm = document.getElementById('id_tertiary_image_crop_confirm')
+        cropConfirm.classList.add('d-flex')
+        cropConfirm.classList.add('flex-row')
+        cropConfirm.classList.add('justify-content-between')
+        cropConfirm.classList.remove('d-none')
+
+        var confirm = document.getElementById('id_tertiary_confirm')
+        confirm.addEventListener('click', function(event){
+            cropTertiaryImage(
+                tertiaryimageFile, 
+                cropX_tertiary,
+                cropY_tertiary,
+                cropWidth_tertiary,
+                cropHeight_tertiary
+            )
+        })
+
+        var cancel = document.getElementById('id_tertiary_cancel')
+        cancel.addEventListener('click' , function(event){
+            window.location.reload()
+        })
+    }
+
+    function isTertiaryImageSizeValid(image){
+        var startIndex = image.indexOf('base64,') + 7;
+        var base64str = image.substr(startIndex);
+        var decoded = atob(base64str);
+        if(decoded.length >= "{{ DATA_UPLOAD_MAX_MEMORY_SIZE }}"){
+            return null
+        }
+
+        return base64str
+    }
+
+    function cropTertiaryImage(image, x, y,width, height){
+        base64TertiaryImageString = isTertiaryImageSizeValid(image)
+        if(base64TertiaryImageString != null){
+            var requestData = {
+                "csrfmiddlewaretoken": "{{csrf_token}}",
+                "tertiary_image": base64TertiaryImageString,
+                "cropX_tertiary": cropX_tertiary,
+                "cropY_tertiary": cropY_tertiary,
+                "cropWidth_tertiary": cropWidth_tertiary,
+                "cropHeight_tertiary": cropHeight_tertiary
+            }
+            displayLoadingSpinner(true)
+            $.ajax({
+                type : "POST",
+                dataType : "json",
+                url : "{% url 'crop_tertiary_image' dish_id=form.initial.id %}",
+                data : requestData,
+                timeout: 10000,
+                success: function(data){
+                    if(data.result == "success"){
+                        document.getElementById('id_tertiary_cancel').click()
+                        document.getElementById('id_tertiary_image_display').src = "{{ form.initial.tertiary_image.url }}"
+                    }
+                    else if(data.result == "error"){
+                        alert(data.exception)
+                        document.getElementById('id_tertiary_cancel').click()
+                    }
+                },
+                error: function(data){
+                    console.error('ERROR. . . .', data)
+                },  
+                complete: function(data){
+                    displayLoadingSpinner(false)
+                }
+            });
+        }
+        else{
+            alert('Upload an image smaller than 7 MB')
+            document.getElementById('id_tertiary_cancel').click()
+        }
+    }
+
+    function readTertiaryURL(input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(e){
+                disableTertiaryImageOverlay()
+                var tertiary_image = e.target.result
+                var tertiaryimageField = document.getElementById('id_tertiary_image_display')
+                tertiaryimageField.src = tertiary_image
+                cropper_tertiary = new Cropper(tertiaryimageField,{
+                                        aspectRatio: 1/1,
+                                        crop(event){
+                                            setTertiaryImageCropProperties(
+                                                tertiary_image,
+                                                event.detail.x,
+                                                event.detail.y,
+                                                event.detail.width,
+                                                event.detail.height
+                                            )
+                                        },
+                })
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function setTertiaryImageCropProperties(image, x, y, width,height){
+        tertiaryimageFile = image
+        cropX_tertiary = x
+        cropY_tertiary = y
+        cropWidth_tertiary = width
+        cropHeight_tertiary = height
+    }
+</script>
+{% endblock %}

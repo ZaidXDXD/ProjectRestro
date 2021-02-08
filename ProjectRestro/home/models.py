@@ -59,7 +59,7 @@ class Dishes(models.Model):
     date_created = models.DateTimeField(null=True, auto_now_add=True)
     description = models.TextField(blank=True) 
     price = models.FloatField(null=True)
-    food_tag = models.ManyToManyField(Tag)
+    food_tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING, null=True)
     category = models.CharField(max_length=10, null=True, choices=CATEGORY_CHOICES)
     alcohol = models.CharField(max_length=10, null=True, choices=ALCOHOL_CHOICES)
     like = models.ManyToManyField(User, blank=True) 
