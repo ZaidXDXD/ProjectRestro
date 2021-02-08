@@ -62,16 +62,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </select>
-                            <a class="add-tags" href="{% url 'addtag' %}" onclick="window.open(this.href,'targetWindow',
-                                                                                                            `toolbar=no,
-                                                                                                            location=no,
-                                                                                                            status=no,
-                                                                                                            menubar=no,
-                                                                                                            scrollbars=yes,
-                                                                                                            resizable=yes,
-                                                                                                            width=SomeSize,
-                                                                                                            height=SomeSize`);
-                                                                                return false;">
+                            <a class="add-tags" href="{% url 'addtag' %}" onclick="window.open(this.href,'targetWindow',`toolbar=no, location=no, status=no, menubar=no,scrollbars=yes,resizable=yes,width=SomeSize,height=SomeSize`);return false;">
                                 <i class="fa fa-plus" style="font-size: 30px; color: white;"></i>
                             </a>
                         </div>
@@ -212,7 +203,7 @@
             </div>
 
             <div class="buttons-array">
-                <input type="submit">
+                <input id="id_submit_btn_label" type="submit">
                 <a id="id_detele_btn_label" onclick="DeleteConfirm()">Delete</a>
                 <a id="id_cancel_btn_label" href="{% url 'home' %}">Cancel</a>
             </div>
