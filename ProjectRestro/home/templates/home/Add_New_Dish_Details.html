@@ -33,7 +33,7 @@
                                     <option value="{{ tag.id }}"> {{ tag.name }} </option>
                                 {% endfor %}
                             </select>
-                            <a class="add-tags" href="{% url 'addtag' %}">
+                            <a class="add-tags" href="{% url 'addtag' %}" onclick="window.open(this.href,'targetWindow',`toolbar=no, location=no, status=no, menubar=no,scrollbars=yes,resizable=yes,width=SomeSize,height=SomeSize`);return false;">
                                 <i class="fa fa-plus" style="font-size: 30px; color: white;"></i>
                             </a>
                         </div>
