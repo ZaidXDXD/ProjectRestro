@@ -2,16 +2,24 @@ from django.urls import path
 
 from home.views import (
     home,
+    
     tagpage,
+    
     adddish,
+
     crop_icon_image,
     add_dish_image_icon, 
+    
     crop_major_image,
     add_dish_image_major,
+    
     crop_secondary_image,
     add_dish_image_secondary,
+    
     crop_tertiary_image,
     add_dish_image_tertiary,
+    
+    edit_dish,
 )
 
 urlpatterns = [
@@ -32,4 +40,7 @@ urlpatterns = [
 
     path('add_dish/addTertiaryImage/<dish_id>',add_dish_image_tertiary , name="addTertiaryImage"),
     path('add_dish/addTertiaryImage/<dish_id>/cropTertiaryImage/',crop_tertiary_image, name="crop_tertiary_image" ),
+
+    path('edit_dish/<dish_id>/', edit_dish, name="editDish"),
+    
 ]

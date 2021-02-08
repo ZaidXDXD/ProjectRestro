@@ -20,11 +20,13 @@ from .forms import (
     DishesMajorImageForm,
     DishesSecondaryImageForm,
     DishesTertiaryImageForm,
+    EditDishForm
 )
 from .models import (
     Tag, 
     Dishes,
 )
+from requests.api import request
 
 def home(request):
     return render(request, 'home/home.html')
@@ -93,14 +95,14 @@ def crop_icon_image(request, *args, **kwargs):
     dish = Dishes.objects.get(pk=dish_id)
     if request.POST:
         try: 
-            imageString = request.POST.get("image")
+            imageString = request.POST.get("icon_image")
             url = save_temp_icon_image_from_base64String(imageString, dish)
             img = cv2.imread(url)
 
-            cropX = int(float(str(request.POST.get('cropX'))))
-            cropY = int(float(str(request.POST.get('cropY'))))
-            cropWidth = int(float(str(request.POST.get('cropWidth'))))
-            cropHeight = int(float(str(request.POST.get('cropHeight'))))
+            cropX = int(float(str(request.POST.get('cropX_icon'))))
+            cropY = int(float(str(request.POST.get('cropY_icon'))))
+            cropWidth = int(float(str(request.POST.get('cropWidth_icon'))))
+            cropHeight = int(float(str(request.POST.get('cropHeight_icon'))))
 
             if cropX < 0:
                 cropX = 0
@@ -199,14 +201,14 @@ def crop_major_image(request, *args, **kwargs):
     dish = Dishes.objects.get(pk=dish_id)
     if request.POST:
         try: 
-            imageString = request.POST.get("image")
+            imageString = request.POST.get("major_image")
             url = save_temp_major_image_from_base64String(imageString, dish)
             img = cv2.imread(url)
 
-            cropX = int(float(str(request.POST.get('cropX'))))
-            cropY = int(float(str(request.POST.get('cropY'))))
-            cropWidth = int(float(str(request.POST.get('cropWidth'))))
-            cropHeight = int(float(str(request.POST.get('cropHeight'))))
+            cropX = int(float(str(request.POST.get('cropX_major'))))
+            cropY = int(float(str(request.POST.get('cropY_major'))))
+            cropWidth = int(float(str(request.POST.get('cropWidth_major'))))
+            cropHeight = int(float(str(request.POST.get('cropHeight_major'))))
 
             if cropX < 0:
                 cropX = 0
@@ -306,14 +308,14 @@ def crop_secondary_image(request, *args, **kwargs):
     dish = Dishes.objects.get(pk=dish_id)
     if request.POST:
         try: 
-            imageString = request.POST.get("image")
+            imageString = request.POST.get("secondary_image")
             url = save_temp_secondary_image_from_base64String(imageString, dish)
             img = cv2.imread(url)
 
-            cropX = int(float(str(request.POST.get('cropX'))))
-            cropY = int(float(str(request.POST.get('cropY'))))
-            cropWidth = int(float(str(request.POST.get('cropWidth'))))
-            cropHeight = int(float(str(request.POST.get('cropHeight'))))
+            cropX = int(float(str(request.POST.get('cropX_secondary'))))
+            cropY = int(float(str(request.POST.get('cropY_secondary'))))
+            cropWidth = int(float(str(request.POST.get('cropWidth_secondary'))))
+            cropHeight = int(float(str(request.POST.get('cropHeight_secondary'))))
 
             if cropX < 0:
                 cropX = 0
@@ -415,14 +417,14 @@ def crop_tertiary_image(request, *args, **kwargs):
     dish = Dishes.objects.get(pk=dish_id)
     if request.POST:
         try: 
-            imageString = request.POST.get("image")
+            imageString = request.POST.get("tertiary_image")
             url = save_temp_tertiary_image_from_base64String(imageString, dish)
             img = cv2.imread(url)
 
-            cropX = int(float(str(request.POST.get('cropX'))))
-            cropY = int(float(str(request.POST.get('cropY'))))
-            cropWidth = int(float(str(request.POST.get('cropWidth'))))
-            cropHeight = int(float(str(request.POST.get('cropHeight'))))
+            cropX = int(float(str(request.POST.get('cropX_tertiary'))))
+            cropY = int(float(str(request.POST.get('cropY_tertiary'))))
+            cropWidth = int(float(str(request.POST.get('cropWidth_tertiary'))))
+            cropHeight = int(float(str(request.POST.get('cropHeight_tertiary'))))
 
             if cropX < 0:
                 cropX = 0
@@ -485,3 +487,57 @@ def add_dish_image_tertiary(request, *args, **kwargs):
     
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
     return render(request, 'home/Add_New_Dish_Tertiary_Image.html', context)
+
+
+# Function To Edit Dish
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
+def edit_dish(request, *args, **kwargs):
+    tags = Tag.objects.all().order_by('name')
+    dish_id = kwargs.get('dish_id')
+    dish = Dishes.objects.get(pk=dish_id)
+    context = {}
+    context['tags'] = tags
+    context['dish_name'] = dish.name
+    if request.POST:
+        form = EditDishForm(request.POST, instance=dish)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+            
+        else:
+            form = EditDishForm(request.POST, instance=dish,
+                initial={
+                    'id': dish.id,
+                    'name': dish.name,
+                    'tag' : dish.food_tag,
+                    'price': dish.price,
+                    'category': dish.category,
+                    'alcohol' : dish.alcohol,
+                    'description': dish.description,
+                    'icon_image' : dish.icon_image,
+                    'major_image': dish.major_image,
+                    'secondary_image': dish.secondary_image,
+                    'tertiary_image': dish.tertiary_image,                      
+                }
+            )
+    else:
+        form = EditDishForm(
+                initial={
+                    'id': dish.id,
+                    'name': dish.name,
+                    'tag' : dish.food_tag,
+                    'price': dish.price,
+                    'category': dish.category,
+                    'alcohol' : dish.alcohol,
+                    'description': dish.description,
+                    'icon_image' : dish.icon_image,
+                    'major_image': dish.major_image,
+                    'secondary_image': dish.secondary_image,
+                    'tertiary_image': dish.tertiary_image,                      
+                }
+            ) 
+
+    context['form'] = form
+    context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+    return render(request, 'home/Edit_Dish.html', context)

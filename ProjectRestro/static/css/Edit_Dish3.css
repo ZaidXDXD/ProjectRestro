@@ -1,0 +1,109 @@
+.secondary-row{
+    margin-top: 3%;
+    box-shadow: 2px 5px 10px #E5E7E9;
+    height: 650px;
+    padding-top: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+}
+
+
+#id_secondary_cancel{
+    background-color: #E74C3C;
+    border-radius: 5px; 
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+
+#id_secondary_confirm{
+    background-color: #2ECC71;
+    border-radius: 5px; 
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    color: white;
+    padding: 10px 19px;
+    cursor: pointer;
+}
+
+#id_secondary_image_container{
+    max-width: 500px;
+    max-height: 500px;
+    height: 500px;
+    margin: 0 auto;
+}
+
+#id_secondary_image_container img{
+    height: 100%;
+    width: 100%;
+}
+
+#id_secondary_image_title{
+    text-align: center;
+    font-size: 40px;
+    letter-spacing: 2px;
+    font-family: 'Yusei Magic', sans-serif;
+    color: #F5B041;
+    text-decoration: underline;
+    text-decoration-color: red;
+    margin-bottom: 20px;
+}
+
+.tertiary-row{
+    margin-top: 3%;
+    box-shadow: 2px 5px 10px #E5E7E9;
+    height: 650px;
+    padding-top: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+}
+
+
+#id_tertiary_cancel{
+    background-color: #E74C3C;
+    border-radius: 5px; 
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+
+#id_tertiary_confirm{
+    background-color: #2ECC71;
+    border-radius: 5px; 
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    color: white;
+    padding: 10px 19px;
+    cursor: pointer;
+}
+
+#id_tertiary_image_container{
+    max-width: 500px;
+    max-height: 500px;
+    height: 500px;
+    margin: 0 auto;
+}
+
+#id_tertiary_image_container img{
+    height: 100%;
+    width: 100%;
+}
+
+#id_tertiary_image_title{
+    text-align: center;
+    font-size: 40px;
+    letter-spacing: 2px;
+    font-family: 'Yusei Magic', sans-serif;
+    color: #F5B041;
+    text-decoration: underline;
+    text-decoration-color: red;
+    margin-bottom: 20px;
+}
+
+

@@ -41,3 +41,11 @@ class DishesTertiaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
         fields = ('tertiary_image', )
+
+
+# Form -> Dish Edit Form.
+class EditDishForm(forms.ModelForm):
+    class Meta:
+        model = Dishes
+        fields = "__all__"
+        exclude = ('like',)
