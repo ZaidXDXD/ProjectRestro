@@ -111,6 +111,7 @@ def crop_icon_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
+            crop_img = cv2.resize(crop_img,(600,800))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
@@ -143,8 +144,13 @@ def add_dish_image_icon(request, *args, **kwargs):
     if request.POST:
         form = DishesIconImageForm(request.POST, request.FILES, instance=dish_profile)
         if form.is_valid():
-            form.save()
-            return redirect('addMajorImage', dish_profile.pk)
+            image_url = form.cleaned_data['icon_image']
+            if(image_url == "Restro/default_icon_image.jpg"):
+                messages.info(request, "No Image Uploades!")
+                return redirect('addIconImage',dish_profile.pk)
+            else:
+                form.save()
+                return redirect('addMajorImage', dish_profile.pk)
         else:
             form = DishesIconImageForm(request.POST, instance=dish_profile,
                 initial={
@@ -250,8 +256,13 @@ def add_dish_image_major(request, *args, **kwargs):
     if request.POST:
         form = DishesMajorImageForm(request.POST, request.FILES, instance=dish_profile)
         if form.is_valid():
-            form.save()
-            return redirect('addSecondaryImage', dish_profile.pk)
+            image_url = form.cleaned_data['major_image']
+            if(image_url == "Restro/default_major_image.jpg"):
+                messages.info(request, "No Image Uploades!")
+                return redirect('addMajorImage',dish_profile.pk)
+            else:
+                form.save()
+                return redirect('addSecondaryImage', dish_profile.pk)
         else:
             form = DishesMajorImageForm(request.POST, instance=dish_profile,
                 initial={
@@ -357,8 +368,13 @@ def add_dish_image_secondary(request, *args, **kwargs):
     if request.POST:
         form = DishesSecondaryImageForm(request.POST, request.FILES, instance=dish_profile)
         if form.is_valid():
-            form.save()
-            return redirect('addTertiaryImage', dish_profile.pk)
+            image_url = form.cleaned_data['secondary_image']
+            if(image_url == "Restro/default_secondary_image.jpg"):
+                messages.info(request, "No Image Uploades!")
+                return redirect('addSecondaryImage',dish_profile.pk)
+            else:
+                form.save()
+                return redirect('addTertiaryImage', dish_profile.pk)
         else:
             form = DishesSecondaryImageForm(request.POST, instance=dish_profile,
                 initial={
@@ -466,8 +482,13 @@ def add_dish_image_tertiary(request, *args, **kwargs):
     if request.POST:
         form = DishesTertiaryImageForm(request.POST, request.FILES, instance=dish_profile)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            image_url = form.cleaned_data['tertiary_image']
+            if(image_url == "Restro/default_tertiary_image.jpg"):
+                messages.info(request, "No Image Uploades!")
+                return redirect('addTertiaryImage',dish_profile.pk)
+            else:
+                form.save()
+                return redirect('editDish', dish_profile.pk)
         else:
             form = DishesTertiaryImageForm(request.POST, instance=dish_profile,
                 initial={
@@ -548,7 +569,6 @@ def delete_dish(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish = Dishes.objects.get(pk=dish_id)
 
-    print("Yaha Pe To Phuch Gaya Mai")
     if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
                 dish.icon_image.delete()
 
@@ -564,3 +584,13 @@ def delete_dish(request, *args, **kwargs):
     dish.delete()
 
     return redirect('home')
+
+
+
+#Fucntion To Visit Menu Page.
+def dish_page(request, *args, **kwargs):
+    dish_id = kwargs.get('dish_id')
+    dish = Dishes.objects.get(pk = dish_id)
+    context = {}
+    context['dish'] = dish
+    return render(request , 'home/Dish_Page.html', context)

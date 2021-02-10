@@ -21,6 +21,8 @@ from home.views import (
     
     edit_dish,
     delete_dish,
+
+    dish_page,
 )
 
 urlpatterns = [
@@ -44,5 +46,7 @@ urlpatterns = [
 
     path('edit_dish/<dish_id>/', edit_dish, name="editDish"),
     path('edit_dish/<dish_id>/delete', delete_dish, name="deleteDish"),
+
+    path('dish/<dish_id>', dish_page, name = 'dishPage'),
     
 ]

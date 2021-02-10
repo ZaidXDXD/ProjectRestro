@@ -34,7 +34,7 @@ class DishesMajorImageForm(forms.ModelForm):
 class DishesSecondaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('major_image', )
+        fields = ('secondary_image', )
     
 # Form -> Dish Tertiary Image
 class DishesTertiaryImageForm(forms.ModelForm):
@@ -48,4 +48,3 @@ class EditDishForm(forms.ModelForm):
     class Meta:
         model = Dishes
         fields = "__all__"
-        exclude = ('like',)

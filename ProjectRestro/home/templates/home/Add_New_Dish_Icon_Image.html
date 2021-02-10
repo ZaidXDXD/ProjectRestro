@@ -23,6 +23,13 @@
                 </div>
             </div>
         </div>
+        {% if messages %}
+            <div class="alert alert-info" role="alert" style="text-align: center; width: 50%; margin: 20px auto;">
+                {% for message in messages %}
+                        <p {% if forloop.last %} class='mb-0' {% endif %}>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="mb-2" id="id_image_crop_confirm">
             <span id="id_cancel" class="material-icons">cancel</span>
             <span id="id_confirm" class="material-icons">check</span>
