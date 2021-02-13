@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Benne&display=swap');
+
+
+#id_quantity{
+    width: 56px;
+    height: 56px;
+    font-family: 'Roboto Mono', monospace;
+    text-align: center;
+    font-size: 24px;
+    margin: 0 10px;
+    padding: 8px;
+    outline: none;
+    cursor: default;
+    border-radius: 6px;
+}
+
+input[type="button"]{
+    width: 45px;
+    height: 45px;
+    border: none;
+    vertical-align: center;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    background-color: #45B39D;
+    outline: none;
+    margin: 5px 0;
+    border: 3px solid #16A085;
+    transition: all 0.3s ease;
+}
+
+input[type="button"]:hover{
+    margin: 0;
+    width: 56px;
+    height: 56px;
+    outline: none;
+}
+
+.price_input_and_display{
+    display: flex;
+    
+}
+
+#id_total_charge{
+    display: inline-flex;
+    width: 65%;
+    margin: 0 auto;
+    height: 60px;
+    box-shadow: 4px 4px 8px #E5E7E9;
+}
+
+#id_total_statement{
+    width:60%;
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    padding: 6px 10px;
+    text-align: center;
+    color: #F4D03F;
+}
+
+#id_total_price{
+    position: relative;
+    display: flex;
+    height: 56px;
+    width: 40%;
+    padding: 6px 10px;
+    color: #717D7E;
+    font-size: 26px;
+    font-family: 'Lora', serif;
+    text-align: center;
+}
+
+#id_total_price_decimal{
+    font-size: 14px;
+    top: 0.5em;
+}
+
+#id_price{
+    display: flex;
+    height: 60px;
+    width: 40%;
+    padding: 6px 10px;
+    color: #A6ACAF;
+    font-size: 34px;
+    font-family: 'Lora', serif;
+    margin: 0;
+}
+
+#id_price_decimal{
+    font-size: 20px;
+    top: 0.5em;
+}

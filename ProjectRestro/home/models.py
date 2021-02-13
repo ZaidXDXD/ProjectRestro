@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.contrib.auth.models import User
 
 
 # Models For Tags
@@ -45,7 +44,7 @@ def get_tertiary_image_file_path(self, filename):
 def get_default_tertiary_iamge():
     return 'Restro/default_tertiary_image.jpg'
 
-# Model For Dishes
+# Model For Dishes (Need to add star rating and Image Description)
 class Dishes(models.Model):
     CATEGORY_CHOICES = (
         ('Veg', "Veg")
@@ -69,3 +68,21 @@ class Dishes(models.Model):
 
     def __str__(self):
         return self.name
+
+
+#Model For Order
+class Order(models.Model):
+    STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Delieverd', 'Delivered'),
+    )
+    customer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="customer")
+    ordered_dish = models.ForeignKey(Dishes, on_delete=models.DO_NOTHING,related_name="dish")
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    quantity = models.IntegerField(null=True)
+    total_amount = models.FloatField(null=True)
+    table_number = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=100, null=True, choices=STATUS_CHOICES, default='Pending')
+
+    def __str__(self):
+        return f"{self.customer.username} Ordered {self.ordered_dish.name}"

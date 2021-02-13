@@ -20,11 +20,13 @@ from .forms import (
     DishesMajorImageForm,
     DishesSecondaryImageForm,
     DishesTertiaryImageForm,
-    EditDishForm
+    EditDishForm,
+    OrderForm,
 )
 from .models import (
     Tag, 
     Dishes,
+    Order
 )
 from requests.api import request
 
@@ -111,7 +113,7 @@ def crop_icon_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
-            crop_img = cv2.resize(crop_img,(600,800))
+            crop_img = cv2.resize(crop_img,(300,400))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
@@ -222,7 +224,8 @@ def crop_major_image(request, *args, **kwargs):
                 cropY = 0
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
-
+            
+            crop_img = cv2.resize(crop_img,(1000,1000))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.major_image.url) != "\media\Restro\default_major_image.jpg"):
@@ -335,6 +338,7 @@ def crop_secondary_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
+            crop_img = cv2.resize(crop_img,(1000,1000))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.secondary_image.url) != "\media\Restro\default_secondary_image.jpg"):
@@ -449,6 +453,7 @@ def crop_tertiary_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
+            crop_img = cv2.resize(crop_img,(1000,1000))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.tertiary_image.url) != "\media\Restro\default_tertiary_image.jpg"):
@@ -565,32 +570,68 @@ def edit_dish(request, *args, **kwargs):
 
 
 # Function To Delete A Dish
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def delete_dish(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish = Dishes.objects.get(pk=dish_id)
 
     if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
-                dish.icon_image.delete()
+        dish.icon_image.delete()
 
     if(os.path.normpath(dish.major_image.url) != "\media\Restro\default_major_image.jpg"):
-                dish.major_image.delete()
+        dish.major_image.delete()
 
     if(os.path.normpath(dish.secondary_image.url) != "\media\Restro\default_secondary_image.jpg"):
-                dish.secondary_image.delete()
+        dish.secondary_image.delete()
 
     if(os.path.normpath(dish.tertiary_image.url) != "\media\Restro\default_tertiary_image.jpg"):
-                dish.tertiary_image.delete()
+        dish.tertiary_image.delete()
 
     dish.delete()
 
     return redirect('home')
 
 
+def returnTableNumber(filepath):
+    try:
+        with open(filepath, 'r') as f:
+            for line in f:
+                words = ((line.strip()).split())
+                if words:
+                    first_word = words[0]
+                    if first_word.isnumeric():
+                        return first_word
+    except Exception as e:
+        print(e)
+        return '0'
+    else:
+        return None
+
 
 #Fucntion To Visit Menu Page.
+@login_required(login_url="login")
 def dish_page(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish = Dishes.objects.get(pk = dish_id)
+    form = OrderForm()
+    if request.POST:
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            TABLE_PATH = request.POST.get('table_number')
+            Order.objects.create(
+                customer = form.cleaned_data['customer'],
+                ordered_dish = form.cleaned_data['ordered_dish'],
+                quantity = form.cleaned_data['quantity'],
+                total_amount = form.cleaned_data['total_amount'],
+                table_number = returnTableNumber(TABLE_PATH),
+            )
+            return redirect('home')
+        else:
+            print("Invalid Form")
+    else:
+        form = OrderForm()
     context = {}
     context['dish'] = dish
+    context['form'] = form
     return render(request , 'home/Dish_Page.html', context)
