@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Neuton&display=swap');
+
+.Dish-Details{
+    position: relative;
+	width: 100%;
+	height: 8vh;
+    padding: 1% 0% ;
+    margin-bottom: 3%;
+}
+
+#id_veg{
+    float: left;
+	display: inline-flex;
+    height: 100%;
+    width: 20%;
+    background-color: #A9DFBF;
+    border-radius: 5px;
+    padding-top: 5px;
+}
+
+#id_veg svg{
+    margin-top: 3px;
+    fill : #117864;
+}
+
+#id_veg_statement{
+    height: 100%;
+    width: 60%;
+    margin: 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+    color:#117864;
+}
+
+
+#id_non_veg{
+    float: left;
+	display: inline-flex;
+    height: 100%;
+    width: 32%;
+    background-color: #F1948A;
+    border-radius: 5px;
+    padding-top: 5px;
+}
+
+#id_non_veg svg{
+    margin-top: 3px;
+    fill : #CB4335;
+}
+
+#id_non_veg_statement{
+    height: 100%;
+    width: 75%;
+    margin: 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+    color:#CB4335;
+}
+
+
+#id_alcohol{
+    display: inline-flex;
+    margin-left: 3%;
+    width : 30%;
+    height: 100%;
+    background-color: #F0B27A;
+    border-radius: 5px;
+    padding-top: 5px;
+}
+
+#id_alcohol svg{
+    margin-top: 3px;
+    fill : #CB4335;
+}
+
+#id_alcohol_statement{
+    height: 100%;
+    width: 70%;
+    margin: 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+    color:#CB4335;
+}
+
+#id_dish_description{
+    color: #4D5656;
+    font-family: 'Neuton', serif;
+    font-size: 1.9rem;
+    margin-bottom: 4rem;
+}

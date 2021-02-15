@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/jquery.nice-number.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Dish_Page1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Dish_Page2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Dish_Page3.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <header id="id_nav_header">
+        <p id="id_menu_btn"><a href="#">Menu</a></p>
+        <nav>
+            <ul id="link__array">
+                <li><a href="#">Magazine</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Profile</a></li>
+				<li >
+                    <a href="#" >
+                        Cart
+                        {% if OrderCount %}
+                            {% if OrderCount < 20 %}
+                                <span class="badge badge-info">{{ OrderCount }}</span>
+                            {% else %}
+                                <span class="badge badge-info">20+</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <a href="#" id="id_leave_btn" >Leave</a>
+    </header>
+    <section class="intro">
+        <div class="left">
+        <div>
+            <h1>{{  dish.name  }}</h1>
+            <div class="price-class">
+                <span id="id_price"><p id="id_price_int"></p><sup id="id_price_decimal"></sup></span>
+            </div>
+            <section class="Dish-Details">
+                {% if dish.category == "Veg" %}
+                    <div id="id_veg">
+                        <p id="id_veg_statement">Veg</p>
+                        <svg style="width:33px;height:33px" viewBox="0 0 24 24">
+                            <path  d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+                        </svg>
+                    </div>
+                {% else %}
+                    <div id="id_non_veg">
+                        <p id="id_non_veg_statement">Non-Veg</p>
+                        <svg style="width:33px;height:33px" viewBox="0 0 24 24">
+                            <path  d="M20.16 12.73C22.93 9.96 22.57 5.26 19.09 3C17.08 1.67 14.39 1.66 12.36 2.97C10.6 4.1 9.63 5.86 9.46 7.68C9.33 9 8.83 10.23 7.91 11.15L7.88 11.18C6.72 12.34 6.72 14.11 7.81 15.19L8.8 16.18C9.89 17.27 11.66 17.27 12.75 16.18C13.72 15.21 15 14.68 16.39 14.53C17.76 14.38 19.1 13.78 20.16 12.73M6.26 19.86C6.53 20.42 6.44 21.1 5.97 21.56C5.39 22.15 4.44 22.15 3.85 21.56C3.58 21.29 3.44 20.94 3.42 20.58C3.06 20.56 2.71 20.42 2.44 20.15C1.85 19.56 1.85 18.61 2.44 18.03C2.9 17.57 3.59 17.47 4.14 17.74L6.62 15.31C6.76 15.5 6.92 15.72 7.1 15.9L8.09 16.89C8.3 17.09 8.5 17.26 8.76 17.41L6.26 19.86Z" />
+                        </svg>
+                    </div>
+                {% endif %}
+                {% if dish.alcohol == "Yes" %}
+                    <div id="id_alcohol">
+                        <p id="id_alcohol_statement">Alcohol</p>
+                        <svg style="width:33px;height:33px" viewBox="0 0 24 24">
+                            <path  d="M7.5,7L5.5,5H18.5L16.5,7M11,13V19H6V21H18V19H13V13L21,5V3H3V5L11,13Z" />
+                        </svg>
+                    </div>
+                {% endif %}
+            </section>
+            <p id="id_dish_description">{{ dish.description }}</p>
+
+
+            {% if user.is_authenticated %}
+                <form action="" method="POST" >
+                    {% csrf_token %}
+                    <select class="d-none" name="customer" required="" id="id_customer">
+                        <option value="{{ user.pk }}" selected="">{{ user.username }}</option>
+                    </select>
+                    <select class="d-none" name="ordered_dish" required="" id="id_ordered_dish">
+                        <option value="{{ dish.pk }}" selected="">{{ dish.name }}</option>
+                    </select>
+                    <div class="price_input_and_display">
+                        <div style="display: flex;">
+                            <input type="button" value="-" id="id_subtract_button" onclick="Subfunction()">
+                            <input type="text" name="quantity" required="" id="id_quantity" value="1" onchange ='changeAmount(this.value)' readonly>
+                            <input type="button" value="+" id="id_add_button" onclick="Addfunction()">
+                        </div>
+                        <div id="id_total_charge"> 
+                            <span id="id_total_statement">Total:</span>
+                            <span id="id_total_price"><p id="id_total_price_int"></p><sup id="id_total_price_decimal"></sup></span>
+                        </div>
+                    </div>
+                    <div>
+                        <input class="d-none" type="number" name="total_amount" step="any" required="" id="id_total_amount" value="{{ dish.price }}">
+                    </div>
+                    <div>
+                        <input class="d-none" type="text" name="table_number" maxlength="100" required="" id="id_table_number" value="D:/table.txt">
+                    </div>
+                    <div id="id_submit_container">
+                        <input type="submit" value = 'Add To Cart'>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+        </div>
+
+        <div class="slider">
+        <ul>
+            <li style="background-image:url('{{ dish.major_image.url }}')">
+            <div class="center-y">
+                {% if form.initial.major_description == "" %}
+                    <h3>Slider Title #1</h3>
+                {% else %}
+                    <h3>{{ dish.major_description }}</h3>
+                {% endif %}	
+            </div>
+            </li>
+            <li style="background-image:url('{{ dish.secondary_image.url }}')">
+            <div class="center-y">
+                {% if form.initial.secondary_description == "" %}
+                    <h3>Slider Title #2</h3>
+                {% else %}
+                    <h3>{{ dish.secondary_description }}</h3>
+                {% endif %}	
+            </div>
+            </li>
+            <li style="background-image:url('{{ dish.tertiary_image.url }}')">
+            <div class="center-y">
+                {% if form.initial.tertiary_description == "" %}
+                    <h3>Slider Title #3</h3>
+                {% else %}
+                    <h3>{{ dish.tertiary_description }}</h3>
+                {% endif %}	
+            </div>
+            </li>
+        </ul>
+
+        <ul>
+            <nav>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            </nav>
+        </ul>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block javascript %}
+
+    <script>
+        var intPrice;
+        var decimalPrice;
+
+        setPriceValue();
+        setPrice();
+        setInitialPrice();
+        
+        function setInitialPrice(){
+            var intPart = parseInt({{ dish.price }});
+            var decimalPart = {{ dish.price }}%1;
+            document.getElementById('id_price_int').innerHTML = "&#x20B9;"  + intPart + ".";
+            if(parseInt(decimalPart*100) == 0){
+                document.getElementById('id_price_decimal').innerHTML = "00";    
+            }
+            else{
+                if(decimalPart < 0.10){
+                    document.getElementById('id_price_decimal').innerHTML = "0" + parseInt(decimalPart*100);    
+                }
+                else{
+                    document.getElementById('id_price_decimal').innerHTML = "" + parseInt(decimalPart*100);
+                }
+                
+            }
+            
+        }
+        
+        function setPriceValue(dishprice = {{ dish.price }}){
+            intPrice = parseInt(dishprice);
+            decimalPrice = dishprice%1;
+        
+        }
+
+        function setPrice(){
+            document.getElementById('id_total_price_int').innerHTML = "&#x20B9;"  + intPrice + ".";
+            if(parseInt(decimalPrice*100) == 0){
+                document.getElementById('id_total_price_decimal').innerHTML = "00";    
+            }
+            else{
+                if(decimalPrice < 0.10){
+                    document.getElementById('id_total_price_decimal').innerHTML = "0" + parseInt(decimalPrice*100);    
+                }
+                else{
+                    document.getElementById('id_total_price_decimal').innerHTML = "" + parseInt(decimalPrice*100);
+                }
+                
+            }
+            
+        }
+    
+        function Subfunction(){
+            var count = parseInt(document.getElementById('id_quantity').value);
+            if(count > 1){
+                document.getElementById('id_quantity').value = count-1;
+                var new_price = document.getElementById('id_quantity').value * {{ dish.price }}
+                document.getElementById("id_total_amount").value = new_price
+                setPriceValue(new_price);
+                setPrice();
+            }
+        }
+        function Addfunction(){
+            var count = parseInt(document.getElementById('id_quantity').value);
+            if(count < 50){
+                document.getElementById('id_quantity').value = count+1;
+                var new_price = document.getElementById('id_quantity').value * {{ dish.price }}
+                document.getElementById("id_total_amount").value = new_price
+                setPriceValue(new_price);
+                setPrice();
+            }
+        }
+        
+    </script>
+    <script>
+            class SliderClip {
+                constructor(el) {
+                    this.el = el;
+                    this.Slides = Array.from(this.el.querySelectorAll('li'));
+                    this.Nav = Array.from(this.el.querySelectorAll('nav a'));
+                    this.totalSlides = this.Slides.length;
+                    this.current = 0;
+                    this.autoPlay = true; //true or false
+                    this.timeTrans = 10 * 1000; //transition time in milliseconds 10sec to next slide
+                    this.IndexElements = [];
+
+                    for(let i=0;i<this.totalSlides;i++) {
+                        this.IndexElements.push(i);
+                    }
+
+                    this.setCurret();
+                    this.initEvents();
+                }
+                setCurret() {
+                    this.Slides[this.current].classList.add('current');
+                    this.Nav[this.current].classList.add('current_dot');
+                }
+                initEvents() {
+                    const self = this;
+
+                    this.Nav.forEach((dot) => {
+                        dot.addEventListener('click', (ele) => {
+                            ele.preventDefault();
+                            this.current = this.Nav.indexOf(dot);
+                            this.changeSlide(this.Nav.indexOf(dot));
+                        })
+                    })
+
+                    this.el.addEventListener('mouseover', () => self.autoPlay = false);
+                    this.el.addEventListener('mouseout', () => self.autoPlay = true);
+                    this.el.addEventListener('mouseenter', () => self.autoPlay = false);
+                    this.el.addEventListener('mouseleave', () => self.autoPlay = true);
+
+                    setInterval(function() {
+                        if (self.autoPlay) {
+                            self.current = self.current < self.Slides.length-1 ? self.current + 1 : 0;
+                            self.changeSlide(self.current);
+                        }
+                    }, this.timeTrans);
+
+                }
+                changeSlide(index) {
+
+                    this.Nav.forEach((allDot) => allDot.classList.remove('current_dot'));
+
+                    this.Slides.forEach((allSlides) => allSlides.classList.remove('prev', 'current'));
+
+                    const getAllPrev = value => value < index;
+
+                    const prevElements = this.IndexElements.filter(getAllPrev);
+
+                    prevElements.forEach((indexPrevEle) => this.Slides[indexPrevEle].classList.add('prev'));
+
+                    this.Slides[index].classList.add('current');
+                    this.Nav[index].classList.add('current_dot');
+                }
+            }
+
+            const slider = new SliderClip(document.querySelector('.slider'));
+    </script>
+{% endblock %}

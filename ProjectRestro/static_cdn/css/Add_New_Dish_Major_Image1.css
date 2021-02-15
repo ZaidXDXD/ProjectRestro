@@ -8,23 +8,21 @@
 .field-heading{
     color: #737373;
 }
+
 #id_profile_image_display{
     border: 3px dashed salmon;
     max-width: 400px;
     max-height: 400px;
 }
-#id_confirm{
-    color: green;
-}
+
 #id_confirm:hover {
     opacity: 0.3;
 }
+
 #id_cancel:hover {
     opacity: 0.3;
 }
-#id_cancel{
-    color: red;
-}
+
 .material-icons{
     font-size: 30px;
 }
@@ -57,4 +55,36 @@ input[type="submit"]{
 
 input[type="submit"]:hover{
     background: #16aa56;
+}
+
+#id_cancel{
+    color: white;
+    background-color: #EC7063;
+    border-radius: 5px; 
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;   
+    box-shadow: 2px 2px 0px #CB4335;
+}
+
+#id_cancel:active{
+    box-shadow: 0px 0px 0 #CB4335;
+}
+
+#id_confirm{
+    color: white;
+    background-color: #2ECC71;
+    border-radius: 5px; 
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    color: white;
+    padding: 10px 19px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px #1E8449;
+}
+
+#id_confirm:active{
+    box-shadow: 0 0 0 #1E8449;
 }
