@@ -1,7 +1,7 @@
 .secondary-row{
     margin-top: 3%;
     box-shadow: 2px 5px 10px #E5E7E9;
-    height: 650px;
+    height: 700px;
     padding-top: 2%;
     padding-left: 3%;
     padding-right: 3%;
@@ -55,7 +55,7 @@
 .tertiary-row{
     margin-top: 3%;
     box-shadow: 2px 5px 10px #E5E7E9;
-    height: 650px;
+    height: 700px;
     padding-top: 2%;
     padding-left: 3%;
     padding-right: 3%;
@@ -106,4 +106,17 @@
     margin-bottom: 20px;
 }
 
+#id_major_description{
+    margin: 0 auto;
+    margin-top: 20px;
+}
 
+#id_secondary_description{
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#id_tertiary_description{
+    margin: 0 auto;
+    margin-top: 20px;
+}

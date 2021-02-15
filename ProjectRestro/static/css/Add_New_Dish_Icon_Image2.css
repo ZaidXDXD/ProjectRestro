@@ -4,6 +4,7 @@
     max-width: 500px;
     height: auto;
     position: relative;
+    text-align: center;
 }
 .field-heading{
     color: #737373;
@@ -11,23 +12,20 @@
 #id_profile_image_display{
     
     border: 3px dashed salmon;
-    width : 50%;
-    margin-left: 25%;
+    width : 350px;
+    height: 350px;
     max-width: 800px;
     max-height: 400px;
 }
-#id_confirm{
-    color: green;
-}
+
 #id_confirm:hover {
     opacity: 0.3;
 }
+
 #id_cancel:hover {
     opacity: 0.3;
 }
-#id_cancel{
-    color: red;
-}
+
 .material-icons{
     font-size: 30px;
 }

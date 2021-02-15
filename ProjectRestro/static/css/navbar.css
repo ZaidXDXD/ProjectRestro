@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+#id_nav_header{
+    width:100%; 
+    height: 10vh;
+    position: fixed;
+    display: flex;
+    padding: 10px 30px;
+    box-shadow: 1px 3px 7px #E5E7E9;
+    border-radius: 20px;
+}
+
+#id_menu_btn{
+    font-family: 'Hammersmith One', sans-serif;
+    font-size: 35px;
+    color: #626567;
+    width: 110px;
+    padding: 0px 10px;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+#id_menu_btn a{
+    text-decoration: none;
+    color: #626567;
+    transition: all 0.3s ease;
+}
+
+#id_menu_btn a:hover{
+    color: #F5B041;
+    text-decoration: underline;
+    text-decoration-color: red;
+    font-size: 36px;
+}
+
+#link__array{
+    list-style: none;
+}
+
+#link__array li{
+    display: inline-block;
+    padding:8px 15px; 
+    width: auto;
+    margin: 0 auto;
+    font-size: 18px;
+}
+
+#link__array li a{
+    font-family: 'Hammersmith One', sans-serif;
+    width: 100%;
+    height: 100%;
+    color: #626567;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+#link__array li a:hover{
+    color: #F5B041;
+    text-decoration: underline;
+    text-decoration-color: red;
+    font-size: 21px;
+}
+
+
+#id_leave_btn{
+    padding: 9px 30px;
+    font-family: 'Roboto Slab', serif;
+    margin-left: 4%;
+    margin-right: 2%;
+    font-size: 18px;
+    height: 43px;
+    color: white;
+    background-color: #EC7063;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0px #CB4335;
+    transition: all 0.3s ease;
+}
+
+#id_leave_btn:hover{
+    background-color: #E74C3C;
+}
+
+#id_leave_btn:active{
+    box-shadow: 0px 0px 0px #CB4335;
+}

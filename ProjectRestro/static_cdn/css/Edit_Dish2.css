@@ -204,7 +204,7 @@ label[for="id_description"]{
 .major-row{
     margin-top: 3%;
     box-shadow: 2px 5px 10px #E5E7E9;
-    height: 650px;
+    height: 700px;
     padding-top: 2%;
     padding-left: 3%;
     padding-right: 3%;
@@ -259,7 +259,7 @@ label[for="id_description"]{
     padding: 0 12%;
 }
 
-input[type="submit"]{
+#id_submit_btn_label{
     background: #1FCE6D;
     outline: none;
     border: 0;
@@ -276,9 +276,8 @@ input[type="submit"]{
     margin-bottom: 5px;
 }
 
-input[type="submit"]:active{
-    position: absolute;
-    margin-top: 43px;
+#id_submit_btn_label:active{
+    position: relative;
     box-shadow: 0 0 0 0 white;
 }
 
@@ -298,7 +297,7 @@ input[type="submit"]:active{
     box-shadow: 0 3px 0 0 #CB4335;
     font-family: 'Roboto Slab', serif;
     font-size: 22px;
-    padding: 5px 70px;
+    padding: 5px 69px;
     text-align: center;
     cursor: pointer;
     margin-top: 40px;
@@ -307,8 +306,7 @@ input[type="submit"]:active{
 }
 
 #id_detele_btn_label:active{
-    position: absolute;
-    margin-top: 43px;
+    position: relative;
     box-shadow: 0 0 0 0 white;
 }
 
@@ -324,7 +322,7 @@ input[type="submit"]:active{
     box-shadow: 0 3px 0 0 #2874A6;
     font-family: 'Roboto Slab', serif;
     font-size: 22px;
-    padding: 5px 70px;
+    padding: 5px 65px;
     text-align: center;
     cursor: pointer;
     margin-top: 40px;
@@ -333,7 +331,6 @@ input[type="submit"]:active{
 }
 
 #id_cancel_btn_label:active{
-    position: absolute;
-    margin-top: 43px;
+    position: relative;
     box-shadow: 0 0 0 0 white;
 }
