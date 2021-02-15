@@ -271,6 +271,7 @@ def add_dish_image_major(request, *args, **kwargs):
                 initial={
                     "id" : dish_profile.id,
                     'major_image': dish_profile.major_image,
+                    'major_description': dish_profile.major_description,
                 })
             context['form'] = form
 
@@ -279,6 +280,7 @@ def add_dish_image_major(request, *args, **kwargs):
             initial={
                     "id" : dish_profile.id,
                     'major_image': dish_profile.major_image,
+                    'major_description': dish_profile.major_description,
                 }
         )
         context['form'] = form
@@ -384,6 +386,7 @@ def add_dish_image_secondary(request, *args, **kwargs):
                 initial={
                     "id" : dish_profile.id,
                     'secondary_image': dish_profile.secondary_image,
+                    'secondary_description': dish_profile.secondary_description,
                 })
             context['form'] = form
 
@@ -392,6 +395,7 @@ def add_dish_image_secondary(request, *args, **kwargs):
             initial={
                     "id" : dish_profile.id,
                     'secondary_image': dish_profile.secondary_image,
+                    'secondary_description': dish_profile.secondary_description,
                 }
         )
         context['form'] = form
@@ -499,6 +503,7 @@ def add_dish_image_tertiary(request, *args, **kwargs):
                 initial={
                     "id" : dish_profile.id,
                     'tertiary_image': dish_profile.tertiary_image,
+                    'tertiary_description': dish_profile.tertiary_description, 
                 })
             context['form'] = form
 
@@ -507,6 +512,7 @@ def add_dish_image_tertiary(request, *args, **kwargs):
             initial={
                     "id" : dish_profile.id,
                     'tertiary_image': dish_profile.tertiary_image,
+                    'tertiary_description': dish_profile.tertiary_description, 
                 }
         )
         context['form'] = form
@@ -544,7 +550,10 @@ def edit_dish(request, *args, **kwargs):
                     'icon_image' : dish.icon_image,
                     'major_image': dish.major_image,
                     'secondary_image': dish.secondary_image,
-                    'tertiary_image': dish.tertiary_image,                      
+                    'tertiary_image': dish.tertiary_image,
+                    'major_description': dish.major_description,
+                    'secondary_description': dish.secondary_description,
+                    'tertiary_description': dish.tertiary_description,                      
                 }
             )
     else:
@@ -560,7 +569,10 @@ def edit_dish(request, *args, **kwargs):
                     'icon_image' : dish.icon_image,
                     'major_image': dish.major_image,
                     'secondary_image': dish.secondary_image,
-                    'tertiary_image': dish.tertiary_image,                      
+                    'tertiary_image': dish.tertiary_image, 
+                    'major_description': dish.major_description,
+                    'secondary_description': dish.secondary_description,
+                    'tertiary_description': dish.tertiary_description,                     
                 }
             ) 
 
@@ -593,6 +605,7 @@ def delete_dish(request, *args, **kwargs):
     return redirect('home')
 
 
+#Function To Get Table Number
 def returnTableNumber(filepath):
     try:
         with open(filepath, 'r') as f:
@@ -603,7 +616,6 @@ def returnTableNumber(filepath):
                     if first_word.isnumeric():
                         return first_word
     except Exception as e:
-        print(e)
         return '0'
     else:
         return None
@@ -631,7 +643,10 @@ def dish_page(request, *args, **kwargs):
             print("Invalid Form")
     else:
         form = OrderForm()
+    customer = request.user
+    count_order = Order.objects.filter(customer=customer).filter(status="Pending").count()
     context = {}
+    context['OrderCount'] = count_order
     context['dish'] = dish
     context['form'] = form
     return render(request , 'home/Dish_Page.html', context)

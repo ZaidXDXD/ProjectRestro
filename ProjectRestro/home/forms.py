@@ -32,19 +32,19 @@ class DishesIconImageForm(forms.ModelForm):
 class DishesMajorImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('major_image', )
+        fields = ('major_image', 'major_description', )
 
 # Form -> Dish Secondary Image
 class DishesSecondaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('secondary_image', )
+        fields = ('secondary_image', 'secondary_description',)
     
 # Form -> Dish Tertiary Image
 class DishesTertiaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('tertiary_image', )
+        fields = ('tertiary_image', 'tertiary_description',)
 
 
 # Form -> Dish Edit Form.

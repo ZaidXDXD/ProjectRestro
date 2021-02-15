@@ -63,8 +63,11 @@ class Dishes(models.Model):
     alcohol = models.CharField(max_length=10, null=True, choices=ALCOHOL_CHOICES)
     icon_image = models.ImageField(null=True,blank=True, upload_to=get_icon_image_file_path, default=get_default_icon_image)
     major_image = models.ImageField(null=True,blank=True, upload_to=get_major_image_file_path, default=get_default_major_iamge)
+    major_description = models.CharField(max_length=40, null=True, blank=True)
     secondary_image = models.ImageField(null=True,blank=True, upload_to=get_secondary_image_file_path, default=get_default_secondary_iamge)
+    secondary_description = models.CharField(max_length=40, null=True, blank=True)
     tertiary_image = models.ImageField(null=True,blank=True,  upload_to=get_tertiary_image_file_path, default=get_default_tertiary_iamge)
+    tertiary_description = models.CharField(max_length=40, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -74,7 +77,8 @@ class Dishes(models.Model):
 class Order(models.Model):
     STATUS_CHOICES = (
         ('Pending', 'Pending'),
-        ('Delieverd', 'Delivered'),
+        ('Delivered', 'Delivered'),
+        ('Canelled', 'Canelled'),
     )
     customer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="customer")
     ordered_dish = models.ForeignKey(Dishes, on_delete=models.DO_NOTHING,related_name="dish")

@@ -16,18 +16,15 @@
     max-width: 800px;
     max-height: 400px;
 }
-#id_confirm{
-    color: green;
-}
+
 #id_confirm:hover {
     opacity: 0.3;
 }
+
 #id_cancel:hover {
     opacity: 0.3;
 }
-#id_cancel{
-    color: red;
-}
+
 .material-icons{
     font-size: 30px;
 }

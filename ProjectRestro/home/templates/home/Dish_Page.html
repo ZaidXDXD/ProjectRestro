@@ -19,7 +19,18 @@
                 <li><a href="#">Magazine</a></li>
 				<li><a href="#">About</a></li>
 				<li><a href="#">Profile</a></li>
-				<li ><a href="#" >Cart<span class="badge badge-info">21</span></a></li>
+				<li >
+                    <a href="#" >
+                        Cart
+                        {% if OrderCount %}
+                            {% if OrderCount < 20 %}
+                                <span class="badge badge-info">{{ OrderCount }}</span>
+                            {% else %}
+                                <span class="badge badge-info">20+</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </li>
             </ul>
         </nav>
         <a href="#" id="id_leave_btn" >Leave</a>
@@ -85,7 +96,9 @@
                     <div>
                         <input class="d-none" type="text" name="table_number" maxlength="100" required="" id="id_table_number" value="D:/table.txt">
                     </div>
-                    <input type="submit">
+                    <div id="id_submit_container">
+                        <input type="submit" value = 'Add To Cart'>
+                    </div>
                 </form>
             {% endif %}
         </div>
@@ -95,17 +108,29 @@
         <ul>
             <li style="background-image:url('{{ dish.major_image.url }}')">
             <div class="center-y">
-                <h3>Slider Title #1</h3>	
+                {% if form.initial.major_description == "" %}
+                    <h3>Slider Title #1</h3>
+                {% else %}
+                    <h3>{{ dish.major_description }}</h3>
+                {% endif %}	
             </div>
             </li>
             <li style="background-image:url('{{ dish.secondary_image.url }}')">
             <div class="center-y">
-                <h3>Slider Title #2</h3>	
+                {% if form.initial.secondary_description == "" %}
+                    <h3>Slider Title #2</h3>
+                {% else %}
+                    <h3>{{ dish.secondary_description }}</h3>
+                {% endif %}	
             </div>
             </li>
             <li style="background-image:url('{{ dish.tertiary_image.url }}')">
             <div class="center-y">
-                <h3>Slider Title #3</h3>	
+                {% if form.initial.tertiary_description == "" %}
+                    <h3>Slider Title #3</h3>
+                {% else %}
+                    <h3>{{ dish.tertiary_description }}</h3>
+                {% endif %}	
             </div>
             </li>
         </ul>
@@ -140,7 +165,13 @@
                 document.getElementById('id_price_decimal').innerHTML = "00";    
             }
             else{
-                document.getElementById('id_price_decimal').innerHTML = "" + parseInt(decimalPart*100);
+                if(decimalPart < 0.10){
+                    document.getElementById('id_price_decimal').innerHTML = "0" + parseInt(decimalPart*100);    
+                }
+                else{
+                    document.getElementById('id_price_decimal').innerHTML = "" + parseInt(decimalPart*100);
+                }
+                
             }
             
         }
@@ -157,7 +188,13 @@
                 document.getElementById('id_total_price_decimal').innerHTML = "00";    
             }
             else{
-                document.getElementById('id_total_price_decimal').innerHTML = "" + parseInt(decimalPrice*100);
+                if(decimalPrice < 0.10){
+                    document.getElementById('id_total_price_decimal').innerHTML = "0" + parseInt(decimalPrice*100);    
+                }
+                else{
+                    document.getElementById('id_total_price_decimal').innerHTML = "" + parseInt(decimalPrice*100);
+                }
+                
             }
             
         }
