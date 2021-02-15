@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static  widget_tweaks %}
+
+{% block stylesheet %}
+
+    <!-- Google fonts -->
+    <!-- for stats -->
+  	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Reggae+One&display=swap" rel="stylesheet">
+
+	<!-- for text -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+	<!-- for menu title -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lobster&display=swap" rel="stylesheet">
+	<!-- - -->
+
+	<link rel="stylesheet" href="{% static 'css/Menu_Card.css' %}">
+
+{% endblock %}
+
+{% block body %}
+
+	
+	<div class='dishContainer beveragesContainer' id="beverages">
+		<div class='menuTitle'>
+			Beverages
+		</div>
+		
+		{% for dish in beverage_dishes %}
+			<div class="beverages dishCard" name = "{{ dish.food_tag }}">
+			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}');"></div>
+				<div class="dishCard-text">
+				    {{ dish.name }}
+				</div>
+				<div class="dishCard-stats">
+				   Rs. {{ dish.price }}/-
+			  	</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class='dishContainer startersContainer' id="starters">
+		<div class='menuTitle'>
+			Starters
+		</div>
+		{% for dish in starter_dishes %}
+			<div class="starters dishCard" name = "{{ dish.food_tag }}">
+			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}');"></div>
+				<div class="dishCard-text">
+				    {{ dish.name }}
+				</div>
+				<div class="dishCard-stats">
+				   Rs. {{ dish.price }}/-
+			  	</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class='dishContainer maincourseContainer' id="main-course">
+		<div class='menuTitle'>
+			Main Course
+		</div>
+		{% for dish in main_course_dishes %}
+			<div class="main-course dishCard" name = "{{ dish.food_tag }}">
+			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}');"></div>
+				<div class="dishCard-text">
+				    {{ dish.name }}
+				</div>
+				<div class="dishCard-stats">
+				   Rs. {{ dish.price }}/-
+			  	</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class='dishContainer dessertsContainer' id="desserts">
+		<div class='menuTitle'>
+			Dessert
+		</div>
+		{% for dish in dessert_dishes %}
+			<div class="desserts dishCard" name = "{{ dish.food_tag }}">
+			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}');"></div>
+				<div class="dishCard-text">
+				    {{ dish.name }}
+				</div>
+				<div class="dishCard-stats">
+				   Rs. {{ dish.price }}/-
+			  	</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	{% include "./menu_sidebar.html" %}
+
+	{% include "./filter.html" %}
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'js/menu_page.js' %}"></script>  
+{% endblock %}

@@ -1,0 +1,88 @@
+{% load static %}
+{% block stylesheet %}
+	<link rel="stylesheet" href="{% static 'css/filter.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{% endblock %}
+
+<!-- filter Button -->
+<div class="filter-button">
+  <div class="filter-container">
+      <span class="btn effect01">
+      	<img class="filter-icon" src="{% static 'img/Icons/white_filter_icon.png' %}" alt="Filter Icon">
+      	FILTER
+      </span>
+  </div>
+</div>
+
+<!-- ------------------ -->
+
+
+<!-- filter menu -->
+<div class="filter-menu">
+	<div>
+		<div class="close-container" onclick="updateDishes()">
+		  <div class="leftright"></div>
+		  <div class="rightleft"></div>
+		</div>
+
+		<header> Filter Your Dish </header>
+	</div>
+
+	<div class="toggle-switch">
+		<div id="toggles">
+		  <input type="checkbox" onclick="changeTheState()" name="checkbox1" 
+		  id="checkbox1" class="ios-toggle" />
+		  <label for="checkbox1" class="checkbox-label" data-off="off" data-on="on"></label>
+		</div>
+	</div>
+
+	<div class="choice-container">
+		<!-- starter filter -->
+		<div class="choice unclickable">
+			<ul>
+				<li class="heading">Starters</li>
+				<hr>
+			{% for key, value in starters.items %}
+				<li><label class="choice-checkbox starter-label"><input type="checkbox" name="starter-checkbox" value="{{value}}" onclick="updateStarters(this)" checked>  {{value}}</label></li>
+			{% endfor %}
+			</ul>
+		</div>
+
+		<div class="choice unclickable">
+			<ul>
+				<li class="heading">Beverages</li>
+				<hr>
+			{% for key, value in beverages.items %}
+				<li><label class="choice-checkbox beverage-label"><input type="checkbox" name="beverage-checkbox" value="{{value}}" onclick="updateBeverages(this)" checked>  {{value}}</label></li>
+			{% endfor %}
+			</ul>
+		</div>
+
+		<div class="choice unclickable">
+			<ul>
+				<li class="heading">main-course</li>
+				<hr>
+			{% for key, value in main_course.items %}
+				<li><label class="choice-checkbox main-course-label"><input type="checkbox" name="main-course-checkbox" value="{{value}}" onclick="updateMainCourse(this)" checked>  {{value}}</label></li>
+			{% endfor %}
+			</ul>
+		</div>
+
+		<div class="choice unclickable">
+			<ul>
+				<li class="heading">Desserts</li>
+				<hr>
+			{% for key, value in desserts.items %}
+				<li><label class="choice-checkbox dessert-label"><input type="checkbox" name="dessert-checkbox" value="{{value}}" onclick="updateDesserts(this)" checked>  {{value}}</label></li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+<!-- ----------------------------- -->
+
+{% block javascript %}
+	<script src="{% static 'js/filter.js' %}"></script>  
+{% endblock %}

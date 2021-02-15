@@ -7,6 +7,8 @@ from home.views import (
     
     adddish,
 
+    menuPage,
+
     crop_icon_image,
     add_dish_image_icon, 
     
@@ -29,6 +31,8 @@ urlpatterns = [
     path("add_tag/",tagpage, name="addtag"),
 
     path('add_dish/', adddish, name="addDish"),
+
+    path("menu_page/", menuPage, name="menuPage"),
 
     path('add_dish/addIconImage/<dish_id>',add_dish_image_icon , name="addIconImage"),
     path('add_dish/addIconImage/<dish_id>/cropIconImage/',crop_icon_image, name="crop_icon_image" ),
