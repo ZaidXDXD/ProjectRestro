@@ -225,7 +225,7 @@ def crop_major_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
             
-            crop_img = cv2.resize(crop_img,(1000,1000))
+            crop_img = cv2.resize(crop_img,(900,900))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.major_image.url) != "\media\Restro\default_major_image.jpg"):
@@ -340,7 +340,7 @@ def crop_secondary_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
-            crop_img = cv2.resize(crop_img,(1000,1000))
+            crop_img = cv2.resize(crop_img,(900,900))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.secondary_image.url) != "\media\Restro\default_secondary_image.jpg"):
@@ -457,7 +457,7 @@ def crop_tertiary_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
-            crop_img = cv2.resize(crop_img,(1000,1000))
+            crop_img = cv2.resize(crop_img,(900,900))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.tertiary_image.url) != "\media\Restro\default_tertiary_image.jpg"):
