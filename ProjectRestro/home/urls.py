@@ -25,6 +25,7 @@ from home.views import (
     dish_page,
 )
 
+#Home Urls
 urlpatterns = [
     path("", home, name='home'),
 
