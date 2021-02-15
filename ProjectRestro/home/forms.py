@@ -1,7 +1,11 @@
 from django import forms
 from django.forms.widgets import TextInput
 
-from .models import Tag, Dishes
+from .models import (
+    Tag, 
+    Dishes, 
+    Order,
+)
 
 # Form -> Add Tag 
 class TagForm(forms.ModelForm):
@@ -28,19 +32,19 @@ class DishesIconImageForm(forms.ModelForm):
 class DishesMajorImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('major_image', )
+        fields = ('major_image', 'major_description', )
 
 # Form -> Dish Secondary Image
 class DishesSecondaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('major_image', )
+        fields = ('secondary_image', 'secondary_description',)
     
 # Form -> Dish Tertiary Image
 class DishesTertiaryImageForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = ('tertiary_image', )
+        fields = ('tertiary_image', 'tertiary_description',)
 
 
 # Form -> Dish Edit Form.
@@ -48,4 +52,9 @@ class EditDishForm(forms.ModelForm):
     class Meta:
         model = Dishes
         fields = "__all__"
-        exclude = ('like',)
+
+# Form -> Order Form
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('customer','ordered_dish', 'quantity', 'total_amount', "table_number")

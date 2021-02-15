@@ -27,7 +27,7 @@
                 <div class="row">
 
                     <!-- Consist Only Icon Image -->
-                    <div class="col-4" id="id_icon_image_display_container">
+                    <div class="col-5" id="id_icon_image_display_container">
                         <div class="d-flex flex-row justify-content-between" id="id_icon_image_crop_confirm">
                             <span id="id_icon_cancel">Cancel</span>
                             <span id="id_icon_confirm">Crop</span>
@@ -45,7 +45,7 @@
                     </div>
 
                     <!-- Consist Only Details Except Description -->
-                    <div class="col-8" id="id_dish_details_container">
+                    <div class="col-7" id="id_dish_details_container">
                         <div class = "form-group">
                             <label class = "label_" for="id_name">Dish's Name:</label>
                             <input class = "form-control" type="text" autocomplete='off' name="name" placeholder="Name Of The Dish" maxlength="255" id="id_name" value="{{ form.initial.name }}">
@@ -159,6 +159,9 @@
                                 <div class="text" id="id_major_text"><i class="fa fa-upload" aria-hidden="true"></i>   Upload</div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <input class = "form-control" type="text" autocomplete='off' name="major_description" placeholder="Add Few Words About It. . . . " maxlength="40" required="" id="id_major_description" value="{{ form.initial.major_description }}">
+                        </div>
                         <input class="d-none" type="file" name="major_image" id="id_major_image" onchange="readMajorURL(this)">
                     </div>
                 </div>
@@ -178,6 +181,9 @@
                                 <div class="text" id="id_secondary_text"><i class="fa fa-upload" aria-hidden="true"></i>    Upload</div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <input class = "form-control" type="text" autocomplete='off' name="secondary_description" placeholder="Add Few Words About It. . . . " maxlength="40" required="" id="id_secondary_description"  value="{{ form.initial.secondary_description }}">
+                        </div>
                         <input class="d-none" type="file" name="secondary_image" id="id_secondary_image" onchange="readSecondaryURL(this)">
                     </div>
                 </div>
@@ -196,6 +202,9 @@
                             <div class="middle" id="id_tertiary_middle_container">
                                 <div class="text" id="id_tertiary_text"><i class="fa fa-upload" aria-hidden="true"></i>   Upload</div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <input class = "form-control" type="text" autocomplete='off' name="tertiary_description" placeholder="Add Few Words About It. . . . " maxlength="40" required="" id="id_tertiary_description" value="{{ form.initial.tertiary_description }}">
                         </div>
                         <input class="d-none" type="file" name="tertiary_image" id="id_tertiary_image" onchange="readTertiaryURL(this)">
                     </div>
@@ -404,7 +413,7 @@
                     var iconimageField = document.getElementById('id_icon_image_display')
                     iconimageField.src = icon_image
                     cropper_icon = new Cropper(iconimageField, {
-                                            aspectRatio: 3/4,
+                                            aspectRatio: 1/1,
                                             crop(event){
                                                 setIconImageCropProperties(
                                                     icon_image,

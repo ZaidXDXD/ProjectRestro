@@ -97,6 +97,7 @@ form{
     font-size: 17px;
     outline: none;
 }
+
 .form-control{
     border: none;
     border-bottom: 2px solid #6D7781;
@@ -271,8 +272,13 @@ input[type="submit"]{
     margin-top: 40px;
     margin-right: 30px;
     margin-bottom: 5px;
+    box-shadow: 3px 3px 0px #229954;
+    transition: all 0.3s ease; 
 }
 
+input[type="submit"]:active{
+    box-shadow: 0px 0px 0px #229954;
+}
 
 .button-div a, a:hover, a:visited{
     text-decoration: none;
@@ -282,7 +288,7 @@ input[type="submit"]{
 }
 
 .cancel-link{
-    background: #E74C3C;
+    background: #EC7063;
     padding: 6px 65px;
     border: 0;
     width: 200px;
@@ -295,5 +301,11 @@ input[type="submit"]{
     cursor: pointer;
     margin-top: 40px;
     margin-bottom: 5px;
+    box-shadow: 3px 3px 0px #CB4335;
+    transition: all 0.3s ease;
+}
+
+.cancel-link:active{
+    box-shadow: 0px 0px 0px #CB4335;
 }
 
