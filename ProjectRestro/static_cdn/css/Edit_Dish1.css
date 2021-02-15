@@ -68,11 +68,11 @@
 }
 
 #id_icon_image_container{
-    max-width: 300px;
-    max-height: 400px;
+    max-width: 295px;
+    max-height: 300px;
     height: 400px;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 50px;
 }
 
 #id_icon_image_container img{

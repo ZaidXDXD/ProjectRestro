@@ -241,7 +241,7 @@
                     var imageField = document.getElementById('id_profile_image_display')
                     imageField.src = icon_image
                     cropper = new Cropper(imageField, {
-                                        aspectRatio: 3/4,
+                                        aspectRatio: 1/1,
                                         crop(event){
                                             console.log("CROP START")
                                             console.log("x: " + event.detail.x);

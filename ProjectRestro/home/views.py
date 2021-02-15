@@ -113,7 +113,7 @@ def crop_icon_image(request, *args, **kwargs):
 
             crop_img = img[cropY:cropY+cropHeight, cropX:cropX+cropWidth]
 
-            crop_img = cv2.resize(crop_img,(300,400))
+            crop_img = cv2.resize(crop_img,(400,400))
             cv2.imwrite(url, crop_img)
 
             if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
