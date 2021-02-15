@@ -37,6 +37,8 @@ urlpatterns = [
 
     path('add_dish/addIconImage/<dish_id>',add_dish_image_icon , name="addIconImage"),
 
+    path('dish/<dish_id>/', dish_page, name = 'dishPage'),
+    
     path('add_dish/addIconImage/<dish_id>/cropIconImage/',crop_icon_image, name="crop_icon_image" ),
 
     path('add_dish/addMajorImage/<dish_id>',add_dish_image_major , name="addMajorImage"),
@@ -49,6 +51,8 @@ urlpatterns = [
     path('add_dish/addTertiaryImage/<dish_id>/cropTertiaryImage/',crop_tertiary_image, name="crop_tertiary_image" ),
 
     path('edit_dish/<dish_id>/', edit_dish, name="editDish"),
+
     path('edit_dish/<dish_id>/delete', delete_dish, name="deleteDish"),
+
     
 ]
