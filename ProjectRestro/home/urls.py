@@ -23,6 +23,8 @@ from home.views import (
     
     edit_dish,
     delete_dish,
+
+    dish_page,
 )
 
 #Home Urls
