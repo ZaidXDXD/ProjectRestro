@@ -63,16 +63,16 @@ def adddish(request):
 
 # View for showing the menu page
 def menuPage(request):
-    cnt = range(100);
+    cnt = range(100)
 
-    dishes = Dishes.objects.all();
+    dishes = Dishes.objects.all()
 
     # ----------------------------------------
-    beverages = {};
-    starters = {};
-    main_course = {};
+    beverages = {}
+    starters = {}
+    main_course = {}
     desserts = {}
-    tags = Tag.objects.all();
+    tags = Tag.objects.all()
 
     for tag in tags:
         if tag.course == 'Beverage':
@@ -84,7 +84,7 @@ def menuPage(request):
         else:
             desserts[tag.name] = tag.name
 
-    dishes = Dishes.objects.all();
+    dishes = Dishes.objects.all()
 
     beverage_dishes = []
     starter_dishes = []

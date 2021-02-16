@@ -45,16 +45,18 @@ input[type="submit"]{
     color: #fff;
     font-family: 'Roboto Slab', serif;
     font-size: 22px;
-    font-style: bold;
     cursor: pointer;
     margin-left: 39%;
     margin-top: 40px;
     margin-bottom: 5px;
-    transition: background .3s ease-in-out;
+    outline: none;
+    box-shadow: 3px 3px 0px #229954;
+    transition: all 0.3s ease; 
 }
 
-input[type="submit"]:hover{
-    background: #16aa56;
+input[type="submit"]:active{
+    box-shadow: 0px 0px 0px #229954;
+    outline: none;
 }
 
 #id_cancel{
