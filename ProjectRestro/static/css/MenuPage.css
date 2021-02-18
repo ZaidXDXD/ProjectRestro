@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@700&family=Yusei+Magic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Benne&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+.Major-Container{
+    position: relative;
+    width: 100%;
+    top: 10vh;
+    height: auto;
+    padding: 1% 4%;
+    z-index: 0;
+}
+
+.ml15 {
+    font-family: 'Merienda', cursive;
+    font-weight: 800;
+    font-size: 4rem;
+    text-transform: capitalize;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    margin-bottom: 30px;
+    cursor: default;
+    animation: underline 0.5s 1600ms linear forwards;
+}
+  
+.ml15 .word{
+    color: #F4D03F;
+    display: inline-block;
+    line-height: 1em;
+    animation: underline 0.5s 1600ms linear forwards;
+}
+
+@keyframes underline{
+    0%{
+        text-decoration: underline;
+        text-decoration-thickness: 5px;
+        text-decoration-color: #FADBD8;
+    }
+    25%{
+        text-decoration: underline;
+        text-decoration-thickness: 5px;
+        text-decoration-color: #F5B7B1;
+    }
+    50%{
+        text-decoration: underline;
+        text-decoration-thickness: 5px;
+        text-decoration-color: #F1948A;
+    }
+    75%{
+        text-decoration: underline;
+        text-decoration-thickness: 5px;
+        text-decoration-color: #EC7063;
+    }
+    100%{
+        text-decoration: underline;
+        text-decoration-thickness: 5px;
+        text-decoration-color: #E74C3C;
+    }
+}
+
+.food-menu{
+    width: 100%;
+    height: auto;
+    padding: 2% 0%;
+}
+.container{
+    position: relative;
+    padding: 0;
+    margin: 0 0;
+    width: 100%;
+    height: auto;
+    margin-bottom: 4rem;
+}   
+
+#id_tag_name{
+    font-family: 'Yusei Magic', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #F5B041;
+    text-transform: capitalize;
+    letter-spacing: 0.1rem;
+    margin-bottom: 4rem;
+    border-bottom: 2px solid red;
+    cursor: default;
+}
+
+.wrapper{
+    display: grid;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: repeat(4,220px);
+    grid-auto-rows: minmax(300px , auto);
+    justify-items: center;
+    grid-gap: 5rem;
+}
+
+.wrapper > div{
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 4px 8px #D7DBDD;
+    display: grid;
+    grid-template-rows: 220px 45px 35px;
+    align-items: stretch;
+    justify-items: stretch;
+}
+
+.wrapper > div > img {
+    width: 220px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 220px;
+}
+
+.wrapper > div > p{
+    background-color: white;
+    text-align: center;
+    margin: 0;
+
+}
+
+#id_dish_name{
+    padding: 6px 0px;
+    color: #F1C40F;
+    font-family: 'Benne', serif;
+    font-size: 1.7rem;
+    overflow: hidden;
+    text-decoration: underline;;
+    text-decoration-color: red;
+    text-decoration-thickness: 2px;
+}
+
+#id_dish_price{
+    color: #797D7F;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.1rem;
+}
+
+.card{
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.card:hover{
+    transform: scale(1.1);
+}

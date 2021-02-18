@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static widget_tweaks %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/MenuPage.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% include './navbar.html' %}
+    <section class="Major-Container">
+        <h1 class="ml15">
+            <span class="word">Our</span>
+            <span class="word">Menu</span>
+        </h1>
+
+        <div class="food-menu">
+            {% for tag, dishes in EveryDish.Beverage.items %}
+                <div class="container">
+                     <h2 id="id_tag_name">{{ tag }}</h2>
+                     <div class="wrapper">
+                         {% for dish in dishes %}
+                            <div class="card" onclick="DishPage({{ dish.id }})">
+                                <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                                <p id="id_dish_name">{{ dish.name }}</p>
+                                <p id="id_dish_price">&#x20B9;{{ dish.price }}</p>
+                            </div>
+                         {% endfor %}
+                     </div>
+                </div>
+            {% endfor %}
+
+            {% for tag, dishes in EveryDish.Starter.items %}
+                <div class="container">
+                     <h2 id="id_tag_name">{{ tag }}</h2>
+                     <div class="wrapper">
+                         {% for dish in dishes %}
+                            <div class="card" onclick="DishPage({{ dish.id }})">
+                                <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                                <p id="id_dish_name" >{{ dish.name }}</p>
+                                <p id="id_dish_price">&#x20B9;{{ dish.price }}</p>
+                            </div>
+                         {% endfor %}
+                     </div>
+                </div>
+            {% endfor %}
+            {% for tag, dishes in EveryDish.MainCourse.items %}
+                <div class="container">
+                     <h2 id="id_tag_name">{{ tag }}</h2>
+                     <div class="wrapper">
+                         {% for dish in dishes %}
+                            <div class="card" onclick="DishPage({{ dish.id }})">
+                                <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">    
+                                <p id="id_dish_name" >{{ dish.name }}</p>
+                                <p id="id_dish_price" >&#x20B9;{{ dish.price }}</p>
+                            </div>
+                         {% endfor %}
+                     </div>
+                </div>
+            {% endfor %}
+            {% for tag, dishes in EveryDish.Dessert.items %}
+                <div class="container">
+                     <h2 id="id_tag_name">{{ tag }}</h2>
+                     <div class="wrapper">
+                         {% for dish in dishes %}
+                            <div class="card" onclick="DishPage({{ dish.id }})">
+                                <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                                <p id="id_dish_name" >{{ dish.name }}</p>
+                                <p id="id_dish_price" >&#x20B9;{{ dish.price }}</p>
+                            </div>
+                         {% endfor %}
+                     </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>  
+{% endblock %}
+
+
+{% block javascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script>
+        anime.timeline({loop: 1})
+            .add({
+                    targets: '.ml15 .word',
+                    scale: [14,1],
+                    opacity: [0,1],
+                    easing: "easeOutCirc",
+                    duration: 800,
+                    delay: (el, i) => 800 * i
+            })
+    </script>
+    <script>
+        function DishPage(DishId){
+            console.log(DishId);
+            var dish_url = "{% url 'home' %}" + 'dish/' + DishId
+            console.log(dish_url);
+            window.open(dish_url,"_self")
+        }
+    </script>
+{% endblock %}

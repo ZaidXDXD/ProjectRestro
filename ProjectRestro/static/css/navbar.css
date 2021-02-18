@@ -10,6 +10,7 @@
     box-shadow: 1px 3px 7px #E5E7E9;
     border-radius: 20px;
     background: white;
+    z-index: 99;
 }
 
 #id_menu_btn{
@@ -88,4 +89,10 @@
 
 #id_leave_btn:active{
     box-shadow: 0px 0px 0px #CB4335;
+}
+
+#id_order_count{
+    position: relative;
+    top: -10px;
+    font-size: 14px;
 }

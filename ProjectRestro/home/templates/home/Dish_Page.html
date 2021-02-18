@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/jquery.nice-number.css' %}">
     <link rel="stylesheet" href="{% static 'css/Dish_Page1.css' %}">
     <link rel="stylesheet" href="{% static 'css/Dish_Page2.css' %}">
     <link rel="stylesheet" href="{% static 'css/Dish_Page3.css' %}">
@@ -12,29 +11,7 @@
 
 {% block body %}
 
-    <header id="id_nav_header">
-        <p id="id_menu_btn"><a href="#">Menu</a></p>
-        <nav>
-            <ul id="link__array">
-                <li><a href="#">Magazine</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Profile</a></li>
-				<li >
-                    <a href="#" >
-                        Cart
-                        {% if OrderCount %}
-                            {% if OrderCount < 20 %}
-                                <span class="badge badge-info">{{ OrderCount }}</span>
-                            {% else %}
-                                <span class="badge badge-info">20+</span>
-                            {% endif %}
-                        {% endif %}
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <a href="#" id="id_leave_btn" >Leave</a>
-    </header>
+    {% include './navbar.html' %}
     <section class="intro">
         <div class="left">
         <div>
@@ -160,7 +137,7 @@
         
         function setInitialPrice(){
             var intPart = parseInt({{ dish.price }});
-            var decimalPart = {{ dish.price }}%1;
+            var decimalPart = ({{ dish.price }}%1).toFixed(2);
             document.getElementById('id_price_int').innerHTML = "&#x20B9;"  + intPart + ".";
             if(parseInt(decimalPart*100) == 0){
                 document.getElementById('id_price_decimal').innerHTML = "00";    
@@ -179,7 +156,7 @@
         
         function setPriceValue(dishprice = {{ dish.price }}){
             intPrice = parseInt(dishprice);
-            decimalPrice = dishprice%1;
+            decimalPrice = (dishprice%1).toFixed(2);
         
         }
 
@@ -231,7 +208,7 @@
                     this.totalSlides = this.Slides.length;
                     this.current = 0;
                     this.autoPlay = true; //true or false
-                    this.timeTrans = 10 * 1000; //transition time in milliseconds 10sec to next slide
+                    this.timeTrans = 6 * 1000; //transition time in milliseconds 10sec to next slide
                     this.IndexElements = [];
 
                     for(let i=0;i<this.totalSlides;i++) {

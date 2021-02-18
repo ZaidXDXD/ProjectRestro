@@ -1,0 +1,21 @@
+<header id="id_nav_header">
+    <p id="id_menu_btn"><a href="{% url 'menuPage' %}">Menu</a></p>
+    <nav>
+        <ul id="link__array">
+            <li><a href="#">About</a></li>
+            <li >
+                <a href="#" >
+                    Cart
+                    {% if OrderCount %}
+                        {% if OrderCount <= 20 %}
+                            <span id="id_order_count" class="badge badge-info">{{ OrderCount }}</span>
+                        {% else %}
+                            <span id="id_order_count" class="badge badge-info">20+</span>
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <a href="#" id="id_leave_btn" >Leave</a>
+</header>

@@ -25,6 +25,7 @@ from home.views import (
     delete_dish,
 
     dish_page,
+
 )
 
 #Home Urls
@@ -35,7 +36,8 @@ urlpatterns = [
 
     path('add_dish/', adddish, name="addDish"),
 
-    path("menu_page/", menuPage, name="menuPage"),
+    path("menu/", menuPage, name="menuPage"),
+
 
     path('add_dish/addIconImage/<dish_id>',add_dish_image_icon , name="addIconImage"),
 

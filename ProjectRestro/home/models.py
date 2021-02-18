@@ -7,7 +7,7 @@ class Tag(models.Model):
     COURSE_CATEGORY = (
         ('Beverage', 'Beverage'),
         ('Starter', 'Starter'),
-        ('Main-Course', 'Main-Course'),
+        ('MainCourse', 'Main-Course'),
         ('Dessert', 'Dessert'),
     )
     name = models.CharField(max_length=255, null=True, unique=True)

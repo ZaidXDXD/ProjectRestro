@@ -61,49 +61,6 @@ def adddish(request):
         form = DishesForm()
     return render(request, 'home/Add_New_Dish_Details.html', {'tags' : tags, "form" : form})
 
-# View for showing the menu page
-def menuPage(request):
-    cnt = range(100)
-
-    dishes = Dishes.objects.all()
-
-    # ----------------------------------------
-    beverages = {}
-    starters = {}
-    main_course = {}
-    desserts = {}
-    tags = Tag.objects.all()
-
-    for tag in tags:
-        if tag.course == 'Beverage':
-            beverages[tag.name] = tag.name
-        elif tag.course == 'Starter':
-            starters[tag.name] = tag.name
-        elif tag.course == 'Main-Course':
-            main_course[tag.name] = tag.name
-        else:
-            desserts[tag.name] = tag.name
-
-    dishes = Dishes.objects.all()
-
-    beverage_dishes = []
-    starter_dishes = []
-    main_course_dishes = []
-    dessert_dishes = []
-
-    for dish in dishes:
-        if dish.food_tag.name in beverages:
-            beverage_dishes.append(dish)
-        elif dish.food_tag.name in starters:
-            starter_dishes.append(dish)
-        elif dish.food_tag.name in main_course:
-            main_course_dishes.append(dish)
-        else:
-            dessert_dishes.append(dish)
-    # ----------------------------------------
-
-    context = {"cnt" : cnt, "beverages" : beverages, "starters" : starters, "main_course" : main_course, "desserts" : desserts, 'beverage_dishes' : beverage_dishes, 'starter_dishes' : starter_dishes, 'main_course_dishes' : main_course_dishes, 'dessert_dishes' : dessert_dishes}
-    return render(request, 'home/menu.html', context)
 
 # View For Add Icon Image
 
@@ -664,7 +621,28 @@ def returnTableNumber(filepath):
         return None
 
 
-#Fucntion To Visit Menu Page.
+# View for showing the menu page
+@login_required(login_url="login")
+def menuPage(request):
+    dishes = Dishes.objects.all()
+    EveryDish = {}
+    EveryDish['Beverage'] = {}
+    EveryDish['Starter'] = {}
+    EveryDish['MainCourse'] = {}
+    EveryDish['Dessert'] = {}
+    
+    for dish in dishes:
+        if dish.food_tag.name not in EveryDish[dish.food_tag.course]:
+            EveryDish[dish.food_tag.course][dish.food_tag.name] = []
+            EveryDish[dish.food_tag.course][dish.food_tag.name].append(dish)
+        else:
+            EveryDish[dish.food_tag.course][dish.food_tag.name].append(dish)
+    customer = request.user
+    count_order = Order.objects.filter(customer=customer).filter(status="Pending").count()
+    context = {'EveryDish' : EveryDish, "OrderCount" : count_order}
+    return render(request, 'home/MenuPage.html', context)
+
+#View For Menu Page.
 @login_required(login_url="login")
 def dish_page(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
@@ -681,7 +659,7 @@ def dish_page(request, *args, **kwargs):
                 total_amount = form.cleaned_data['total_amount'],
                 table_number = returnTableNumber(TABLE_PATH),
             )
-            return redirect('home')
+            return redirect('menuPage')
         else:
             print("Invalid Form")
     else:
@@ -693,3 +671,5 @@ def dish_page(request, *args, **kwargs):
     context['dish'] = dish
     context['form'] = form
     return render(request , 'home/Dish_Page.html', context)
+
+
