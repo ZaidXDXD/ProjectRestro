@@ -34,7 +34,7 @@ def loginpage(request):
         if user is not None:
             if user.check_password(raw_password=password):
                 auth_login(request, user)
-                return redirect('home') 
+                return redirect('menuPage') 
             else:
                 messages.info(request, "Please Check Your Usename And Password They Were Incorrect!")
         else:

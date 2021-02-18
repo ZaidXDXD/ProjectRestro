@@ -17,7 +17,8 @@ a {
 	position: relative;
 	top: 10vh;
 	width: 100%;
-	height: 90vh;	
+	height: 100vh;
+	z-index: -1;	
 }
 .left {
 	float: left;
@@ -57,7 +58,8 @@ p + a {
 }
 .slider {
 	float: right;
-	position: relative;
+	position: fixed;
+	right: 0;
 	width: 56%;
 	height: 100%;
 }
@@ -106,9 +108,9 @@ li.prev {
 	clip: rect(0, 0, 100vh, 0);
 }
 .slider nav {
-	position: absolute;
+	position: fixed;
 	bottom: 10%;
-	left: 0;
+	left: 50%;
 	right: 0;
 	text-align: center;
 	z-index: 10;
