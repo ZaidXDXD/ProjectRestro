@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% include static %}
+
+{% block body %}
+	{% include "./CSS/my_cart_css.html" %}
+	
+	{% include "./navbar.html" %}
+	
+<!-- INSIDE MASTER -->
+
+	<div class="cartContainer ">
+		<div class="heading ">My Cart (2)</div>
+
+		{% for i in cnt %}
+			<div class="item ">
+				<div class="imageDetails ">
+					<div class="imageContainer temp" style="background: url('/media/DishImages/3/icon_image.png'); background-size: cover; background-position: center;">
+						<!-- image -->
+					</div>
+					<div class="countContainer ">
+						<div class="removeItem "> - </div>
+						<div class="itemCount ">
+							1	
+						</div>
+						<div class="addItem "> + </div>
+					</div>
+				</div>
+
+
+				<!-- ORDER DETAILS -->
+				<div class="orderDetails  ">
+					<div class="itemHeading ">
+						Dish Name
+					</div>
+					<div class="dishInfo">
+						<div class="itemTag ">Item Tag</div>
+						<div class="itemCategory ">category</div>
+					</div>
+					
+					<div class="dishDetails ">
+						You have a div (div1) with two other divs (div2 and div3) inside. div2 floats left and consequently div3 goes up on the right. But what if you want the parent (div1) to have a border? You’ll see that it will drop the height because the child elements are floating.
+
+What you have to do in this case, to maintain the parent element as high as the child elements – in order to display the border nicely around the children – is apply the
+					</div>
+
+					<div class="priceInfo">
+						<div class="itemPrice ">&#8377; 250/-</div>
+						<div class="removeFromCart "><div>Remove</div></div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="priceContainer ">
+		hello
+	</div>
+	
+<!-- INside Master -->
+
+{% endblock %}

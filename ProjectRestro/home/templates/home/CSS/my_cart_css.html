@@ -1,0 +1,257 @@
+<style>
+
+	body{
+		background-color: #f1f3f6;
+		user-select: none;
+	}
+
+	.temp{
+		border: 1px solid;
+	}
+
+	.cartContainer{
+		display: inline-grid;
+		margin-top: 100px;
+		margin-left: 200px;
+		padding: 10px;
+		width: 50vw;
+		/*height: 50vh;*/
+
+		font-family: Roboto,Arial,sans-serif;
+		background-color: white;
+		box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
+	}
+
+	.heading{
+		height: 60px;
+		font-size: 22px;
+		/*line-height: 60px;*/
+		margin: auto 0;
+
+		font-family: Roboto,Arial,sans-serif;
+		font-weight: 700;
+	}
+
+	.item{
+		height: 230px;
+		padding: 20px 10px;
+
+		font-family: Roboto,Arial,sans-serif;
+		border-top:	1px solid rgb(0 0 0 / 20%);
+	}
+
+	.imageDetails{
+		display: inline-block;
+		position: relative;
+		width: 20%;
+		height: 100%;
+		float: left;
+	}
+
+	.imageContainer{		/*will actually contain the image*/
+		position: absolute;
+		top: 0px;
+		width: 100%;
+		height: 0;
+		padding-bottom: 100%;
+	}
+
+	.countContainer{
+		position: absolute;
+		text-align: center;
+		width: 100%;
+		bottom: 0px;
+	}
+
+	.removeItem{
+		display: inline-grid;
+		float: left;
+		margin-left: 10px;
+		text-align: center;
+		font-size: 30px;
+		line-height: 0.75;
+		background-color: linear-gradient;
+		border: 1px solid #c2c2c2;
+
+		/*to make the button circular*/
+		height: 28px;
+		width: 28px;
+		
+		border-radius: 50%;
+		transition: 0.3s ease;
+	}
+
+	.removeItem:active{
+		transform: scale(0.8);
+		background-color: #e8e8e8;
+	}
+
+	.addItem{
+		display: inline-grid;
+		float: right;
+		margin-right: 10px;
+		text-align: center;
+		font-size: 25px;
+		line-height: 1.1;
+		padding-left: 1px;
+		background-color: linear-gradient;
+		border: 1px solid #c2c2c2;
+
+
+		/*to make the button circular*/
+		height: 28px;
+		width: 28px;
+		
+		border-radius: 50%;
+		transition: 0.3s ease;
+	}
+
+	.addItem:active{
+		transform: scale(0.8);
+		background-color: #e8e8e8;
+	}
+
+	.itemCount{
+		display: inline-grid;
+		text-align: center;
+		width: 50px;
+		border: 1px solid #c2c2c2;
+	}
+
+
+
+
+
+
+
+
+
+	/*details of the order*/
+
+	.orderDetails{
+		display: inline-block;
+		position: relative;
+		width: 75%;
+		height: 100%;
+		float: right;
+	}
+
+	.itemHeading{
+		font-size: 18px;
+		font-weight: 600;
+	}
+
+	.dishInfo{
+		display: inline-block;
+		width: 100%;
+		text-align: center;	
+	}
+
+	.itemTag{
+		display: inline-grid;
+		float: left;
+		width: 65%;
+		font-size: 15px;
+		border-right: 1px solid #c2c2c2;
+		text-align: left;
+		overflow: hidden;
+		
+	}
+	
+	.itemCategory{
+		float: right;
+		width: 35%;
+		font-size: 15px;
+		height: auto;
+		text-align: right;
+	}
+
+
+	.dishDetails{
+		height: 45%;
+		font-size: 13px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		overflow: hidden;
+	}
+
+	.priceInfo{
+		display: inline-block;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		text-align: center;	
+	}
+
+	.itemPrice{
+		display: inline-grid;
+		float: left;
+		text-align: left;
+		width: 65%;
+
+		font-size: 18px;
+		font-weight: 600;
+		color: #388e3c;
+	}
+
+	.removeFromCart{
+		display: inline-grid;
+		float: right;
+		width: 35%;
+		text-align: center;
+
+		font-size: 18px;
+		font-weight: 600;
+	}
+
+	.removeFromCart > div{
+		margin: auto;
+
+		transition: 0.1s ease;
+	}
+
+	.removeFromCart > div:active{
+		transform: scale(0.9);
+	}
+
+	.removeFromCart > div:hover{
+		color: red;
+		cursor: pointer;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Total price container*/
+	.priceContainer{
+		display: inline-grid;
+		margin-top: 100px;
+		margin-left: 50px;
+		padding: 10px;
+		width: 25vw;
+		height: 50vh;
+
+		font-family: Roboto,Arial,sans-serif;
+		background-color: white;
+		box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
+	}
+
+</style>
