@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block body %}
-
+	
 	
 	<div class='dishContainer beveragesContainer' id="beverages">
 		<div class='menuTitle'>
@@ -30,7 +30,7 @@
 		</div>
 		
 		{% for dish in beverage_dishes %}
-			<div class="beverages dishCard" name = "{{ dish.food_tag }}">
+			<div class="beverages dishCard" name = "{{ dish.food_tag }}" onclick='showDish("{{ dish.id }}")'>
 			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}'); background-size: cover; background-position: center;"></div>
 				<div class="dishCard-text">
 				    {{ dish.name }}
@@ -92,6 +92,9 @@
 			</div>
 		{% endfor %}
 	</div>
+
+	<!-- Navigation Bar -->
+	{% include "./navbar.html" %}
 
 	{% include "./menu_sidebar.html" %}
 
