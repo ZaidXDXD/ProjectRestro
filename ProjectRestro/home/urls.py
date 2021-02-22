@@ -9,6 +9,8 @@ from home.views import (
 
     menuPage,
 
+    cart,
+
     crop_icon_image,
     add_dish_image_icon, 
     
@@ -36,6 +38,8 @@ urlpatterns = [
     path('add_dish/', adddish, name="addDish"),
 
     path("menu_page/", menuPage, name="menuPage"),
+
+    path("cart/", cart, name="cart"),
 
     path('add_dish/addIconImage/<dish_id>',add_dish_image_icon , name="addIconImage"),
 

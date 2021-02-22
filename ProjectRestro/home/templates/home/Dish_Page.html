@@ -178,7 +178,7 @@
     
         function Subfunction(){
             var count = parseInt(document.getElementById('id_quantity').value);
-            if(count > {{ form.initial.quantity }}){
+            if(count > 1){
                 document.getElementById('id_quantity').value = count-1;
                 var new_price = document.getElementById('id_quantity').value * {{ dish.price }}
                 document.getElementById("id_total_amount").value = new_price

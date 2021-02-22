@@ -63,8 +63,7 @@ def adddish(request):
 
 # View for showing the menu page
 def menuPage(request):
-    cnt = range(100)
-
+    
     dishes = Dishes.objects.all()
 
     # ----------------------------------------
@@ -101,11 +100,18 @@ def menuPage(request):
         else:
             dessert_dishes.append(dish)
     # ----------------------------------------
-    customer = request.user
-    context = {"cnt" : cnt, "beverages" : beverages, "starters" : starters, "main_course" : main_course, "desserts" : desserts, 'beverage_dishes' : beverage_dishes, 'starter_dishes' : starter_dishes, 'main_course_dishes' : main_course_dishes, 'dessert_dishes' : dessert_dishes}
-    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
-    context['OrderCount'] = count_order
+
+    if request.user.is_authenticated:
+        customer = request.user
+        count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
+
+    context = {"beverages" : beverages, "starters" : starters, "main_course" : main_course, "desserts" : desserts, 'beverage_dishes' : beverage_dishes, 'starter_dishes' : starter_dishes, 'main_course_dishes' : main_course_dishes, 'dessert_dishes' : dessert_dishes, 'OrderCount' : count_order}
     return render(request, 'home/menu.html', context)
+
+def cart(request):
+    cnt = range(20)
+    context = {"cnt" : cnt}
+    return render(request, 'home/cart.html', context)
 
 # View For Add Icon Image
 
@@ -672,24 +678,10 @@ def dish_page(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish = Dishes.objects.get(pk = dish_id)
     if request.POST:
-        if Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending") == None:
-            form = OrderForm(request.Post, initial={
-                'quantity' : 1,
+        if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
+            form = OrderForm(request.POST, initial={
+                'quantity' : 1
             })
-            if form.is_valid():
-                TABLE_PATH = request.POST.get('table_number')
-                Cart.objects.create(
-                    customer = form.cleaned_data['customer'],
-                    ordered_dish = form.cleaned_data['ordered_dish'],
-                    quantity = form.cleaned_data['quantity'],
-                    total_amount = form.cleaned_data['total_amount'],
-                    table_number = returnTableNumber(TABLE_PATH),
-                )
-                return redirect('home')
-        else:
-            form = OrderForm(request.Post, initial={
-                'quantity' : Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").first().quantity,
-            })   
             if form.is_valid():
                 TABLE_PATH = request.POST.get('table_number')
                 Cart.objects.create(
@@ -700,14 +692,25 @@ def dish_page(request, *args, **kwargs):
                     table_number = returnTableNumber(TABLE_PATH),
                 )
                 return redirect('menuPage')
+        else:
+            form = OrderForm(request.POST, initial={
+                'quantity' : Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").first().quantity,
+            })   
+            if form.is_valid():
+                TABLE_PATH = request.POST.get('table_number')
+                Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").update(
+                    quantity = form.cleaned_data['quantity'],
+                    total_amount = form.cleaned_data['total_amount'],
+                )
+                return redirect('menuPage')
     else:
-        if Cart.objects.filter(ordered_dish=dish_id, status="Pending") == None:
+        if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
             form = OrderForm(initial={
                     'quantity' : 1,
             })
         else:
             form = OrderForm(initial={
-                    'quantity' : Cart.objects.filter(ordered_dish=dish_id, status="Pending").first().quantity,
+                    'quantity' : Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending").first().quantity,
             })   
     customer = request.user
     count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
