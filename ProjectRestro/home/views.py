@@ -101,8 +101,10 @@ def menuPage(request):
         else:
             dessert_dishes.append(dish)
     # ----------------------------------------
-
+    customer = request.user
     context = {"cnt" : cnt, "beverages" : beverages, "starters" : starters, "main_course" : main_course, "desserts" : desserts, 'beverage_dishes' : beverage_dishes, 'starter_dishes' : starter_dishes, 'main_course_dishes' : main_course_dishes, 'dessert_dishes' : dessert_dishes}
+    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
+    context['OrderCount'] = count_order
     return render(request, 'home/menu.html', context)
 
 # View For Add Icon Image
@@ -669,26 +671,46 @@ def returnTableNumber(filepath):
 def dish_page(request, *args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish = Dishes.objects.get(pk = dish_id)
-    form = OrderForm()
     if request.POST:
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            TABLE_PATH = request.POST.get('table_number')
-            Cart.objects.create(
-                customer = form.cleaned_data['customer'],
-                ordered_dish = form.cleaned_data['ordered_dish'],
-                quantity = form.cleaned_data['quantity'],
-                total_amount = form.cleaned_data['total_amount'],
-                table_number = returnTableNumber(TABLE_PATH),
-            )
-            return redirect('home')
+        if Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending") == None:
+            form = OrderForm(request.Post, initial={
+                'quantity' : 1,
+            })
+            if form.is_valid():
+                TABLE_PATH = request.POST.get('table_number')
+                Cart.objects.create(
+                    customer = form.cleaned_data['customer'],
+                    ordered_dish = form.cleaned_data['ordered_dish'],
+                    quantity = form.cleaned_data['quantity'],
+                    total_amount = form.cleaned_data['total_amount'],
+                    table_number = returnTableNumber(TABLE_PATH),
+                )
+                return redirect('home')
         else:
-            print("Invalid Form")
+            form = OrderForm(request.Post, initial={
+                'quantity' : Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").first().quantity,
+            })   
+            if form.is_valid():
+                TABLE_PATH = request.POST.get('table_number')
+                Cart.objects.create(
+                    customer = form.cleaned_data['customer'],
+                    ordered_dish = form.cleaned_data['ordered_dish'],
+                    quantity = form.cleaned_data['quantity'],
+                    total_amount = form.cleaned_data['total_amount'],
+                    table_number = returnTableNumber(TABLE_PATH),
+                )
+                return redirect('menuPage')
     else:
-        form = OrderForm()
+        if Cart.objects.filter(ordered_dish=dish_id, status="Pending") == None:
+            form = OrderForm(initial={
+                    'quantity' : 1,
+            })
+        else:
+            form = OrderForm(initial={
+                    'quantity' : Cart.objects.filter(ordered_dish=dish_id, status="Pending").first().quantity,
+            })   
     customer = request.user
     count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
-    print(count_order)
     context = {}
     context['OrderCount'] = count_order
     context['dish'] = dish
