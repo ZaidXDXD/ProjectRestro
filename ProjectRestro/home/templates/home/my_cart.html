@@ -39,9 +39,7 @@
 					</div>
 					
 					<div class="dishDetails ">
-						You have a div (div1) with two other divs (div2 and div3) inside. div2 floats left and consequently div3 goes up on the right. But what if you want the parent (div1) to have a border? You’ll see that it will drop the height because the child elements are floating.
-
-What you have to do in this case, to maintain the parent element as high as the child elements – in order to display the border nicely around the children – is apply the
+						Gand me danda le...!
 					</div>
 
 					<div class="priceInfo">
@@ -54,9 +52,21 @@ What you have to do in this case, to maintain the parent element as high as the 
 	</div>
 
 	<div class="priceContainer ">
-		hello
+		<div class="priceHeading ">PRICE DETAILS</div>
+		<div class="pricingContainer">
+			{% for i in cnt %}
+				<div class="pricing ">
+					<div class="price ">Dish Name {{i}} :</div>
+					<div class="value ">&#8377; 250/-</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="total">
+			<div class="totalPrice ">Total Amount :</div>
+			<div class="totalValue ">&#8377; 250/-</div>
+		</div>
 	</div>
 	
-<!-- INside Master -->
+
 
 {% endblock %}

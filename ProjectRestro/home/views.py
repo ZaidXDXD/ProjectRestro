@@ -106,7 +106,7 @@ def menuPage(request):
     return render(request, 'home/menu.html', context)
 
 def myCart(request):
-    cnt = range(5);
+    cnt = range(20);
     context = {"cnt" : cnt};
 
     return render(request, 'home/my_cart.html', context)

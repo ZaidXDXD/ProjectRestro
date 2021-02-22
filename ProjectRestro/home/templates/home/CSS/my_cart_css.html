@@ -243,15 +243,128 @@
 	/*Total price container*/
 	.priceContainer{
 		display: inline-grid;
+		position: relative;
 		margin-top: 100px;
 		margin-left: 50px;
 		padding: 10px;
 		width: 25vw;
-		height: 50vh;
+		height: 400px;
+		/*height: 50vh;*/
+
+		grid-template-rows: 60px 280px 30px;
+		grid-template-areas: "heading" "pricing" "total";
 
 		font-family: Roboto,Arial,sans-serif;
 		background-color: white;
 		box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
 	}
+
+	.priceHeading{
+		/*height: 60px;*/
+		grid-area: heading;
+		font-size: 20px;
+		color: #878787;
+		/*line-height: 60px;*/
+		border-bottom:	1px solid rgb(0 0 0 / 20%);
+
+		font-family: Roboto,Arial,sans-serif;
+		font-weight: 700;
+	}
+
+	.pricingContainer{
+		grid-area: pricing;
+		border-bottom:	1px solid rgb(0 0 0 / 20%);
+		overflow: auto;
+	}
+
+	.pricing{
+		display: inline-block;
+		/*position: absolute;
+		top: 100px;*/
+		width: 100%;
+		margin-top: 0px;
+		text-align: center;	
+		padding: 10px;
+	}
+
+	.price{
+		display: inline-grid;
+		float: left;
+		text-align: left;
+		width: 65%;
+
+		font-size: 14px;
+	}
+
+	.value{
+		display: inline-grid;
+		float: right;
+		text-align: right;
+		width: 29%;
+		margin-right: 6%;
+
+		font-size: 14px;
+		font-weight: 600;
+		color: #388e3c;
+	}
+
+	.total{
+		grid-area: total;
+		display: inline-block;
+		/*position: absolute;
+		bottom: 0px;*/
+		width: 100%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	.totalPrice{
+		display: inline-grid;
+		float: left;
+		text-align: left;
+		width: 62%;
+
+		font-size: 18px;
+	}
+
+	.totalValue{
+		display: inline-grid;
+		float: right;
+		text-align: right;
+		width: 30%;
+		margin-right: 8%;
+
+		font-size: 18px;
+		font-weight: 600;
+		color: #388e3c;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	/*scrollbar for choice*/
+.pricingContainer::-webkit-scrollbar {
+	width: 8px;               /* width of the entire scrollbar */
+}
+
+.pricingContainer::-webkit-scrollbar-track {
+	background: #ffffff;        /* color of the tracking area */
+}
+
+.pricingContainer::-webkit-scrollbar-thumb {
+	background-color: #111;    /* color of the scroll thumb */
+	border-radius: 20px;       /* roundness of the scroll thumb */
+	border: 3px solid #2fde41;  /* creates padding around scroll thumb */
+}
+
+
 
 </style>
