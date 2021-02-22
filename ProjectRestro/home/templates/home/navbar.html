@@ -1,0 +1,29 @@
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% endblock %}
+
+<header id="id_nav_header">
+    <p id="id_menu_btn"><a href="#">Menu</a></p>
+    <nav>
+        <ul id="link__array">
+            <li><a href="#">Magazine</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Profile</a></li>
+            <li >
+                <a href="#" >
+                    Cart
+                    {% if OrderCount %}
+                        {% if OrderCount < 20 %}
+                            <span class="badge badge-info">{{ OrderCount }}</span>
+                        {% else %}
+                            <span class="badge badge-info">20+</span>
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <a href="#" id="id_leave_btn" >Leave</a>
+</header>
