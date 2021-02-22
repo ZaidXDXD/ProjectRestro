@@ -22,3 +22,7 @@ $(window).scroll(function(event) {
         }
     });
 });
+
+function showDish(dishId){
+    window.open("/dish/" + dishId);
+}
