@@ -4,7 +4,7 @@ from django.forms.widgets import TextInput
 from .models import (
     Tag, 
     Dishes, 
-    Order,
+    Cart,
 )
 
 # Form -> Add Tag 
@@ -53,8 +53,8 @@ class EditDishForm(forms.ModelForm):
         model = Dishes
         fields = "__all__"
 
-# Form -> Order Form
+# Form -> Cart Form
 class OrderForm(forms.ModelForm):
     class Meta:
-        model = Order
+        model = Cart
         fields = ('customer','ordered_dish', 'quantity', 'total_amount', "table_number")

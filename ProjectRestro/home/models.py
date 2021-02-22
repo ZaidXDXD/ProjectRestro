@@ -73,8 +73,8 @@ class Dishes(models.Model):
         return self.name
 
 
-#Model For Order
-class Order(models.Model):
+#Model For Cart
+class Cart(models.Model):
     STATUS_CHOICES = (
         ('Pending', 'Pending'),
         ('Delivered', 'Delivered'),

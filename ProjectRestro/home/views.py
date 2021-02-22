@@ -26,7 +26,7 @@ from .forms import (
 from .models import (
     Tag, 
     Dishes,
-    Order
+    Cart
 )
 from requests.api import request
 
@@ -680,7 +680,7 @@ def dish_page(request, *args, **kwargs):
         form = OrderForm(request.POST)
         if form.is_valid():
             TABLE_PATH = request.POST.get('table_number')
-            Order.objects.create(
+            Cart.objects.create(
                 customer = form.cleaned_data['customer'],
                 ordered_dish = form.cleaned_data['ordered_dish'],
                 quantity = form.cleaned_data['quantity'],
@@ -693,7 +693,8 @@ def dish_page(request, *args, **kwargs):
     else:
         form = OrderForm()
     customer = request.user
-    count_order = Order.objects.filter(customer=customer).filter(status="Pending").count()
+    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
+    print(count_order)
     context = {}
     context['OrderCount'] = count_order
     context['dish'] = dish
