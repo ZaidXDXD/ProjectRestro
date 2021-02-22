@@ -47,7 +47,7 @@
 			Starters
 		</div>
 		{% for dish in starter_dishes %}
-			<div class="starters dishCard" name = "{{ dish.food_tag }}">
+			<div class="starters dishCard" name = "{{ dish.food_tag }}" onclick='showDish("{{ dish.id }}")'>
 			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}'); ; background-size: cover; background-position: center;"></div>
 				<div class="dishCard-text">
 				    {{ dish.name }}
@@ -64,7 +64,7 @@
 			Main Course
 		</div>
 		{% for dish in main_course_dishes %}
-			<div class="main-course dishCard" name = "{{ dish.food_tag }}">
+			<div class="main-course dishCard" name = "{{ dish.food_tag }}" onclick='showDish("{{ dish.id }}")'>
 			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}'); background-size: cover; background-position: center;"></div>
 				<div class="dishCard-text">
 				    {{ dish.name }}
@@ -81,7 +81,7 @@
 			Dessert
 		</div>
 		{% for dish in dessert_dishes %}
-			<div class="desserts dishCard" name = "{{ dish.food_tag }}">
+			<div class="desserts dishCard" name = "{{ dish.food_tag }}" onclick='showDish("{{ dish.id }}")'>
 			  	<div class="dishCard-image" style="background: url('{{ dish.icon_image.url }}'); background-size: cover; background-position: center;"></div>
 				<div class="dishCard-text">
 				    {{ dish.name }}

@@ -62,11 +62,10 @@ def adddish(request):
     return render(request, 'home/Add_New_Dish_Details.html', {'tags' : tags, "form" : form})
 
 # View for showing the menu page
+@login_required(login_url='login')
 def menuPage(request):
     
     dishes = Dishes.objects.all()
-
-    # ----------------------------------------
     beverages = {}
     starters = {}
     main_course = {}
@@ -99,15 +98,82 @@ def menuPage(request):
             main_course_dishes.append(dish)
         else:
             dessert_dishes.append(dish)
-    # ----------------------------------------
-
-    if request.user.is_authenticated:
-        customer = request.user
-        count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
+    customer = request.user
+    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
 
     context = {"beverages" : beverages, "starters" : starters, "main_course" : main_course, "desserts" : desserts, 'beverage_dishes' : beverage_dishes, 'starter_dishes' : starter_dishes, 'main_course_dishes' : main_course_dishes, 'dessert_dishes' : dessert_dishes, 'OrderCount' : count_order}
     return render(request, 'home/menu.html', context)
 
+
+
+#Function To Get Table Number
+def returnTableNumber(filepath):
+    try:
+        with open(filepath, 'r') as f:
+            for line in f:
+                words = ((line.strip()).split())
+                if words:
+                    first_word = words[0]
+                    if first_word.isnumeric():
+                        return first_word
+    except Exception as e:
+        return '0'
+    else:
+        return None
+
+
+#Fucntion To Visit Menu Page.
+@login_required(login_url="login")
+def dish_page(request, *args, **kwargs):
+    dish_id = kwargs.get('dish_id')
+    dish = Dishes.objects.get(pk = dish_id)
+    context = {}
+    if request.POST:
+        if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
+            form = OrderForm(request.POST, initial={
+                'quantity' : 1
+            })
+            if form.is_valid():
+                TABLE_PATH = request.POST.get('table_number')
+                Cart.objects.create(
+                    customer = form.cleaned_data['customer'],
+                    ordered_dish = form.cleaned_data['ordered_dish'],
+                    quantity = form.cleaned_data['quantity'],
+                    total_amount = form.cleaned_data['total_amount'],
+                    table_number = returnTableNumber(TABLE_PATH),
+                )
+                return redirect('menuPage')
+        else:
+            form = OrderForm(request.POST, initial={
+                'quantity' : Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").first().quantity,
+            })   
+            if form.is_valid():
+                TABLE_PATH = request.POST.get('table_number')
+                Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").update(
+                    quantity = form.cleaned_data['quantity'],
+                    total_amount = form.cleaned_data['total_amount'],
+                )
+                return redirect('menuPage')
+    else:
+        if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
+            form = OrderForm(initial={
+                    'quantity' : 1,
+            })
+            context['InCart'] = 'false'
+        else:
+            form = OrderForm(initial={
+                    'quantity' : Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending").first().quantity,
+            })   
+            context['InCart'] = 'true'
+    customer = request.user
+    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
+    context['OrderCount'] = count_order
+    context['dish'] = dish
+    context['form'] = form
+    return render(request , 'home/Dish_Page.html', context)
+
+
+# View For Cart
 def cart(request):
     cnt = range(20)
     context = {"cnt" : cnt}
@@ -655,67 +721,3 @@ def delete_dish(request, *args, **kwargs):
 
     return redirect('home')
 
-
-#Function To Get Table Number
-def returnTableNumber(filepath):
-    try:
-        with open(filepath, 'r') as f:
-            for line in f:
-                words = ((line.strip()).split())
-                if words:
-                    first_word = words[0]
-                    if first_word.isnumeric():
-                        return first_word
-    except Exception as e:
-        return '0'
-    else:
-        return None
-
-
-#Fucntion To Visit Menu Page.
-@login_required(login_url="login")
-def dish_page(request, *args, **kwargs):
-    dish_id = kwargs.get('dish_id')
-    dish = Dishes.objects.get(pk = dish_id)
-    if request.POST:
-        if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
-            form = OrderForm(request.POST, initial={
-                'quantity' : 1
-            })
-            if form.is_valid():
-                TABLE_PATH = request.POST.get('table_number')
-                Cart.objects.create(
-                    customer = form.cleaned_data['customer'],
-                    ordered_dish = form.cleaned_data['ordered_dish'],
-                    quantity = form.cleaned_data['quantity'],
-                    total_amount = form.cleaned_data['total_amount'],
-                    table_number = returnTableNumber(TABLE_PATH),
-                )
-                return redirect('menuPage')
-        else:
-            form = OrderForm(request.POST, initial={
-                'quantity' : Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").first().quantity,
-            })   
-            if form.is_valid():
-                TABLE_PATH = request.POST.get('table_number')
-                Cart.objects.filter(customer = request.user.id, ordered_dish=dish_id, status="Pending").update(
-                    quantity = form.cleaned_data['quantity'],
-                    total_amount = form.cleaned_data['total_amount'],
-                )
-                return redirect('menuPage')
-    else:
-        if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
-            form = OrderForm(initial={
-                    'quantity' : 1,
-            })
-        else:
-            form = OrderForm(initial={
-                    'quantity' : Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending").first().quantity,
-            })   
-    customer = request.user
-    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
-    context = {}
-    context['OrderCount'] = count_order
-    context['dish'] = dish
-    context['form'] = form
-    return render(request , 'home/Dish_Page.html', context)

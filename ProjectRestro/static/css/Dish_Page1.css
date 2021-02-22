@@ -17,11 +17,11 @@ a {
 	position: relative;
 	top: 10vh;
 	width: 100%;
-	height: 100vh;
+	height: auto;
 }
 .left {
 	float: left;
-	height: 100%;
+	height: auto;
 	width: 44%;
 	padding: 3rem 3rem 3rem 5rem;
 	display: table;

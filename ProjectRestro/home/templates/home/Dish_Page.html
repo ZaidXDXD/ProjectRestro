@@ -74,7 +74,8 @@
                         <input class="d-none" type="text" name="table_number" maxlength="100" required="" id="id_table_number" value="D:/table.txt">
                     </div>
                     <div id="id_submit_container">
-                        <input type="submit" value = 'Add To Cart'>
+                        <a id="id_cart_btn" href="{% url 'cart' %}">Go To Cart</a>
+                        <input id="id_submit_btn" type="submit" value = 'Add To Cart'>
                     </div>
                 </form>
             {% endif %}
@@ -133,6 +134,16 @@
         setPriceValue();
         setPrice();
         setInitialPrice();
+
+        if({{ InCart }} && document.getElementById('id_quantity').value == {{ form.initial.quantity }})
+        {
+            document.getElementById('id_submit_btn').value = "{{ form.initial.quantity }} Already In Cart"
+            document.getElementById('id_submit_btn').disabled = true
+        }
+        else{
+            document.getElementById('id_submit_btn').value = "Add To Cart"
+            document.getElementById('id_submit_btn').disabled = false
+        }
         
         function setInitialPrice(){
             var intPart = parseInt({{ dish.price }});
@@ -184,6 +195,15 @@
                 document.getElementById("id_total_amount").value = new_price
                 setPriceValue(new_price);
                 setPrice();
+                if({{ InCart }} && document.getElementById('id_quantity').value == {{ form.initial.quantity }})
+                {
+                    document.getElementById('id_submit_btn').value = "{{ form.initial.quantity }} Already In Cart"
+                    document.getElementById('id_submit_btn').disabled = true
+                }
+                else{
+                    document.getElementById('id_submit_btn').value = "Add To Cart"
+                    document.getElementById('id_submit_btn').disabled = false
+                }
             }
         }
         function Addfunction(){
@@ -194,6 +214,15 @@
                 document.getElementById("id_total_amount").value = new_price
                 setPriceValue(new_price);
                 setPrice();
+                if({{ InCart }} && document.getElementById('id_quantity').value == {{ form.initial.quantity }})
+                {
+                    document.getElementById('id_submit_btn').value = "{{ form.initial.quantity }} Already In Cart"
+                    document.getElementById('id_submit_btn').disabled = true
+                }
+                else{
+                    document.getElementById('id_submit_btn').value = "Add To Cart"
+                    document.getElementById('id_submit_btn').disabled = false
+                }
             }
         }
         
