@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
 
 #id_nav_header{
     width:100%; 
@@ -14,16 +16,17 @@
     z-index: 99;
 }
 
-#id_menu_btn{
-    font-family: 'Hammersmith One', sans-serif;
+#id_logo{
+    font-family: 'Russo One', sans-serif;
+    color: #F5B041;
     font-size: 35px;
-    color: #626567;
     width: 110px;
     font-weight: 400;
     padding: 0px 10px;
-    cursor: pointer;
+    cursor: default;
     margin-right: auto;
 }
+
 
 #id_menu_btn a{
     text-decoration: none;

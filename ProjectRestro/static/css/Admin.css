@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+.Main-Container{
+    position: relative;
+    top: 10vh;
+    height: auto;
+    width: 100%;
+}
+
+#id_dishes_heading{
+    margin-top: 3vh;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-family: 'Merienda One', cursive;
+    font-size: 44px;
+    font-weight: 500;
+    color: #F5B041;
+}
+
+.Sub-Container{
+    margin: 1% 2%;
+    padding: 2% 2%;
+    height: auto;
+    width: auto;
+}
+
+.menuTitle{
+    font-family: 'Roboto Slab', serif;
+    font-size: 36px;
+    font-weight: 500;
+    color: #F5B041;
+    text-decoration: underline;
+    text-decoration-color: #E74C3C;
+}
+.card{
+    border-radius: 10px;
+}
+
+.wrapper{
+    display: grid;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    margin-top: 4vh;
+    padding: 0 6px;
+    grid-template-columns: repeat(5,220px);
+    grid-auto-rows: minmax(320px , auto);
+    justify-items: center;
+    grid-gap: 4rem;
+}
+
+.wrapper > div{
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 4px 8px #D7DBDD;
+    display: grid;
+    grid-template-rows: 220px 50px 50px;
+    align-items: stretch;
+    justify-items: stretch;
+}
+
+.wrapper > div > img {
+    width: 220px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 220px;
+}
+
+.wrapper > div > div{
+    background-color: white;
+    margin: 0;
+}
+
+.Card-Button{
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    justify-items: stretch;
+    align-items: stretch;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.Card-Button > div:first-child{
+    text-align: center;
+    font-family: 'Roboto Slab', serif;
+    font-size: 20px;
+    color: white;
+    background-color: #FFA07A;
+    padding-top: 10px;
+    border-bottom-left-radius: 10px;
+    cursor: pointer;
+}
+
+.Card-Button > div:first-child:hover{
+    background-color: #FF7F50;
+}
+
+.Card-Button > div:nth-child(2){
+    text-align: center;
+    font-family: 'Roboto Slab', serif;
+    font-size: 20px;
+    color: white;
+    background-color: #EC7063;
+    padding-top: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+}
+
+.Card-Button > div:nth-child(2):hover{
+    background-color: #E74C3C;
+}
+button {
+    position: relative;
+    z-index: 1;
+}
+.svg{
+    color: #797D7F;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.3rem;
+    overflow: hidden;
+    outline: none;
+    border:none;
+    -webkit-transition: all 150ms cubic-bezier(0.445, 0.050, 0.550, 0.950); 
+}
+  
+.svg:before{
+    position:absolute;  
+    content:"";
+    background: url(https://f.cl.ly/items/3H3A0D1N281a2T280F3o/heist.svg) no-repeat center center;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-1;
+    opacity:0;
+    -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+}
+  
+.svg:after {
+    content: "";
+    position: absolute;
+    background: #48C9B0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: -2;
+    -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000); 
+}
+
+.svg:hover{
+    color:white;
+    border: 2px #17A589 solid;
+}
+
+.svg:hover:before {
+    opacity: .8;
+}
+
+.svg:hover:after {
+    top: 0;
+}

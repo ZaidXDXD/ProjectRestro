@@ -10,18 +10,18 @@
 <!-- INSIDE MASTER -->
 
 	<div class="cartContainer ">
-		<div class="heading ">My Cart (2)</div>
+		<div class="heading ">My Cart ({{OrderCount}})</div>
 
-		{% for i in cnt %}
+		{% for order in orders %}
 			<div class="item ">
 				<div class="imageDetails ">
-					<div class="imageContainer temp" style="background: url('/media/DishImages/3/icon_image.png'); background-size: cover; background-position: center;">
+					<div class="imageContainer temp" style="background: url('{{ order.ordered_dish.icon_image.url }}'); background-size: cover; background-position: center;">
 						<!-- image -->
 					</div>
 					<div class="countContainer ">
 						<div class="removeItem "> - </div>
 						<div class="itemCount ">
-							1	
+							{{ order.quantity }}
 						</div>
 						<div class="addItem "> + </div>
 					</div>
@@ -31,19 +31,23 @@
 				<!-- ORDER DETAILS -->
 				<div class="orderDetails  ">
 					<div class="itemHeading ">
-						Dish Name
+						{{ order.ordered_dish.name }}
 					</div>
 					<div class="dishInfo">
-						<div class="itemTag ">Item Tag</div>
+						<div class="itemTag ">{{ order.ordered_dish.food_tag.name }}</div>
 						<div class="itemCategory ">category</div>
 					</div>
 					
 					<div class="dishDetails ">
-						Gand me danda le...!
+						{% if order.ordered_dish.description|length > 200 %}
+							{{ order.ordered_dish.description|slice:200 }} . . .
+						{% else %}
+							{{ order.ordered_dish.description }}
+						{% endif %}
 					</div>
 
 					<div class="priceInfo">
-						<div class="itemPrice ">&#8377; 250/-</div>
+						<div class="itemPrice ">&#8377; {{ order.total_amount }}/-</div>
 						<div class="removeFromCart "><div>Remove</div></div>
 					</div>
 				</div>
@@ -54,16 +58,16 @@
 	<div class="priceContainer ">
 		<div class="priceHeading ">PRICE DETAILS</div>
 		<div class="pricingContainer">
-			{% for i in cnt %}
+			{% for order in orders %}
 				<div class="pricing ">
-					<div class="price ">Dish Name {{i}} :</div>
-					<div class="value ">&#8377; 250/-</div>
+					<div class="price ">{{ order.ordered_dish }}</div>
+					<div class="value ">&#8377; {{ order.total_amount }}/-</div>
 				</div>
 			{% endfor %}
 		</div>
 		<div class="total">
 			<div class="totalPrice ">Total Amount :</div>
-			<div class="totalValue ">&#8377; 250/-</div>
+			<div class="totalValue ">&#8377; {{Total_Price}}/-</div>
 		</div>
 	</div>
 	
