@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     # App -Added
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
+    'superuser.apps.SuperuserConfig',
 
     # External-tools
     'widget_tweaks',

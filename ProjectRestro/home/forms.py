@@ -51,7 +51,21 @@ class DishesTertiaryImageForm(forms.ModelForm):
 class EditDishForm(forms.ModelForm):
     class Meta:
         model = Dishes
-        fields = "__all__"
+        fields = (
+                    'name', 
+                    'price',
+                    'category', 
+                    'alcohol', 
+                    'food_tag', 
+                    "description",
+                    'icon_image',
+                    'major_image', 
+                    'major_description',
+                    'secondary_image', 
+                    'secondary_description',
+                    'tertiary_image', 
+                    'tertiary_description',
+                 )
 
 # Form -> Cart Form
 class OrderForm(forms.ModelForm):

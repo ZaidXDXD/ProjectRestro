@@ -11,6 +11,7 @@ from django.core import files
 from django.core.files.storage import FileSystemStorage, default_storage
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.db.models import Sum
 
 from .decorators import allowed_users
 from .forms import (
@@ -123,8 +124,8 @@ def returnTableNumber(filepath):
 
 
 #Fucntion To Visit Menu Page.
-@login_required(login_url="login")
-def dish_page(request, *args, **kwargs):
+@login_required(login_url='login')
+def dish_page(request,*args, **kwargs):
     dish_id = kwargs.get('dish_id')
     dish = Dishes.objects.get(pk = dish_id)
     context = {}
@@ -155,6 +156,9 @@ def dish_page(request, *args, **kwargs):
                 )
                 return redirect('menuPage')
     else:
+        if request.user.groups.all()[0].name != 'admin':
+            dish.dish_view = dish.dish_view + 1
+            dish.save()
         if not Cart.objects.filter(customer = request.user.id ,ordered_dish=dish_id, status="Pending"):
             form = OrderForm(initial={
                     'quantity' : 1,
@@ -173,10 +177,101 @@ def dish_page(request, *args, **kwargs):
     return render(request , 'home/Dish_Page.html', context)
 
 
+# Function To Edit Dish
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
+def edit_dish(request, *args, **kwargs):
+    tags = Tag.objects.all().order_by('name')
+    dish_id = kwargs.get('dish_id')
+    dish = Dishes.objects.get(pk=dish_id)
+    context = {}
+    context['tags'] = tags
+    context['dish_name'] = dish.name
+    if request.POST:
+        form = EditDishForm(request.POST, instance=dish)
+        if form.is_valid():
+            form.save()
+            return redirect('adminDishPage')
+            
+        else:
+            form = EditDishForm(request.POST, instance=dish,
+                initial={
+                    'id': dish.id,
+                    'name': dish.name,
+                    'tag' : dish.food_tag,
+                    'price': dish.price,
+                    'category': dish.category,
+                    'alcohol' : dish.alcohol,
+                    'description': dish.description,
+                    'icon_image' : dish.icon_image,
+                    'major_image': dish.major_image,
+                    'secondary_image': dish.secondary_image,
+                    'tertiary_image': dish.tertiary_image,
+                    'major_description': dish.major_description,
+                    'secondary_description': dish.secondary_description,
+                    'tertiary_description': dish.tertiary_description,                      
+                }
+            )
+    else:
+        form = EditDishForm(
+                initial={
+                    'id': dish.id,
+                    'name': dish.name,
+                    'tag' : dish.food_tag,
+                    'price': dish.price,
+                    'category': dish.category,
+                    'alcohol' : dish.alcohol,
+                    'description': dish.description,
+                    'icon_image' : dish.icon_image,
+                    'major_image': dish.major_image,
+                    'secondary_image': dish.secondary_image,
+                    'tertiary_image': dish.tertiary_image, 
+                    'major_description': dish.major_description,
+                    'secondary_description': dish.secondary_description,
+                    'tertiary_description': dish.tertiary_description,                     
+                }
+            ) 
+
+    context['form'] = form
+    context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+    return render(request, 'home/Edit_Dish.html', context)
+
+
+# Function To Delete A Dish
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
+def delete_dish(request, *args, **kwargs):
+    dish_id = kwargs.get('dish_id')
+    dish = Dishes.objects.get(pk=dish_id)
+
+    if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
+        dish.icon_image.delete()
+
+    if(os.path.normpath(dish.major_image.url) != "\media\Restro\default_major_image.jpg"):
+        dish.major_image.delete()
+
+    if(os.path.normpath(dish.secondary_image.url) != "\media\Restro\default_secondary_image.jpg"):
+        dish.secondary_image.delete()
+
+    if(os.path.normpath(dish.tertiary_image.url) != "\media\Restro\default_tertiary_image.jpg"):
+        dish.tertiary_image.delete()
+
+    dish.delete()
+
+    return redirect('adminDishPage')
+
+
 # View For Cart
-def cart(request):
-    cnt = range(20)
-    context = {"cnt" : cnt}
+@login_required(login_url='login')
+def cart(request, *args, **kwargs):
+    context = {}
+    order_in_cart = Cart.objects.filter(customer=request.user.id)
+    total_order =  Cart.objects.filter(customer=request.user.id).aggregate(total = Sum('total_amount'))
+    customer = request.user
+    count_order = Cart.objects.filter(customer=customer).filter(status="Pending").count()
+    context['OrderCount'] = count_order
+    context['Total_Price'] = total_order['total']
+    context['orders'] = order_in_cart
     return render(request, 'home/cart.html', context)
 
 # View For Add Icon Image
@@ -636,88 +731,3 @@ def add_dish_image_tertiary(request, *args, **kwargs):
     
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
     return render(request, 'home/Add_New_Dish_Tertiary_Image.html', context)
-
-
-# Function To Edit Dish
-@login_required(login_url="login")
-@allowed_users(allowed_roles=['admin'])
-def edit_dish(request, *args, **kwargs):
-    tags = Tag.objects.all().order_by('name')
-    dish_id = kwargs.get('dish_id')
-    dish = Dishes.objects.get(pk=dish_id)
-    context = {}
-    context['tags'] = tags
-    context['dish_name'] = dish.name
-    if request.POST:
-        form = EditDishForm(request.POST, instance=dish)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-            
-        else:
-            form = EditDishForm(request.POST, instance=dish,
-                initial={
-                    'id': dish.id,
-                    'name': dish.name,
-                    'tag' : dish.food_tag,
-                    'price': dish.price,
-                    'category': dish.category,
-                    'alcohol' : dish.alcohol,
-                    'description': dish.description,
-                    'icon_image' : dish.icon_image,
-                    'major_image': dish.major_image,
-                    'secondary_image': dish.secondary_image,
-                    'tertiary_image': dish.tertiary_image,
-                    'major_description': dish.major_description,
-                    'secondary_description': dish.secondary_description,
-                    'tertiary_description': dish.tertiary_description,                      
-                }
-            )
-    else:
-        form = EditDishForm(
-                initial={
-                    'id': dish.id,
-                    'name': dish.name,
-                    'tag' : dish.food_tag,
-                    'price': dish.price,
-                    'category': dish.category,
-                    'alcohol' : dish.alcohol,
-                    'description': dish.description,
-                    'icon_image' : dish.icon_image,
-                    'major_image': dish.major_image,
-                    'secondary_image': dish.secondary_image,
-                    'tertiary_image': dish.tertiary_image, 
-                    'major_description': dish.major_description,
-                    'secondary_description': dish.secondary_description,
-                    'tertiary_description': dish.tertiary_description,                     
-                }
-            ) 
-
-    context['form'] = form
-    context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
-    return render(request, 'home/Edit_Dish.html', context)
-
-
-# Function To Delete A Dish
-@login_required(login_url="login")
-@allowed_users(allowed_roles=['admin'])
-def delete_dish(request, *args, **kwargs):
-    dish_id = kwargs.get('dish_id')
-    dish = Dishes.objects.get(pk=dish_id)
-
-    if(os.path.normpath(dish.icon_image.url) != "\media\Restro\default_icon_image.jpg"):
-        dish.icon_image.delete()
-
-    if(os.path.normpath(dish.major_image.url) != "\media\Restro\default_major_image.jpg"):
-        dish.major_image.delete()
-
-    if(os.path.normpath(dish.secondary_image.url) != "\media\Restro\default_secondary_image.jpg"):
-        dish.secondary_image.delete()
-
-    if(os.path.normpath(dish.tertiary_image.url) != "\media\Restro\default_tertiary_image.jpg"):
-        dish.tertiary_image.delete()
-
-    dish.delete()
-
-    return redirect('home')
-

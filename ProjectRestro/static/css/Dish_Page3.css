@@ -145,3 +145,26 @@ input[type="submit"]:active{
 #id_cart_btn:active{
     box-shadow: 0 0 0 #117A65;
 }
+
+#id_cart_btn_disabled{
+    background: #16A085;
+    border: 0;
+    float: left;
+    width: 45%;
+    height: 50px;
+    border-radius: 3px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Roboto Slab', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-top: 30px;
+    outline: none;
+    box-shadow: 3px 3px 0 #117A65;
+    cursor: default;
+    transition: background .3s ease-in-out;
+    
+}
+

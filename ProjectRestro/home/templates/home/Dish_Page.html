@@ -46,8 +46,38 @@
             </section>
             <p id="id_dish_description">{{ dish.description }}</p>
 
-
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.groups.first.name == 'admin' %}
+                <form action="" method="POST" >
+                    {% csrf_token %}
+                    <select class="d-none" name="customer" required="" id="id_customer">
+                        <option value="{{ user.pk }}" selected="">{{ user.username }}</option>
+                    </select>
+                    <select class="d-none" name="ordered_dish" required="" id="id_ordered_dish">
+                        <option value="{{ dish.pk }}" selected="">{{ dish.name }}</option>
+                    </select>
+                    <div class="price_input_and_display">
+                        <div style="display: flex;">
+                            <input type="button" value="-" id="id_subtract_button" onclick="Subfunction()" >
+                            <input type="text" name="quantity" required="" id="id_quantity" value="{{ form.initial.quantity }}" onchange ='changeAmount(this.value)' readonly >
+                            <input type="button" value="+" id="id_add_button" onclick="Addfunction()" >
+                        </div>
+                        <div id="id_total_charge"> 
+                            <span id="id_total_statement">Total:</span>
+                            <span id="id_total_price"><p id="id_total_price_int"></p><sup id="id_total_price_decimal"></sup></span>
+                        </div>
+                    </div>
+                    <div>
+                        <input class="d-none" type="number" name="total_amount" step="any" required="" id="id_total_amount" value="{{ dish.price }}">
+                    </div>
+                    <div>
+                        <input class="d-none" type="text" name="table_number" maxlength="100" required="" id="id_table_number" value="D:/table.txt">
+                    </div>
+                    <div id="id_submit_container">
+                        <a id="id_cart_btn_disabled"  href="">Go To Cart</a>
+                        <input id="id_submit_btn_disabled" type="submit" value = 'Add To Cart' disabled>
+                    </div>
+                </form>
+            {% else %}
                 <form action="" method="POST" >
                     {% csrf_token %}
                     <select class="d-none" name="customer" required="" id="id_customer">

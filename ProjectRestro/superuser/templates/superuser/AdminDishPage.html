@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/Admin.css' %}">
+{% endblock %}
+
+{% block body %}
+    
+    {% include './AdminNavbar.html' %}
+    <section class="Main-Container">
+        <h2 id="id_dishes_heading">All Dishes</h2>
+        <div class="Sub-Container">
+            <div class='menuTitle'>
+                Beverages
+            </div>
+            <div class="wrapper">
+                {% for dish in beverage_dishes %}
+                    <div class="card">
+                        <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                        <button class="svg" id="id_dish_name" onclick="OpenDishPage({{ dish.id }})">{{ dish.name }}</button>
+                        <div class="Card-Button">
+                            <div onclick="OpenEditDishPage({{ dish.id }})">
+                                Edit
+                            </div>
+                            <div>
+                                Sales
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="Sub-Container">
+            <div class='menuTitle'>
+                Starter's
+            </div>
+            <div class="wrapper">
+                {% for dish in starter_dishes %}
+                    <div class="card">
+                        <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                        <button class="svg" id="id_dish_name" onclick="OpenDishPage({{ dish.id }})" >{{ dish.name }}</button>
+                        <div class="Card-Button">
+                            <div onclick="OpenEditDishPage({{ dish.id }})">
+                                Edit
+                            </div>
+                            <div>
+                                Sales
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="Sub-Container">
+            <div class='menuTitle'>
+                Main Course
+            </div>
+            <div class="wrapper">
+                {% for dish in main_course_dishes %}
+                    <div class="card">
+                        <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                        <button class="svg" id="id_dish_name" onclick="OpenDishPage({{ dish.id }})">{{ dish.name }}</button>
+                        <div class="Card-Button">
+                            <div onclick="OpenEditDishPage({{ dish.id }})">
+                                Edit
+                            </div>
+                            <div>
+                                Sales
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="Sub-Container">
+            <div class='menuTitle'>
+                Dessert
+            </div>
+            <div class="wrapper">
+                {% for dish in dessert_dishes %}
+                    <div class="card">
+                        <img src="{{ dish.icon_image.url }}" alt="{{ dish.name }}">
+                        <button class="svg" id="id_dish_name" onclick="OpenDishPage({{ dish.id }})">{{ dish.name }}</button>
+                        <div class="Card-Button">
+                            <div onclick="OpenEditDishPage({{ dish.id }})">
+                                Edit
+                            </div>
+                            <div>
+                                Sales
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        function OpenEditDishPage(DishId){
+            var url = "{% url 'home' %}" + 'edit_dish/' + DishId;
+            window.open(url)
+        }
+        function OpenDishPage(DishId){
+            var url = "{% url 'home' %}" + 'dish/' + DishId;
+            window.open(url)
+        }
+    </script>
+{% endblock %}

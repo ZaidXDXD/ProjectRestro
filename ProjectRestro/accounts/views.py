@@ -34,7 +34,10 @@ def loginpage(request):
         if user is not None:
             if user.check_password(raw_password=password):
                 auth_login(request, user)
-                return redirect('menuPage') 
+                if request.user.groups.all()[0].name == 'admin':
+                    return redirect('adminDishPage')
+                else:
+                    return redirect('menuPage') 
             else:
                 messages.info(request, "Please Check Your Usename And Password They Were Incorrect!")
         else:
@@ -45,7 +48,7 @@ def loginpage(request):
 
 def logoutuser(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 
 
@@ -57,6 +60,6 @@ def profilepage(request):
         form = ProfileForm(request.POST, instance=customer)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('menuPage')
     context={'form':form}
     return render(request, 'accounts/set_profile.html', context)

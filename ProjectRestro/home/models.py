@@ -73,7 +73,8 @@ class Dishes(models.Model):
     secondary_description = models.CharField(max_length=40, blank=True)
     tertiary_image = models.ImageField(null=True,blank=True,  upload_to=get_tertiary_image_file_path, default=get_default_tertiary_iamge)
     tertiary_description = models.CharField(max_length=40, blank=True)
-
+    dish_view = models.IntegerField(default=0, null=True,blank=True)
+    
     def __str__(self):
         return self.name
 
@@ -85,8 +86,8 @@ class Cart(models.Model):
         ('Delivered', 'Delivered'),
         ('Canelled', 'Canelled'),
     )
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="customer")
-    ordered_dish = models.ForeignKey(Dishes, on_delete=models.CASCADE,related_name="dish")
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    ordered_dish = models.ForeignKey(Dishes, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     quantity = models.IntegerField(null=True)
     total_amount = models.FloatField(null=True)

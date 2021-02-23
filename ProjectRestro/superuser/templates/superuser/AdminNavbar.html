@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/AdminNavbar.css' %}">
+{% endblock %}
+
+<header id="id_nav_header">
+    <p id="id_logo" title="Admin Page">Restro.</p>
+        <nav>
+            <ul id="link__array">
+                <li><a href="{% url 'addDish' %}">Add Dish</a></li>
+                <li><a href="{%  url 'adminDishPage' %}">Dishes</a></li>
+				<li><a href="#">Order</a></li>
+				<li><a href="#">Team</a></li>
+            </ul>
+        </nav>
+
+    <a href="{% url 'logout' %}" id="id_leave_btn" >Leave</a>
+</header>

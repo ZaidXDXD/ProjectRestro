@@ -17,12 +17,11 @@ a {
 	position: relative;
 	top: 10vh;
 	width: 100%;
-	height: 100vh;
-	z-index: -1;	
+	height: auto;
 }
 .left {
 	float: left;
-	height: 100%;
+	height: auto;
 	width: 44%;
 	padding: 3rem 3rem 3rem 5rem;
 	display: table;
@@ -115,7 +114,7 @@ li.prev {
 	text-align: center;
 	z-index: 10;
 }
-nav a {
+nav > a {
 	display: inline-block;
 	border-radius: 50%;
 	width: 1.2rem;

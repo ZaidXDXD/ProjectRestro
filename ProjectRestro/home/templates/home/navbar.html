@@ -12,7 +12,7 @@
 				<li><a href="#">About</a></li>
 				<li><a href="#">Profile</a></li>
 				<li >
-                    <a href="#" >
+                    <a href="{% url 'cart' %}" >
                         Cart
                         {% if OrderCount %}
                             {% if OrderCount < 20 %}
@@ -26,5 +26,5 @@
             </ul>
         </nav>
 
-    <a href="#" id="id_leave_btn" >Leave</a>
+    <a href="{% url 'logout' %}" id="id_leave_btn" >Leave</a>
 </header>
