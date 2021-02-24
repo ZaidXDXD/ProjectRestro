@@ -58,11 +58,6 @@ class Dishes(models.Model):
     date_created = models.DateTimeField(null=True, auto_now_add=True)
     description = models.TextField(blank=True) 
     price = models.FloatField(null=True)
-    score = models.IntegerField(default =0, validators=[
-            MaxValueValidator(5),
-            MinValueValidator(0),
-        ]
-    )
     food_tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING, null=True)
     category = models.CharField(max_length=10, null=True, choices=CATEGORY_CHOICES)
     alcohol = models.CharField(max_length=10, null=True, choices=ALCOHOL_CHOICES)
